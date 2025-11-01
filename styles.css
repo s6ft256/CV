@@ -46,6 +46,24 @@ body {
     padding: 3rem;
 }
 
+/* Smooth scroll offset for anchor links */
+section {
+    scroll-margin-top: 2rem;
+}
+
+/* Enhanced keyboard navigation */
+*:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
 a {
     color: var(--accent);
     text-decoration: none;
@@ -269,11 +287,31 @@ a:focus {
     border-radius: var(--radius);
     padding: 1.75rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    /* subtle entrance animation */
+    animation: fadeInUp 0.6s ease-out backwards;
 }
 
 .card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+}
+
+/* Stagger card animations */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .card h3 {
@@ -406,5 +444,57 @@ a:focus {
         width: 96px;
         height: 96px;
         margin: 0 auto 1.5rem;
+    }
+}
+
+/* Print styles for clean CV printing */
+@media print {
+    body {
+        background: white;
+        color: black;
+        border: none;
+        padding: 0;
+        font-size: 11pt;
+    }
+
+    .hero {
+        background: white;
+        border: none;
+        page-break-after: avoid;
+    }
+
+    .theme-toggle,
+    .hero__cta,
+    .footer__link {
+        display: none;
+    }
+
+    .card,
+    .section {
+        page-break-inside: avoid;
+    }
+
+    .card {
+        border: 1px solid #ccc;
+        box-shadow: none;
+        animation: none;
+    }
+
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+
+    .profile-image {
+        border-color: #ccc;
+        box-shadow: none;
+    }
+
+    h1, h2, h3 {
+        color: black;
+    }
+
+    .section h2::after {
+        background: black;
     }
 }
