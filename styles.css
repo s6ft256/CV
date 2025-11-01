@@ -147,22 +147,26 @@ a:focus {
 }
 
 .profile-image {
-    width: 128px;
-    height: 128px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     object-fit: cover;
     display: block;
     margin: 0;
-    /* small internal padding to give the avatar a little breathing room inside its border */
-    padding: 6px;
-    border: 4px solid rgba(56, 189, 248, 0.9);
-    box-shadow: 0 4px 16px rgba(56, 189, 248, 0.25);
+    /* enhanced clarity with better border and shadow */
+    padding: 4px;
+    border: 3px solid var(--accent);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* improve image quality */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    background: var(--card-bg);
 }
 
 .profile-image:hover {
     transform: scale(1.05);
-    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.5);
 }
 
 .hero__details li + li {
