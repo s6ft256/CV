@@ -28,6 +28,8 @@ body.theme-light {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    /* smooth fade for theme changes */
+    transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
 }
 
 html {
