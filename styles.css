@@ -42,7 +42,6 @@ body {
     font-family: "Segoe UI", Arial, sans-serif;
     line-height: 1.6;
     min-height: 100vh;
-    border: 20px solid rgba(56, 189, 248, 0.4);
     padding: 3rem;
 }
 
@@ -412,7 +411,6 @@ a:focus {
 @media (max-width: 640px) {
     body {
         padding: 1.5rem;
-        border-width: 12px;
     }
 
     .hero__content {
@@ -452,7 +450,6 @@ a:focus {
     body {
         background: white;
         color: black;
-        border: none;
         padding: 0;
         font-size: 11pt;
     }
