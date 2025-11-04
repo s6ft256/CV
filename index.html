@@ -437,18 +437,40 @@
                 if (e.target === overlay) closeViewer();
             });
 
-            // attach to certificate links
+            // attach to certificate links and make whole list-item clickable
             document.addEventListener('DOMContentLoaded', function() {
                 const links = document.querySelectorAll('a.cert-link');
                 links.forEach(a => {
-                    // infer title from surrounding text if possible
                     const listItem = a.closest('li');
-                    const label = listItem ? listItem.childNodes[0].textContent.trim() : a.textContent;
-                    a.addEventListener('click', function(ev) {
-                        ev.preventDefault();
-                        const href = a.getAttribute('href');
-                        openViewer(href, label);
-                    });
+                    const href = a.getAttribute('href');
+                    // infer label: text before the anchor (assumes structure: "Label <a>View Certificate</a>")
+                    const label = listItem ? (listItem.childNodes[0] ? listItem.childNodes[0].textContent.trim() : a.textContent) : a.textContent;
+
+                    if (listItem) {
+                        listItem.classList.add('cert-item');
+                        // clicking anywhere in the list item opens the viewer
+                        listItem.addEventListener('click', function(ev) {
+                            // if user clicked another link inside the li (not the cert link), allow it
+                            const target = ev.target;
+                            if (target && target.closest && target.closest('a') && !target.closest('a').classList.contains('cert-link')) {
+                                return; // let other anchors act normally
+                            }
+                            ev.preventDefault();
+                            openViewer(href, label);
+                        });
+
+                        // keep anchor keyboard-accessible: intercept anchor activation as before
+                        a.addEventListener('click', function(ev) {
+                            ev.preventDefault();
+                            openViewer(href, label);
+                        });
+                    } else {
+                        // fallback: attach to the anchor only
+                        a.addEventListener('click', function(ev) {
+                            ev.preventDefault();
+                            openViewer(href, a.textContent.trim());
+                        });
+                    }
                 });
             });
         })();

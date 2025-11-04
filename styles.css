@@ -593,3 +593,11 @@ a:focus {
         border-radius: 8px;
     }
 }
+
+/* Make certificate list items appear clickable when they open the viewer */
+.cert-item {
+    cursor: pointer;
+}
+.cert-item:hover {
+    background: rgba(148,163,184,0.02);
+}
