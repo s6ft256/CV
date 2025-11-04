@@ -301,11 +301,11 @@
                     <div class="card">
                         <h2>Certifications</h2>
                         <ul>
-                            <li>IOSH — Safety, Health & Environment (HSE) <a href="iosh.pdf" target="_blank" rel="noopener">View Certificate</a></li>
+                            <li>IOSH — Safety, Health & Environment (HSE) <a class="cert-link" href="iosh.pdf">View Certificate</a></li>
                             <li>Grasshopper — Coding Fundamentals <a href="gh.jpg" target="_blank" rel="noopener">View Certificate</a></li>
-                            <li>Introduction to Cybersecurity Awareness <a href="Introduction to Cybersecurity Awareness.pdf" target="_blank" rel="noopener">View Certificate</a></li>
-                            <li>Professional Networking for Career Growth <a href="Professional Networking for Career Growth.pdf" target="_blank" rel="noopener">View Certificate</a></li>
-                            <li>Business Email <a href="Business Email.pdf" target="_blank" rel="noopener">View Certificate</a></li>
+                            <li>Introduction to Cybersecurity Awareness <a class="cert-link" href="Introduction to Cybersecurity Awareness.pdf">View Certificate</a></li>
+                            <li>Professional Networking for Career Growth <a class="cert-link" href="Professional Networking for Career Growth.pdf">View Certificate</a></li>
+                            <li>Business Email <a class="cert-link" href="Business Email.pdf">View Certificate</a></li>
                         </ul>
                     </div>
                     <div class="card">
@@ -375,6 +375,86 @@
                 const isLight = document.body.classList.toggle('theme-light');
                 applyTheme(isLight);
                 localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
+            });
+        })();
+    </script>
+    <script>
+        // In-page PDF viewer for certificate links
+        (function() {
+            // create viewer overlay element
+            const overlay = document.createElement('div');
+            overlay.className = 'pdf-viewer-overlay';
+            overlay.setAttribute('aria-hidden', 'true');
+            overlay.innerHTML = `
+                <div class="pdf-viewer" role="dialog" aria-modal="true">
+                    <div class="pdf-viewer__header">
+                        <div class="pdf-viewer__title" id="pdf-viewer-title">Certificate</div>
+                        <div class="pdf-viewer__controls">
+                            <button class="button button--back" id="pdf-back">Back to Home</button>
+                            <button class="viewer-close" id="pdf-close" aria-label="Close viewer">&times;</button>
+                        </div>
+                    </div>
+                    <iframe id="pdf-frame" title="Certificate viewer"></iframe>
+                </div>
+            `;
+
+            document.body.appendChild(overlay);
+
+            const frame = overlay.querySelector('#pdf-frame');
+            const titleEl = overlay.querySelector('#pdf-viewer-title');
+            const btnClose = overlay.querySelector('#pdf-close');
+            const btnBack = overlay.querySelector('#pdf-back');
+
+            // open viewer with given url and title
+            function openViewer(url, title) {
+                frame.src = url;
+                titleEl.textContent = title || 'Certificate';
+                overlay.setAttribute('aria-hidden', 'false');
+                // trap focus roughly by focusing close button
+                btnClose.focus();
+            }
+
+            function closeViewer() {
+                overlay.setAttribute('aria-hidden', 'true');
+                // release iframe to stop PDF render/download
+                try { frame.src = ''; } catch (e) {}
+            }
+
+            // close handlers
+            btnClose.addEventListener('click', closeViewer);
+            btnBack.addEventListener('click', function() {
+                closeViewer();
+                // scroll to top / home
+                const top = document.getElementById('top');
+                if (top) top.scrollIntoView({ behavior: 'smooth' });
+                else window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // close on Escape
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') {
+                    closeViewer();
+                }
+            });
+
+            // click outside to close
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) closeViewer();
+            });
+
+            // attach to certificate links
+            document.addEventListener('DOMContentLoaded', function() {
+                const links = document.querySelectorAll('a.cert-link');
+                links.forEach(a => {
+                    // infer title from surrounding text if possible
+                    const listItem = a.closest('li');
+                    const label = listItem ? listItem.childNodes[0].textContent.trim() : a.textContent;
+                    a.addEventListener('click', function(ev) {
+                        ev.preventDefault();
+                        const href = a.getAttribute('href');
+                        openViewer(href, label);
+                    });
+                });
             });
         })();
     </script>
