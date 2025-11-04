@@ -387,7 +387,6 @@
             overlay.setAttribute('aria-hidden', 'true');
             overlay.innerHTML = `
                 <div class="overlay-controls">
-                    <button class="button button--back" id="pdf-back">Back to Home</button>
                     <button class="viewer-close" id="pdf-close" aria-label="Close viewer">&times;</button>
                 </div>
                 <div class="pdf-viewer" role="dialog" aria-modal="true">
@@ -403,7 +402,6 @@
             const frame = overlay.querySelector('#pdf-frame');
             const titleEl = overlay.querySelector('#pdf-viewer-title');
             const btnClose = overlay.querySelector('#pdf-close');
-            const btnBack = overlay.querySelector('#pdf-back');
 
             // open viewer with given url and title
             function openViewer(url, title) {
@@ -426,13 +424,6 @@
 
             // close handlers
             btnClose.addEventListener('click', closeViewer);
-            btnBack.addEventListener('click', function() {
-                closeViewer();
-                // scroll to top / home
-                const top = document.getElementById('top');
-                if (top) top.scrollIntoView({ behavior: 'smooth' });
-                else window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
 
             // close on Escape
             document.addEventListener('keydown', function(e) {
