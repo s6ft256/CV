@@ -548,12 +548,13 @@ a:focus {
     background: #fff;
 }
 .button--back {
-    background: transparent;
+    background: #fff;
     color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 0.45rem 0.8rem;
-    border-radius: 8px;
+    border: 2px solid var(--accent);
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
     font-weight: 700;
+    box-shadow: 0 2px 8px rgba(2,6,23,0.08);
 }
 .viewer-close {
     background: transparent;
@@ -561,6 +562,29 @@ a:focus {
     color: var(--muted);
     font-size: 1.25rem;
     cursor: pointer;
+}
+
+/* Floating overlay controls (top-right) */
+.overlay-controls {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    z-index: 1250;
+}
+.overlay-controls .viewer-close {
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid rgba(148,163,184,0.08);
 }
 
 @media (max-width: 640px) {

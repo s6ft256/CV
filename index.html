@@ -386,13 +386,13 @@
             overlay.className = 'pdf-viewer-overlay';
             overlay.setAttribute('aria-hidden', 'true');
             overlay.innerHTML = `
+                <div class="overlay-controls">
+                    <button class="button button--back" id="pdf-back">Back to Home</button>
+                    <button class="viewer-close" id="pdf-close" aria-label="Close viewer">&times;</button>
+                </div>
                 <div class="pdf-viewer" role="dialog" aria-modal="true">
                     <div class="pdf-viewer__header">
                         <div class="pdf-viewer__title" id="pdf-viewer-title">Certificate</div>
-                        <div class="pdf-viewer__controls">
-                            <button class="button button--back" id="pdf-back">Back to Home</button>
-                            <button class="viewer-close" id="pdf-close" aria-label="Close viewer">&times;</button>
-                        </div>
                     </div>
                     <iframe id="pdf-frame" title="Certificate viewer"></iframe>
                 </div>
@@ -410,7 +410,9 @@
                 frame.src = url;
                 titleEl.textContent = title || 'Certificate';
                 overlay.setAttribute('aria-hidden', 'false');
-                // trap focus roughly by focusing close button
+                // prevent background scroll while viewer open
+                document.body.style.overflow = 'hidden';
+                // focus close button
                 btnClose.focus();
             }
 
@@ -418,6 +420,8 @@
                 overlay.setAttribute('aria-hidden', 'true');
                 // release iframe to stop PDF render/download
                 try { frame.src = ''; } catch (e) {}
+                // restore scrolling
+                document.body.style.overflow = '';
             }
 
             // close handlers
