@@ -403,24 +403,23 @@ body::after {
     text-align: center;
 }
 
-/* Make section headings like 'Skills', 'Projects', 'Experience' use the accent color */
+/* Make section headings (e.g. "Skills", "Projects", "Experience") use the accent color */
 .section h2 {
     color: var(--accent);
-    transition: color 200ms ease, text-shadow 200ms ease;
-    text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+    transition: color 220ms ease, transform 220ms ease;
 }
 
-/* Card-level titles use a slightly deeper accent for hierarchy */
+/* Card titles should also use the accent to create a clear hierarchy */
 .card h2,
 .card h3 {
-    color: var(--accent-dark);
-    transition: color 200ms ease, text-shadow 200ms ease;
+    color: var(--accent);
+    transition: color 220ms ease;
 }
 
-/* Small additional emphasis on hover/focus for headings */
-.card h2:hover, .card h3:hover,
-.section h2:hover {
-    text-shadow: 0 6px 18px var(--glow-strong);
+/* Slight lift on heading hover/focus for micro-interaction */
+.section h2:hover,
+.section h2:focus {
+    transform: translateY(-2px);
 }
 
 
