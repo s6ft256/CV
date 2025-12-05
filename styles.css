@@ -4,9 +4,9 @@
     --bg-alt: #081a2b; /* subtle midnight gradient */
     --text: #e2e8f0;
     --muted: #94a3b8;
-    --accent: #f59e0b; /* amber/gold accent */
-    --accent-dark: #d97706; /* deeper amber */
-    --accent-rgb: 245,158,11; /* rgb for use in rgba() expressions */
+    --accent: #ff7a59; /* warmer accent (coral/orange) */
+    --accent-dark: #e0583f; /* deeper warm accent */
+    --accent-rgb: 255,122,89; /* rgb for use in rgba() expressions */
     --glow: rgba(var(--accent-rgb),0.12);
     --glow-strong: rgba(var(--accent-rgb),0.18);
     --card-bg: #122233; /* slightly lighter bluish card background */
@@ -72,7 +72,7 @@ body::before {
 /* Unified title style — match the hero title appearance */
 /* Applies to page headings and card titles so every title looks like the hero title */
 
-h1, h2, h3, .card h2 {
+h1, h3, .card h2 {
     font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
     font-weight: 800; /* stronger weight for all titles */
     color: var(--text);
@@ -81,19 +81,6 @@ h1, h2, h3, .card h2 {
     text-transform: none;
     text-rendering: optimizeLegibility;
     text-shadow: 0 1px 0 rgba(0,0,0,0.45), 0 6px 18px rgba(2,6,23,0.12);
-}
-
-/* Make section headings (like Skills) use the accent for emphasis */
-.section h2 {
-    color: var(--accent);
-    transition: color 200ms ease;
-}
-
-/* Card-level headers slightly darker accent for hierarchy */
-.card h2,
-.card h3 {
-    color: var(--accent-dark);
-    transition: color 200ms ease;
 }
 
 /* Keep a large, responsive size for the main title */
@@ -252,6 +239,7 @@ a:focus {
     /* enhanced clarity with better border and shadow */
     padding: 4px;
     border: 3px solid var(--accent);
+    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
     box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     /* improve image quality */
@@ -403,23 +391,11 @@ body::after {
     text-align: center;
 }
 
-/* Make section headings (e.g. "Skills", "Projects", "Experience") use the accent color */
+/* Section headings (Skills, Projects, Experience, etc.) use the accent color
+   to visually separate them from the main title text */
 .section h2 {
     color: var(--accent);
-    transition: color 220ms ease, transform 220ms ease;
-}
-
-/* Card titles should also use the accent to create a clear hierarchy */
-.card h2,
-.card h3 {
-    color: var(--accent);
     transition: color 220ms ease;
-}
-
-/* Slight lift on heading hover/focus for micro-interaction */
-.section h2:hover,
-.section h2:focus {
-    transform: translateY(-2px);
 }
 
 
@@ -854,7 +830,7 @@ body.theme-light #skills .card {
     align-items: center;
     justify-content: space-between;
     padding: 0.6rem 1rem;
-    background: linear-gradient(90deg, rgba(var(--accent-rgb),0.06), transparent);
+    background: linear-gradient(90deg, rgba(56,189,248,0.06), transparent);
     border-bottom: 1px solid var(--border);
 }
 .pdf-viewer__title {
