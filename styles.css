@@ -46,19 +46,19 @@ body {
 }
 
 /* Headings use a serif for contrast */
-h1, h2, h3 {
-    font-family: 'Merriweather', Georgia, serif;
-}
-
+/* Give each heading level a distinct typeface */
 h1 {
+    font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
     font-weight: 700;
 }
 
 h2 {
+    font-family: 'Merriweather', 'Playfair Display', Georgia, serif;
     font-weight: 700;
 }
 
 h3 {
+    font-family: 'Roboto Slab', 'Merriweather', Georgia, serif;
     font-weight: 600;
 }
 
