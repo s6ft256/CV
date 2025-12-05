@@ -4,9 +4,11 @@
     --bg-alt: #081a2b; /* subtle midnight gradient */
     --text: #e2e8f0;
     --muted: #94a3b8;
-    --accent: #3ec5f4; /* softer cyan accent */
-    --accent-dark: #18a7d6; /* deeper accent for depth */
-    --glow: rgba(62,197,244,0.14);
+    --accent: #ff7a59; /* warmer accent (coral/orange) */
+    --accent-dark: #e0583f; /* deeper warm accent */
+    --accent-rgb: 255,122,89; /* rgb for use in rgba() expressions */
+    --glow: rgba(var(--accent-rgb),0.12);
+    --glow-strong: rgba(var(--accent-rgb),0.18);
     --card-bg: #122233; /* slightly lighter bluish card background */
     --border: rgba(148, 163, 184, 0.22);
     --max-width: 1100px;
@@ -60,7 +62,7 @@ body::before {
     z-index: -1;
     pointer-events: none;
     /* layered subtle textures and gradient to mask hard edges */
-    background: radial-gradient(900px circle at 8% 10%, rgba(62,197,244,0.045), transparent 12%),
+    background: radial-gradient(900px circle at 8% 10%, rgba(var(--accent-rgb),0.045), transparent 12%),
                 radial-gradient(700px circle at 92% 90%, rgba(255,80,80,0.02), transparent 12%),
                 linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
     background-repeat: no-repeat;
@@ -135,7 +137,7 @@ a:focus {
 }
 
 .hero {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.06), rgba(14, 165, 233, 0.12));
+    background: linear-gradient(135deg, rgba(var(--accent-rgb),0.06), rgba(var(--accent-rgb),0.12));
     border-bottom: none; /* remove hard edge */
     padding: 4rem 0 3rem;
 }
@@ -209,7 +211,7 @@ a:focus {
     padding: 0.6rem 1rem;
     border-radius: 10px;
     font-weight: 700;
-    box-shadow: 0 10px 22px rgba(56,189,248,0.12);
+    box-shadow: 0 10px 22px rgba(var(--accent-rgb),0.12);
     border: 0;
     text-decoration: none;
     transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
@@ -218,7 +220,7 @@ a:focus {
 .button:hover,
 .button:focus {
     transform: translateY(-3px);
-    box-shadow: 0 18px 34px rgba(56,189,248,0.18);
+    box-shadow: 0 18px 34px rgba(var(--accent-rgb),0.18);
 }
 
 .button--ghost {
@@ -270,6 +272,7 @@ a:focus {
     padding: 4px;
     border: 3px solid var(--accent);
     box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+    box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     /* improve image quality */
     image-rendering: -webkit-optimize-contrast;
@@ -279,7 +282,7 @@ a:focus {
 
 .profile-image:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.5);
+    box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.5);
 }
 
 .hero__details li + li {
@@ -314,7 +317,7 @@ a:focus {
 
 .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 24px 64px rgba(2,6,23,0.66), 0 0 64px var(--glow);
+    box-shadow: 0 24px 64px rgba(2,6,23,0.66), 0 0 64px var(--glow-strong);
 }
 
 /* overlay for subtle color blending on cards */
@@ -377,7 +380,7 @@ body::after {
     height: 62px;
     transform: rotate(-8deg);
     filter: saturate(0.6) brightness(0.94) contrast(0.95);
-    box-shadow: 0 10px 22px rgba(2,6,23,0.30), 0 0 18px rgba(62,197,244,0.06);
+    box-shadow: 0 10px 22px rgba(2,6,23,0.30), 0 0 18px rgba(var(--accent-rgb),0.06);
     mix-blend-mode: multiply;
     border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.04);
@@ -409,7 +412,7 @@ body::after {
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 50%;
-    background: rgba(56, 189, 248, 0.18);
+    background: rgba(var(--accent-rgb), 0.14);
     color: var(--accent);
 }
 
@@ -479,7 +482,7 @@ body::after {
 
 .section {
     background: transparent; /* keep sections seamlessly layered */
-}
+    box-shadow: 0 12px 30px rgba(var(--accent-rgb), 0.25);
 
 .section h2 {
     font-size: 2rem;
@@ -513,7 +516,7 @@ body::after {
 
 .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+    box-shadow: 0 8px 24px var(--glow);
 }
 
 /* Stagger card animations */
