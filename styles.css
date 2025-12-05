@@ -336,6 +336,25 @@ a:focus {
     color: var(--accent);
 }
 
+/* Card title styling and alignment */
+.card h2 {
+    font-size: 1.15rem;
+    margin: 0 0 0.9rem 0;
+    color: var(--accent);
+    text-align: left;
+    line-height: 1.15;
+    /* leave space on the right so the badge doesn't overlap the title */
+    padding-right: 4.5rem; /* approx badge width + border + gap */
+    font-weight: 700;
+}
+
+@media (max-width: 640px) {
+    .card h2 {
+        padding-right: 3rem;
+        font-size: 1.05rem;
+    }
+}
+
 .card__meta {
     color: var(--muted);
     font-size: 0.9rem;
