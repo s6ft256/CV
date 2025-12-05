@@ -1,13 +1,14 @@
 :root {
     /* page background (darker) — different from card background for clear contrast */
     --bg: #071228; /* deep navy */
-    --bg-alt: #0b1630; /* subtle midnight gradient */
+    --bg-alt: #081a2b; /* subtle midnight gradient */
     --text: #e2e8f0;
     --muted: #94a3b8;
-    --accent: #38bdf8;
-    --accent-dark: #0ea5e9;
-    --card-bg: #17243a; /* slightly lighter bluish card background */
-    --border: rgba(148, 163, 184, 0.3);
+    --accent: #3ec5f4; /* softer cyan accent */
+    --accent-dark: #18a7d6; /* deeper accent for depth */
+    --glow: rgba(62,197,244,0.14);
+    --card-bg: #122233; /* slightly lighter bluish card background */
+    --border: rgba(148, 163, 184, 0.22);
     --max-width: 1100px;
     --radius: 14px;
     font-family: 'Inter', "Segoe UI", Arial, sans-serif;
@@ -59,8 +60,8 @@ body::before {
     z-index: -1;
     pointer-events: none;
     /* layered subtle textures and gradient to mask hard edges */
-    background: radial-gradient(900px circle at 10% 8%, rgba(56,189,248,0.06), transparent 8%),
-                radial-gradient(700px circle at 90% 92%, rgba(255,60,60,0.02), transparent 8%),
+    background: radial-gradient(900px circle at 8% 10%, rgba(62,197,244,0.045), transparent 12%),
+                radial-gradient(700px circle at 92% 90%, rgba(255,80,80,0.02), transparent 12%),
                 linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -239,6 +240,9 @@ a:focus {
     padding: 1.5rem;
 }
 
+/* subtle highlight inside hero details to separate it from page background */
+.hero__details { box-shadow: 0 10px 30px rgba(2,6,23,0.35), 0 0 40px var(--glow); }
+
 .hero__details ul {
     list-style: none;
 }
@@ -298,9 +302,11 @@ a:focus {
    ----------------------------- */
 
 .card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    position: relative;
+    overflow: visible;
+    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.006));
     background-color: var(--card-bg);
-    box-shadow: 0 12px 30px rgba(2,6,23,0.45), 0 0 28px rgba(56,189,248,0.04);
+    box-shadow: 0 12px 30px rgba(2,6,23,0.42), 0 0 26px var(--glow);
     border: 1px solid rgba(255,255,255,0.03);
     transition: transform 230ms ease, box-shadow 230ms ease, filter 230ms ease;
     backdrop-filter: blur(6px) saturate(1.05);
@@ -308,7 +314,18 @@ a:focus {
 
 .card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 48px rgba(2,6,23,0.6), 0 0 48px rgba(56,189,248,0.14);
+    box-shadow: 0 24px 64px rgba(2,6,23,0.66), 0 0 64px var(--glow);
+}
+
+/* overlay for subtle color blending on cards */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(28,70,120,0.02), rgba(10,20,36,0.02));
+    mix-blend-mode: overlay;
 }
 
 /* Subtle entrance animation for cards to feel more lively */
@@ -347,7 +364,7 @@ body::after {
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(ellipse at center, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.18) 100%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.12) 100%);
     mix-blend-mode: multiply;
 }
 
@@ -356,11 +373,14 @@ body::after {
 }
 
 #certificates .cert-badge {
-    width: 60px;
-    height: 60px;
-    transform: rotate(-10deg);
-    filter: saturate(0.75) brightness(0.95);
-    box-shadow: 0 8px 18px rgba(2,6,23,0.28);
+    width: 62px;
+    height: 62px;
+    transform: rotate(-8deg);
+    filter: saturate(0.6) brightness(0.94) contrast(0.95);
+    box-shadow: 0 10px 22px rgba(2,6,23,0.30), 0 0 18px rgba(62,197,244,0.06);
+    mix-blend-mode: multiply;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.04);
 }
 
 @media (max-width: 600px) {
