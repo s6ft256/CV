@@ -345,13 +345,6 @@ a:focus {
     transform: translateX(4px);
 }
 
-/* Certificate categories grid inside the Certifications card */
-.cert-grid {
-    display: grid;
-    gap: 0.85rem;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    margin-top: 1rem;
-}
 .cert-category h3 {
     font-size: 1rem;
     margin-bottom: 0.45rem;
@@ -375,28 +368,43 @@ a:focus {
 /* Badge/icon for certificate cards (top-right) */
 .card.cert-card {
     position: relative;
+    /* ensure the badge sits above other card contents */
+    overflow: visible;
 }
 .cert-badge {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 44px;
-    height: 44px;
+    /* overlap the card corner to create a bonded look */
+    top: -18px;
+    right: -18px;
+    width: 60px;
+    height: 60px;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(2,6,23,0.35);
-    border: 2px solid rgba(255,255,255,0.04);
-    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(2,6,23,0.28);
+    /* match the card background with a thicker border so the badge appears inset */
+    border: 6px solid var(--card-bg);
+    background: transparent;
+    /* reduce vividness: desaturate and slightly lower brightness */
+    filter: saturate(0.5) brightness(0.96);
+    opacity: 0.98;
     pointer-events: none;
+    transform: rotate(-6deg);
+    z-index: 30;
 }
 
 @media (max-width: 640px) {
     .cert-badge {
-        width: 34px;
-        height: 34px;
-        top: 12px;
-        right: 12px;
+        width: 44px;
+        height: 44px;
+        top: -12px;
+        right: -12px;
+        border-width: 4px;
     }
+}
+
+@media print {
+    /* hide decorative badges when printing */
+    .cert-badge { display: none; }
 }
 
 .note {
