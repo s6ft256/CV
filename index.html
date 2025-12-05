@@ -29,6 +29,11 @@
     <link rel="apple-touch-icon" href="Logo.png">
 </head>
 <body>
+    <!-- Scroll-driven background layers (appear behind site content) -->
+    <div id="scroll-bg" aria-hidden="true">
+        <div class="bg-layer layer-a"></div>
+        <div class="bg-layer layer-b"></div>
+    </div>
     <header class="hero" id="top">
         <div class="container hero__content">
             <div>
@@ -394,6 +399,7 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
+    <script src="scripts/scroll-bg.js" defer></script>
     <script>
         // Theme toggle: remembers choice in localStorage and updates body class
         (function() {

@@ -37,7 +37,8 @@ html {
 }
 
 body {
-    background: var(--bg);
+    /* background images are handled by #scroll-bg; keep CSS vars for components */
+    background: transparent;
     color: var(--text);
     font-family: 'Inter', "Segoe UI", Arial, sans-serif;
     line-height: 1.6;
@@ -95,6 +96,36 @@ a:focus {
     margin: 0 auto;
     max-width: var(--max-width);
     padding: 0 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Scroll background full-bleed layers */
+#scroll-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: var(--bg); /* fallback color */
+}
+.bg-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 600ms ease;
+    will-change: opacity;
+}
+.bg-layer.visible {
+    opacity: 1;
+}
+
+/* ensure the main content sits above the background layers */
+header, main, footer, .card {
+    position: relative;
+    z-index: 1;
 }
 
 .hero {
