@@ -111,18 +111,34 @@ a:focus {
 }
 
 .hero__eyebrow {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--accent-dark);
-    background: linear-gradient(90deg, rgba(56,189,248,0.08), rgba(14,165,233,0.04));
-    padding: 0.35rem 0.9rem;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding: 0.4rem 1rem;
     border-radius: 999px;
-    font-size: 0.9rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.06em;
+    font-variant: small-caps;
+    margin-bottom: 0.9rem;
     font-weight: 700;
-    box-shadow: 0 8px 24px rgba(2,6,23,0.12);
-    border: 1px solid rgba(56,189,248,0.08);
+    font-family: 'Roboto Slab', 'Merriweather', Georgia, serif;
+    box-shadow: 0 8px 20px rgba(2,6,23,0.08);
+    border: 1px solid rgba(220,60,60,0.06);
+    padding-left: 0.9rem;
+}
+
+/* Decorative left accent line inside the pill */
+.hero__eyebrow::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 22px;
+    border-radius: 3px;
+    background: linear-gradient(180deg, rgba(220,60,60,0.95), rgba(255,120,120,0.85));
+    margin-right: 0.45rem;
+}
 }
 
 .hero h1 {
@@ -528,6 +544,34 @@ body.theme-light #projects .card {
     }
 }
 
+/* Reddish glass glow for Skills cards */
+#skills .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));
+    border: 1px solid rgba(200,60,60,0.09);
+    box-shadow: 0 8px 22px rgba(200,50,50,0.055), 0 0 14px rgba(200,40,40,0.03);
+    backdrop-filter: blur(4px) saturate(0.9);
+    -webkit-backdrop-filter: blur(4px) saturate(0.9);
+    transition: box-shadow 220ms ease, transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+#skills .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 44px rgba(200,50,50,0.1), 0 0 32px rgba(200,40,40,0.05);
+    border-color: rgba(200,80,80,0.16);
+}
+
+body.theme-light #skills .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.94), rgba(255,255,255,0.9));
+    border: 1px solid rgba(200,60,60,0.07);
+    box-shadow: 0 6px 18px rgba(200,40,40,0.035);
+}
+
+@media (max-width: 640px) {
+    #skills .card {
+        box-shadow: 0 6px 16px rgba(200,50,50,0.04);
+    }
+}
+
 .note {
     color: var(--muted);
     font-size: 0.9rem;
@@ -619,6 +663,10 @@ body.theme-light #projects .card {
         width: 96px;
         height: 96px;
         margin: 0 auto 1.5rem;
+    }
+    .hero__eyebrow {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.7rem;
     }
 }
 
