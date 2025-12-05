@@ -1,11 +1,12 @@
 :root {
-    --bg: #0f172a;
-    --bg-alt: #111c34;
+    /* page background (darker) — different from card background for clear contrast */
+    --bg: #071228; /* deep navy */
+    --bg-alt: #0b1630; /* subtle midnight gradient */
     --text: #e2e8f0;
     --muted: #94a3b8;
     --accent: #38bdf8;
     --accent-dark: #0ea5e9;
-    --card-bg: #1e2a46;
+    --card-bg: #17243a; /* slightly lighter bluish card background */
     --border: rgba(148, 163, 184, 0.3);
     --max-width: 1100px;
     --radius: 14px;
@@ -43,6 +44,26 @@ body {
     line-height: 1.6;
     min-height: 100vh;
     padding: 3rem;
+}
+
+/* Full-bleed finished background to avoid visible edges between sections */
+body {
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    /* layered subtle textures and gradient to mask hard edges */
+    background: radial-gradient(900px circle at 10% 8%, rgba(56,189,248,0.06), transparent 8%),
+                radial-gradient(700px circle at 90% 92%, rgba(255,60,60,0.02), transparent 8%),
+                linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* Headings use a serif for contrast */
@@ -98,8 +119,8 @@ a:focus {
 }
 
 .hero {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(14, 165, 233, 0.15));
-    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.06), rgba(14, 165, 233, 0.12));
+    border-bottom: none; /* remove hard edge */
     padding: 4rem 0 3rem;
 }
 
@@ -290,7 +311,11 @@ a:focus {
 }
 
 .section--alt {
-    background: var(--bg-alt);
+    background: transparent; /* blend with page background to avoid edges */
+}
+
+.section {
+    background: transparent; /* keep sections seamlessly layered */
 }
 
 .section h2 {
