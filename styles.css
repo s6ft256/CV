@@ -66,21 +66,33 @@ body::before {
     background-attachment: fixed;
 }
 
-/* Headings use a serif for contrast */
-/* Give each heading level a distinct typeface */
-h1 {
+/* Unified title styling inspired by "Full-Stack Developer & IOSH-Certified HSE Personnel" */
+/* Applies a consistent display serif, weight, small-caps and spacing to all titles */
+h1, h2, h3, .card h2, .card h3, .section h2 {
     font-family: 'Playfair Display', 'Merriweather', Georgia, serif;
     font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+    font-variant: small-caps;
+    text-wrap: balance;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.12);
 }
 
-h2 {
-    font-family: 'Merriweather', 'Playfair Display', Georgia, serif;
-    font-weight: 700;
+/* Larger scale for primary hero title */
+h1 {
+    font-size: clamp(2.4rem, 5.2vw, 3.6rem);
+    color: var(--text);
 }
 
-h3 {
-    font-family: 'Roboto Slab', 'Merriweather', Georgia, serif;
-    font-weight: 600;
+/* Section and card titles use accent color to match the design example */
+.section h2,
+.card h2 {
+    font-size: 1.15rem;
+    color: var(--accent);
+    text-align: left;
 }
 
 /* Smooth scroll offset for anchor links */
@@ -237,6 +249,58 @@ a:focus {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+}
+
+/* -----------------------------
+   Additional visual tweaks
+   - stronger card separation and hover lift
+   - subtle page vignette to mask edges
+   - increased section spacing for full-bleed feel
+   - certificate badge size/rotation refinements
+   - small responsive adjustments
+   ----------------------------- */
+
+.card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    background-color: var(--card-bg);
+    box-shadow: 0 12px 30px rgba(2,6,23,0.45);
+    border: 1px solid rgba(255,255,255,0.03);
+    transition: transform 250ms ease, box-shadow 250ms ease;
+    backdrop-filter: blur(6px) saturate(1.05);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(2,6,23,0.55);
+}
+
+/* Subtle vignette to reduce perceived edges */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.06) 0%, rgba(0,0,0,0.18) 100%);
+    mix-blend-mode: multiply;
+}
+
+.section {
+    padding: 3.5rem 0;
+}
+
+#certificates .cert-badge {
+    width: 60px;
+    height: 60px;
+    transform: rotate(-10deg);
+    filter: saturate(0.75) brightness(0.95);
+    box-shadow: 0 8px 18px rgba(2,6,23,0.28);
+}
+
+@media (max-width: 600px) {
+    .hero { padding: 2.5rem 0; }
+    .profile-image { width: 110px; height: 110px; }
+    #certificates .cert-badge { width: 48px; height: 48px; transform: rotate(-6deg); }
 }
 
 .contact-icon {
