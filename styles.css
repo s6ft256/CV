@@ -4,9 +4,9 @@
     --bg-alt: #081a2b; /* subtle midnight gradient */
     --text: #e2e8f0;
     --muted: #94a3b8;
-    --accent: #ff7a59; /* warmer accent (coral/orange) */
-    --accent-dark: #e0583f; /* deeper warm accent */
-    --accent-rgb: 255,122,89; /* rgb for use in rgba() expressions */
+    --accent: #f59e0b; /* amber/gold accent */
+    --accent-dark: #d97706; /* deeper amber */
+    --accent-rgb: 245,158,11; /* rgb for use in rgba() expressions */
     --glow: rgba(var(--accent-rgb),0.12);
     --glow-strong: rgba(var(--accent-rgb),0.18);
     --card-bg: #122233; /* slightly lighter bluish card background */
@@ -81,6 +81,19 @@ h1, h2, h3, .card h2 {
     text-transform: none;
     text-rendering: optimizeLegibility;
     text-shadow: 0 1px 0 rgba(0,0,0,0.45), 0 6px 18px rgba(2,6,23,0.12);
+}
+
+/* Make section headings (like Skills) use the accent for emphasis */
+.section h2 {
+    color: var(--accent);
+    transition: color 200ms ease;
+}
+
+/* Card-level headers slightly darker accent for hierarchy */
+.card h2,
+.card h3 {
+    color: var(--accent-dark);
+    transition: color 200ms ease;
 }
 
 /* Keep a large, responsive size for the main title */
@@ -201,39 +214,7 @@ a:focus {
     margin-top: 2rem;
 }
 
-/* Primary button styles for better affordance */
-.button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
-    color: #041025;
-    padding: 0.6rem 1rem;
-    border-radius: 10px;
-    font-weight: 700;
-    box-shadow: 0 10px 22px rgba(var(--accent-rgb),0.12);
-    border: 0;
-    text-decoration: none;
-    transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
-}
-
-.button:hover,
-.button:focus {
-    transform: translateY(-3px);
-    box-shadow: 0 18px 34px rgba(var(--accent-rgb),0.18);
-}
-
-.button--ghost {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: none;
-}
-
-.button--ghost:hover,
-.button--ghost:focus {
-    background: rgba(255,255,255,0.02);
-}
+/* Buttons consolidated later in the file to avoid duplicates */
 
 .hero__details {
     background: var(--card-bg);
@@ -271,7 +252,6 @@ a:focus {
     /* enhanced clarity with better border and shadow */
     padding: 4px;
     border: 3px solid var(--accent);
-    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
     box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     /* improve image quality */
@@ -295,71 +275,6 @@ a:focus {
     gap: 0.75rem;
 }
 
-/* -----------------------------
-   Additional visual tweaks
-   - stronger card separation and hover lift
-   - subtle page vignette to mask edges
-   - increased section spacing for full-bleed feel
-   - certificate badge size/rotation refinements
-   - small responsive adjustments
-   ----------------------------- */
-
-.card {
-    position: relative;
-    overflow: visible;
-    background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.006));
-    background-color: var(--card-bg);
-    box-shadow: 0 12px 30px rgba(2,6,23,0.42), 0 0 26px var(--glow);
-    border: 1px solid rgba(255,255,255,0.03);
-    transition: transform 230ms ease, box-shadow 230ms ease, filter 230ms ease;
-    backdrop-filter: blur(6px) saturate(1.05);
-}
-
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 24px 64px rgba(2,6,23,0.66), 0 0 64px var(--glow-strong);
-}
-
-/* overlay for subtle color blending on cards */
-.card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(28,70,120,0.02), rgba(10,20,36,0.02));
-    mix-blend-mode: overlay;
-}
-
-/* Subtle entrance animation for cards to feel more lively */
-@keyframes card-appear {
-    from { transform: translateY(8px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-.card { animation: card-appear 420ms ease both; }
-
-/* Improve content legibility inside cards */
-.card p, .card li {
-    color: var(--text);
-    opacity: 0.94;
-    line-height: 1.55;
-}
-
-/* Emphasize important links inside cards */
-.card__link {
-    display: inline-block;
-    margin-top: 0.85rem;
-    color: var(--accent);
-    font-weight: 700;
-}
-.card__link:hover { text-decoration: underline; }
-
-/* Slightly larger touch targets on mobile */
-@media (max-width: 600px) {
-    .button { padding: 0.9rem 1.1rem; font-size: 1rem; }
-    .card { padding: 1.25rem; }
-}
-
 /* Subtle vignette to reduce perceived edges */
 body::after {
     content: "";
@@ -371,8 +286,11 @@ body::after {
     mix-blend-mode: multiply;
 }
 
+/* Page sections: unified spacing and seamless background */
 .section {
     padding: 3.5rem 0;
+    background: transparent; /* keep sections seamlessly layered */
+    box-shadow: 0 12px 30px rgba(var(--accent-rgb), 0.025);
 }
 
 #certificates .cert-badge {
@@ -442,12 +360,12 @@ body::after {
 
 .button:hover,
 .button:focus {
-    box-shadow: 0 12px 30px rgba(56, 189, 248, 0.25);
+    box-shadow: 0 12px 30px rgba(var(--accent-rgb), 0.25);
     transform: translateY(-2px);
     text-decoration: none;
 }
 
-.button--ghost {
+    .button--ghost {
     background: transparent;
     border: 1px solid var(--accent);
     color: var(--accent);
@@ -472,17 +390,10 @@ body::after {
     color: var(--text);
 }
 
-.section {
-    padding: 3.5rem 0;
-}
-
+/* Section alternate background (kept for semantic clarity) */
 .section--alt {
     background: transparent; /* blend with page background to avoid edges */
 }
-
-.section {
-    background: transparent; /* keep sections seamlessly layered */
-    box-shadow: 0 12px 30px rgba(var(--accent-rgb), 0.25);
 
 .section h2 {
     font-size: 2rem;
@@ -655,25 +566,7 @@ body::after {
     /* hide decorative badges when printing */
     .cert-badge { display: none; }
 }
-
-/* Resize badges specifically for the Certificates section to be less dominant */
-#certificates .cert-badge {
-    width: 48px;
-    height: 48px;
-    top: -14px;
-    right: -14px;
-    border-width: 5px;
-}
-
-@media (max-width: 640px) {
-    #certificates .cert-badge {
-        width: 38px;
-        height: 38px;
-        top: -10px;
-        right: -10px;
-        border-width: 4px;
-    }
-}
+/* (Certificate badge sizing handled earlier with responsive rules) */
 
 /* Red glass glow + light border for certificate cards */
 #certificates .card {
@@ -942,7 +835,7 @@ body.theme-light #skills .card {
     align-items: center;
     justify-content: space-between;
     padding: 0.6rem 1rem;
-    background: linear-gradient(90deg, rgba(56,189,248,0.06), transparent);
+    background: linear-gradient(90deg, rgba(var(--accent-rgb),0.06), transparent);
     border-bottom: 1px solid var(--border);
 }
 .pdf-viewer__title {
