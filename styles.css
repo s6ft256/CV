@@ -37,8 +37,7 @@ html {
 }
 
 body {
-    /* background images are handled by #scroll-bg; keep CSS vars for components */
-    background: transparent;
+    background: var(--bg);
     color: var(--text);
     font-family: 'Inter', "Segoe UI", Arial, sans-serif;
     line-height: 1.6;
@@ -96,69 +95,6 @@ a:focus {
     margin: 0 auto;
     max-width: var(--max-width);
     padding: 0 1.5rem;
-    position: relative;
-    z-index: 1;
-}
-
-/* Scroll background full-bleed layers */
-#scroll-bg {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-color: var(--bg); /* fallback color */
-}
-.bg-layer {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 600ms ease, transform 800ms cubic-bezier(.2,.8,.2,1);
-    will-change: opacity, transform;
-    /* subtle image enhancements to improve readability of content */
-    filter: saturate(0.85) contrast(1.05) brightness(0.72);
-    transform-origin: center center;
-}
-.bg-layer.visible {
-    opacity: 1;
-    transform: scale(1.02);
-}
-
-/* ensure the main content sits above the background layers */
-header, main, footer, .card {
-    position: relative;
-    z-index: 1;
-}
-
-/* dark overlay for better contrast and improved legibility */
-#scroll-bg::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(3,6,23,0.22), rgba(3,6,23,0.65));
-    pointer-events: none;
-    z-index: 2; /* sits above bg-layers but below page content */
-    transition: background 400ms ease;
-}
-
-/* fix background on large screens for subtle parallax effect */
-@media (min-width: 900px) {
-    .bg-layer {
-        background-attachment: fixed;
-    }
-}
-
-/* mobile: reduce filters and disable fixed attachment for performance */
-@media (max-width: 640px) {
-    .bg-layer {
-        filter: saturate(0.9) contrast(1.02) brightness(0.8);
-        transform: none;
-    }
-    #scroll-bg::before {
-        background: linear-gradient(180deg, rgba(3,6,23,0.18), rgba(3,6,23,0.6));
-    }
 }
 
 .hero {
@@ -511,6 +447,56 @@ header, main, footer, .card {
 @media print {
     /* hide decorative badges when printing */
     .cert-badge { display: none; }
+}
+
+/* Resize badges specifically for the Certificates section to be less dominant */
+#certificates .cert-badge {
+    width: 48px;
+    height: 48px;
+    top: -14px;
+    right: -14px;
+    border-width: 5px;
+}
+
+@media (max-width: 640px) {
+    #certificates .cert-badge {
+        width: 38px;
+        height: 38px;
+        top: -10px;
+        right: -10px;
+        border-width: 4px;
+    }
+}
+
+/* Red glass glow + light border for certificate cards */
+#certificates .card {
+    /* subtle translucent surface to mimic glass */
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255, 60, 60, 0.10);
+    box-shadow: 0 10px 30px rgba(255, 30, 30, 0.06), 0 0 18px rgba(255, 0, 0, 0.04);
+    backdrop-filter: blur(6px) saturate(0.95);
+    -webkit-backdrop-filter: blur(6px) saturate(0.95);
+    transition: box-shadow 220ms ease, transform 220ms ease, border-color 220ms ease, background 220ms ease;
+}
+
+#certificates .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 50px rgba(255, 30, 30, 0.12), 0 0 36px rgba(255, 0, 0, 0.06);
+    border-color: rgba(255, 70, 70, 0.18);
+}
+
+/* Slightly adjust for light theme so red glow is subtle on pale backgrounds */
+body.theme-light #certificates .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.86));
+    border: 1px solid rgba(255, 60, 60, 0.08);
+    box-shadow: 0 8px 22px rgba(255, 30, 30, 0.04);
+}
+
+@media (max-width: 640px) {
+    #certificates .card {
+        /* reduce intensity on small screens */
+        box-shadow: 0 8px 20px rgba(255, 30, 30, 0.05);
+    }
 }
 
 .note {
