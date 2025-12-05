@@ -198,6 +198,40 @@ a:focus {
     margin-top: 2rem;
 }
 
+/* Primary button styles for better affordance */
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    color: #041025;
+    padding: 0.6rem 1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    box-shadow: 0 10px 22px rgba(56,189,248,0.12);
+    border: 0;
+    text-decoration: none;
+    transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
+.button:hover,
+.button:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 34px rgba(56,189,248,0.18);
+}
+
+.button--ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: none;
+}
+
+.button--ghost:hover,
+.button--ghost:focus {
+    background: rgba(255,255,255,0.02);
+}
+
 .hero__details {
     background: var(--card-bg);
     border: 1px solid var(--border);
@@ -275,6 +309,35 @@ a:focus {
 .card:hover {
     transform: translateY(-8px);
     box-shadow: 0 20px 48px rgba(2,6,23,0.6), 0 0 48px rgba(56,189,248,0.14);
+}
+
+/* Subtle entrance animation for cards to feel more lively */
+@keyframes card-appear {
+    from { transform: translateY(8px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.card { animation: card-appear 420ms ease both; }
+
+/* Improve content legibility inside cards */
+.card p, .card li {
+    color: var(--text);
+    opacity: 0.94;
+    line-height: 1.55;
+}
+
+/* Emphasize important links inside cards */
+.card__link {
+    display: inline-block;
+    margin-top: 0.85rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+.card__link:hover { text-decoration: underline; }
+
+/* Slightly larger touch targets on mobile */
+@media (max-width: 600px) {
+    .button { padding: 0.9rem 1.1rem; font-size: 1rem; }
+    .card { padding: 1.25rem; }
 }
 
 /* Subtle vignette to reduce perceived edges */
