@@ -327,6 +327,16 @@ body::after {
     height: 1rem;
 }
 
+/* GitHub trophies image style */
+.trophies-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin-top: 0.6rem;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(var(--accent-rgb),0.08);
+}
+
 .contact-list a {
     color: var(--text);
     font-weight: 500;

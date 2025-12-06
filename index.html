@@ -29,11 +29,6 @@
     <link rel="apple-touch-icon" href="Logo.png">
 </head>
 <body>
-    <!-- Scroll-driven background layers (appear behind site content) -->
-    <div id="scroll-bg" aria-hidden="true">
-        <div class="bg-layer layer-a"></div>
-        <div class="bg-layer layer-b"></div>
-    </div>
     <header class="hero" id="top">
         <div class="container hero__content">
             <div>
@@ -371,7 +366,9 @@
                 <div class="grid">
                     <div class="card">
                         <h2>Achievements</h2>
-                        <p>Microsoft Learn achievements &certificates</p>
+                        <p>Microsoft Learn achievements &amp; certificates</p>
+                        <h3>Trophies</h3>
+                        <img class="trophies-img" src="https://github-profile-trophy.vercel.app/?username=s6ft256&theme=tokyonight&no-frame=true&row=1&column=6" alt="GitHub Trophies">
                         <a class="card__link" href="https://learn.microsoft.com/en-us/users/niwamanyaelius-9892/achievements?source=docs" target="_blank" rel="noopener">View Achievements</a>
                     </div>
                     <div class="card">
@@ -399,7 +396,6 @@
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
-    <script src="scripts/scroll-bg.js" defer></script>
     <script>
         // Theme toggle: remembers choice in localStorage and updates body class
         (function() {
