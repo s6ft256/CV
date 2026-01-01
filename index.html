@@ -635,44 +635,73 @@
 // Smooth transitional background color on mouse wheel and scroll
 (function() {
     const root = document.documentElement;
-    // start hue near current blue/navy values (~215)
-    let hue = 210;
-    let targetHue = hue;
-    let ticking = false;
+    // fixed base hue (keep overall blue/navy tone)
+    const baseHue = 210;
 
-    function applyHue(h) {
-        // generate two related background colors
-        const bg = `hsl(${h} 40% 6%)`;
-        const bgAlt = `hsl(${(h + 6) % 360} 38% 8%)`;
+    // start saturation / lightness near original values
+    let sat = 40; // percent
+    let light = 6; // percent
+    let targetSat = sat;
+    let targetLight = light;
+
+    // detect lower-powered devices to reduce update frequency
+    const lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2);
+    // smoothing factor: lower on low-power devices to make transitions cheaper
+    const lerpFactor = lowPower ? 0.06 : 0.12;
+
+    // clamp helper
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+    function applySatLight(s, l) {
+        // create two related backgrounds using saturation and lightness mapping
+        const bg = `hsl(${baseHue} ${s}% ${l}%)`;
+        // slightly lighter and slightly different saturation for alt
+        const bgAlt = `hsl(${baseHue} ${clamp(s - 2, 10, 80)}% ${clamp(l + 2, 3, 30)}%)`;
         root.style.setProperty('--bg', bg);
         root.style.setProperty('--bg-alt', bgAlt);
     }
 
-    applyHue(hue);
+    applySatLight(sat, light);
 
-    // wheel adjusts hue incrementally for a reactive feel
+    // Wheel: incrementally nudge saturation and lightness (throttled)
+    let wheelAccum = 0;
+    let wheelTimeout = null;
+    const WHEEL_THROTTLE_MS = lowPower ? 80 : 40;
+
     window.addEventListener('wheel', (e) => {
-        targetHue = (targetHue + e.deltaY * 0.02) % 360;
-        if (targetHue < 0) targetHue += 360;
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                // ease toward targetHue
-                hue += (targetHue - hue) * 0.2;
-                applyHue(hue);
-                ticking = false;
-            });
-            ticking = true;
-        }
+        // accumulate wheel delta to apply noticeable but bounded change
+        wheelAccum += e.deltaY;
+        if (wheelTimeout) return;
+        wheelTimeout = setTimeout(() => {
+            // map accumulated delta to small changes
+            const change = clamp(wheelAccum * 0.0025, -6, 6); // change range per throttle
+            // adjust saturation slightly and lightness subtly
+            targetSat = clamp(targetSat - change, 28, 60);
+            targetLight = clamp(targetLight - change * 0.6, 4, 18);
+            wheelAccum = 0;
+            clearTimeout(wheelTimeout);
+            wheelTimeout = null;
+        }, WHEEL_THROTTLE_MS);
     }, { passive: true });
 
-    // map vertical scroll position to hue as an alternative
+    // Scroll position: map pct to small sat/light window
     window.addEventListener('scroll', () => {
         const y = window.scrollY || window.pageYOffset;
         const docHeight = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
         const pct = y / docHeight;
-        // map 0..1 to a +/- 40 hue shift around starting hue
-        targetHue = (210 + (pct - 0.5) * 80) % 360;
-        applyHue(targetHue);
+        // map 0..1 to saturation 32..52 and lightness 5..14 (subtle range)
+        targetSat = 32 + pct * 20; // 32..52
+        targetLight = 5 + pct * 9; // 5..14
     }, { passive: true });
+
+    // rAF loop to smoothly approach targets
+    function rafLoop() {
+        // ease towards targets
+        sat += (targetSat - sat) * lerpFactor;
+        light += (targetLight - light) * lerpFactor;
+        applySatLight(sat, light);
+        requestAnimationFrame(rafLoop);
+    }
+    requestAnimationFrame(rafLoop);
 })();
 </script>
