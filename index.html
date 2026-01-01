@@ -231,6 +231,18 @@
                         </ul>
                         <a class="card__link" href="https://github.com/s6ft256/track" target="_blank" rel="noopener">View Project</a>
                     </article>
+                    <article class="card">
+                        <header>
+                            <h3>HSEGuardian</h3>
+                            <p class="card__meta">Web App &bull; Incident Image Capture</p>
+                        </header>
+                        <p>Incident image capture and reporting tool to streamline safety reporting and evidence collection.</p>
+                        <ul>
+                            <li>Capture and attach photos to incident reports from mobile devices.</li>
+                            <li>Optimized for quick submissions in field environments.</li>
+                        </ul>
+                        <a class="card__link" href="https://incident-image-taking-system.vercel.app/" target="_blank" rel="noopener">Open App</a>
+                    </article>
                 </div>
             </div>
         </section>
@@ -533,3 +545,53 @@
     </script>
 </body>
 </html>
+
+<script>
+// Cursor ring: append element and track mouse with smooth animation
+(function() {
+    const ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    ring.innerHTML = '<div class="ring-outline"></div><div class="ring-inner"></div><div class="cursor-pear" aria-hidden="true"></div>';
+    document.body.appendChild(ring);
+
+    let mouseX = window.innerWidth / 2;
+    let mouseY = window.innerHeight / 2;
+    let ringX = mouseX;
+    let ringY = mouseY;
+
+    const speed = 0.18; // lower = smoother lag
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        // ensure ring is visible
+        ring.style.opacity = '1';
+    });
+
+    // hide when leaving window
+    window.addEventListener('mouseleave', () => { ring.style.opacity = '0'; });
+
+    function raf() {
+        ringX += (mouseX - ringX) * speed;
+        ringY += (mouseY - ringY) * speed;
+        ring.style.transform = `translate3d(${ringX - 0}px, ${ringY - 0}px, 0) translate(-50%, -50%)`;
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // optional: shrink ring over interactive elements to avoid occlusion
+    const interactiveSelector = 'a, button, input, textarea, .card__link, .button';
+    document.addEventListener('mouseover', (e) => {
+        if (e.target.closest && e.target.closest(interactiveSelector)) {
+            ring.style.width = '72px';
+            ring.style.height = '72px';
+        }
+    });
+    document.addEventListener('mouseout', (e) => {
+        if (e.target.closest && e.target.closest(interactiveSelector)) {
+            ring.style.width = '110px';
+            ring.style.height = '110px';
+        }
+    });
+})();
+</script>

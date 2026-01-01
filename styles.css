@@ -11,8 +11,9 @@
     --glow-strong: rgba(var(--accent-rgb),0.18);
     --card-bg: #122233; /* slightly lighter bluish card background */
     --border: rgba(148, 163, 184, 0.22);
-    --max-width: 1100px;
+    --max-width: 1200px;
     --radius: 14px;
+    --button-text: #0f172a;
     font-family: 'Inter', "Segoe UI", Arial, sans-serif;
 }
 
@@ -26,6 +27,7 @@ body.theme-light {
     --accent-dark: #0284c7;
     --card-bg: #ffffff;
     --border: rgba(15, 23, 42, 0.06);
+    --button-text: #0f172a;
 }
 
 * {
@@ -46,7 +48,11 @@ body {
     font-family: 'Inter', "Segoe UI", Arial, sans-serif;
     line-height: 1.6;
     min-height: 100vh;
-    padding: 3rem;
+    padding: 2rem;
+}
+
+p {
+    margin-bottom: 1rem;
 }
 
 /* Full-bleed finished background to avoid visible edges between sections */
@@ -191,7 +197,7 @@ a:focus {
 .hero__summary {
     color: var(--muted);
     font-size: 1.05rem;
-    max-width: 36ch;
+    max-width: 48ch;
 }
 
 .hero__cta {
@@ -242,6 +248,7 @@ a:focus {
     box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
     box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform, box-shadow;
     /* improve image quality */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
@@ -327,16 +334,6 @@ body::after {
     height: 1rem;
 }
 
-/* GitHub trophies image style */
-.trophies-img {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin-top: 0.6rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(var(--accent-rgb),0.08);
-}
-
 .contact-list a {
     color: var(--text);
     font-weight: 500;
@@ -350,7 +347,7 @@ body::after {
 .button {
     background: var(--accent);
     border-radius: 999px;
-    color: #0f172a;
+    color: var(--button-text);
     font-weight: 600;
     padding: 0.75rem 1.6rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -401,6 +398,17 @@ body::after {
     text-align: center;
 }
 
+.section h2::after {
+    content: "";
+    display: block;
+    width: 72px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+    border-radius: 4px;
+    margin: 0.35rem auto 0;
+    opacity: 0.95;
+}
+
 /* Section headings (Skills, Projects, Experience, etc.) use the accent color
    to visually separate them from the main title text */
 .section h2 {
@@ -424,7 +432,7 @@ body::after {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 1.75rem;
+    padding: 2rem;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     /* subtle entrance animation */
     animation: fadeInUp 0.6s ease-out backwards;
@@ -701,6 +709,49 @@ body.theme-light #skills .card {
     margin: 0.35rem 0 1rem;
 }
 
+/* HSE background visuals for the Experience section.
+   Replace the `--hse-bg-*` urls with either:
+   - local files placed under `images/hse/` (recommended), e.g. `images/hse/1.jpg`, or
+   - public direct image URLs (make sure they are direct file links, not Drive folder links).
+
+   If you want to use images from Google Drive, supply public direct links or download
+   the images into `images/hse/` and update the variables below. */
+#experience.hse-section {
+    position: relative;
+    overflow: hidden;
+    /* Defaults point to local placeholder files; update as needed */
+    --hse-bg-1: url('images/hse/1.jpg');
+    --hse-bg-2: url('images/hse/2.jpg');
+    --hse-bg-3: url('images/hse/3.jpg');
+    /* layered background: subtle gradient overlay, then two decorative images */
+    background-image: linear-gradient(rgba(7,18,40,0.55), rgba(7,18,40,0.55)), var(--hse-bg-1), var(--hse-bg-2);
+    background-position: center center, right 10% center, left 10% center;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-size: cover, 40%, 38%;
+    background-attachment: scroll;
+    /* ensure content remains readable */
+    color: var(--text);
+}
+
+/* subtle parallax-like pseudo-element for additional texture */
+#experience.hse-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(2,6,23,0.12), rgba(2,6,23,0.32));
+    mix-blend-mode: overlay;
+}
+
+@media (max-width: 700px) {
+    #experience.hse-section {
+        /* simplify for small screens: single background, no large side images */
+        background-image: linear-gradient(rgba(7,18,40,0.6), rgba(7,18,40,0.6)), var(--hse-bg-1);
+        background-size: cover, auto;
+        background-position: center center, center center;
+    }
+}
+
 .footer {
     border-top: 1px solid var(--border);
     padding: 2rem 0;
@@ -910,4 +961,81 @@ body.theme-light #skills .card {
 }
 .cert-item:hover {
     background: rgba(148,163,184,0.02);
+}
+
+/* Floating cursor ring that follows the mouse */
+.cursor-ring {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 3000; /* above content */
+    transition: width 220ms ease, height 220ms ease, opacity 220ms ease;
+    will-change: transform;
+}
+
+.cursor-ring .ring-outline {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255,80,80,0.95);
+    box-shadow: 0 0 18px rgba(255,80,80,0.36), 0 0 6px rgba(255,80,80,0.6);
+    pointer-events: none;
+}
+
+.cursor-ring .ring-inner {
+    position: absolute;
+    width: 86%;
+    height: 86%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.02), transparent 40%);
+    pointer-events: none;
+}
+
+/* small red pear (accent) that sits on top of the ring */
+.cursor-ring .cursor-pear {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 18px;
+    border-radius: 10px 10px 12px 12px;
+    background: radial-gradient(circle at 30% 25%, #fff, rgba(255,120,120,0.9));
+    background-color: rgba(255,80,80,0.95);
+    box-shadow: 0 0 18px rgba(255,80,80,0.45), 0 0 10px rgba(255,80,80,0.25);
+    border: 1px solid rgba(255,160,160,0.6);
+    pointer-events: none;
+    z-index: 3500; /* sit above everything */
+}
+
+/* Blue glowing small line around each card (subtle outline behind content) */
+.card {
+    position: relative;
+    z-index: 1;
+}
+.card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0; /* keep behind content */
+    box-shadow: 0 0 0 1px rgba(56,189,248,0.48), 0 0 12px rgba(56,189,248,0.12);
+    mix-blend-mode: normal;
+}
+
+/* Slightly increase the card hover glow while keeping the blue outline subtle */
+.card:hover::after {
+    box-shadow: 0 0 0 1px rgba(56,189,248,0.65), 0 0 22px rgba(56,189,248,0.18);
 }
