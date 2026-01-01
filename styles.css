@@ -7,6 +7,10 @@
     --accent: #ff7a59; /* warmer accent (coral/orange) */
     --accent-dark: #e0583f; /* deeper warm accent */
     --accent-rgb: 255,122,89; /* rgb for use in rgba() expressions */
+    --blue: #38bdf8; /* brighter blue accent */
+    --blue-rgb: 56,189,248;
+    --blue-glow: rgba(var(--blue-rgb),0.10);
+    --blue-strong: rgba(var(--blue-rgb),0.18);
     --glow: rgba(var(--accent-rgb),0.12);
     --glow-strong: rgba(var(--accent-rgb),0.18);
     --card-bg: #122233; /* slightly lighter bluish card background */
@@ -69,6 +73,7 @@ body::before {
     pointer-events: none;
     /* layered subtle textures and gradient to mask hard edges */
     background: radial-gradient(900px circle at 8% 10%, rgba(var(--accent-rgb),0.045), transparent 12%),
+                radial-gradient(500px circle at 20% 20%, rgba(var(--blue-rgb),0.04), transparent 8%),
                 radial-gradient(700px circle at 92% 90%, rgba(255,80,80,0.02), transparent 12%),
                 linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
     background-repeat: no-repeat;
@@ -183,7 +188,7 @@ a:focus {
     width: 6px;
     height: 22px;
     border-radius: 3px;
-    background: linear-gradient(180deg, rgba(220,60,60,0.95), rgba(255,120,120,0.85));
+    background: linear-gradient(180deg, rgba(var(--blue-rgb),0.95), rgba(var(--blue-rgb),0.75));
     margin-right: 0.45rem;
 }
 }
@@ -247,8 +252,7 @@ a:focus {
     /* enhanced clarity with better border and shadow */
     padding: 4px;
     border: 3px solid var(--accent);
-    box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
-    box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.35);
+    box-shadow: 0 6px 20px rgba(var(--blue-rgb), 0.28), 0 6px 20px rgba(var(--accent-rgb), 0.35);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     will-change: transform, box-shadow;
     /* improve image quality */
@@ -259,7 +263,7 @@ a:focus {
 
 .profile-image:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 30px rgba(var(--accent-rgb), 0.5);
+    box-shadow: 0 10px 30px rgba(var(--blue-rgb), 0.22), 0 10px 30px rgba(var(--accent-rgb), 0.5);
 }
 
 .hero__details li + li {
@@ -347,7 +351,7 @@ body::after {
 }
 
 .button {
-    background: var(--accent);
+    background: linear-gradient(90deg, var(--blue), var(--accent));
     border-radius: 999px;
     color: var(--button-text);
     font-weight: 600;
@@ -364,8 +368,8 @@ body::after {
 
     .button--ghost {
     background: transparent;
-    border: 1px solid var(--accent);
-    color: var(--accent);
+    border: 1px solid var(--blue);
+    color: var(--blue);
 }
 
 /* Theme toggle button specific styling */
@@ -893,7 +897,7 @@ body.theme-light #skills .card {
     align-items: center;
     justify-content: space-between;
     padding: 0.6rem 1rem;
-    background: linear-gradient(90deg, rgba(56,189,248,0.06), transparent);
+    background: linear-gradient(90deg, rgba(var(--blue-rgb),0.06), transparent);
     border-bottom: 1px solid var(--border);
 }
 .pdf-viewer__title {
@@ -1050,11 +1054,11 @@ body.theme-light #skills .card {
     border-radius: inherit;
     pointer-events: none;
     z-index: 0; /* keep behind content */
-    box-shadow: 0 0 0 1px rgba(56,189,248,0.48), 0 0 12px rgba(56,189,248,0.12);
+    box-shadow: 0 0 0 1px rgba(var(--blue-rgb),0.48), 0 0 12px rgba(var(--blue-rgb),0.12);
     mix-blend-mode: normal;
 }
 
 /* Slightly increase the card hover glow while keeping the blue outline subtle */
 .card:hover::after {
-    box-shadow: 0 0 0 1px rgba(56,189,248,0.65), 0 0 22px rgba(56,189,248,0.18);
+    box-shadow: 0 0 0 1px rgba(var(--blue-rgb),0.65), 0 0 22px rgba(var(--blue-rgb),0.18);
 }
