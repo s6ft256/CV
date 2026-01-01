@@ -976,9 +976,9 @@ body.theme-light #skills .card {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.02);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: transparent; /* fully transparent background */
+    backdrop-filter: none; /* remove blur */
+    -webkit-backdrop-filter: none;
     z-index: 3000; /* above content */
     transition: width 220ms ease, height 220ms ease, opacity 220ms ease;
     will-change: transform;
@@ -998,7 +998,7 @@ body.theme-light #skills .card {
     width: 86%;
     height: 86%;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.02), transparent 40%);
+    background: transparent; /* remove inner glow */
     pointer-events: none;
 }
 
@@ -1018,6 +1018,23 @@ body.theme-light #skills .card {
     pointer-events: none;
     z-index: 3500; /* sit above everything */
 }
+
+/* Cursor trail elements that follow the ring. Small, low-opacity dots. */
+.cursor-trail {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(var(--accent-rgb), 0.12);
+    pointer-events: none;
+    transform: translate3d(-50%, -50%, 0);
+    will-change: transform, opacity;
+    z-index: 2900; /* sit below the main ring */
+    filter: none; /* no blur */
+}
+.cursor-trail.small { width: 12px; height: 12px; background: rgba(var(--accent-rgb), 0.08); }
 
 /* Blue glowing small line around each card (subtle outline behind content) */
 .card {
