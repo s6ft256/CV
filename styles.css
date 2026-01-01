@@ -2,9 +2,11 @@
     /* page background (darker) — different from card background for clear contrast */
     --bg: #071228; /* deep navy */
     --bg-alt: #081a2b; /* subtle midnight gradient */
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-    --accent: #ff7a59; /* warmer accent (coral/orange) */
+    --text: #e6eef9; /* slightly brighter text for contrast */
+    --muted: #9fb0c8; /* softer muted tone */
+    --primary: #38bdf8; /* main blue */
+    --primary-dark: #0ea5e9;
+    --accent: #ff7a59; /* secondary warm accent retained */
     --accent-dark: #e0583f; /* deeper warm accent */
     --accent-rgb: 255,122,89; /* rgb for use in rgba() expressions */
     --blue: #38bdf8; /* brighter blue accent */
@@ -13,7 +15,7 @@
     --blue-strong: rgba(var(--blue-rgb),0.18);
     --glow: rgba(var(--accent-rgb),0.12);
     --glow-strong: rgba(var(--accent-rgb),0.18);
-    --card-bg: #122233; /* slightly lighter bluish card background */
+    --card-bg: rgba(18,34,51,0.72); /* semi-translucent card surface for glass feel */
     --border: rgba(148, 163, 184, 0.22);
     --max-width: 1200px;
     --radius: 14px;
@@ -38,8 +40,8 @@ body.theme-light {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    /* smooth fade for theme changes */
-    transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease, box-shadow 240ms ease;
+    /* smoother transitions across the UI */
+    transition: background-color 320ms cubic-bezier(.2,.8,.2,1), color 320ms cubic-bezier(.2,.8,.2,1), border-color 320ms cubic-bezier(.2,.8,.2,1), box-shadow 320ms cubic-bezier(.2,.8,.2,1);
 }
 
 html {
@@ -79,7 +81,7 @@ body::before {
     background-repeat: no-repeat;
     background-attachment: fixed;
     /* allow smooth transitions when JS updates --bg / --bg-alt */
-    transition: background 320ms linear, background-color 320ms linear;
+    transition: background 480ms ease, background-color 480ms ease;
 }
 
 /* Unified title style — match the hero title appearance */
@@ -98,20 +100,23 @@ h1, h3, .card h2 {
 
 /* Keep a large, responsive size for the main title */
 h1 {
-    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
     margin-bottom: 1rem;
+    letter-spacing: -0.01em;
 }
 
 /* Secondary headings slightly smaller */
 h2, .card h2 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     margin-bottom: 0.75rem;
+    color: var(--primary);
 }
 
 h3 {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    color: var(--primary-dark);
 }
 
 /* Smooth scroll offset for anchor links */
@@ -435,18 +440,20 @@ body::after {
 }
 
 .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 2rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    backdrop-filter: blur(6px) saturate(0.95);
+    -webkit-backdrop-filter: blur(6px) saturate(0.95);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: calc(var(--radius) - 4px);
+    padding: 1.6rem;
+    transition: transform 360ms cubic-bezier(.2,.9,.2,1), box-shadow 360ms cubic-bezier(.2,.9,.2,1);
     /* subtle entrance animation */
-    animation: fadeInUp 0.6s ease-out backwards;
+    animation: fadeInUp 0.6s cubic-bezier(.2,.9,.2,1) backwards;
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px var(--glow);
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 18px 50px rgba(8,18,34,0.45), 0 0 40px var(--blue-glow);
 }
 
 /* Stagger card animations */
@@ -465,6 +472,10 @@ body::after {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
 }
 
 .card h3 {
