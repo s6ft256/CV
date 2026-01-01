@@ -73,6 +73,8 @@ body::before {
                 linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
     background-repeat: no-repeat;
     background-attachment: fixed;
+    /* allow smooth transitions when JS updates --bg / --bg-alt */
+    transition: background 320ms linear, background-color 320ms linear;
 }
 
 /* Unified title style — match the hero title appearance */
