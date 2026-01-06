@@ -6,56 +6,96 @@ import { Project } from '../types'
 // Enhanced project metadata for better descriptions
 const projectEnhancements: Record<string, { description?: string; technologies?: string[] }> = {
   'slide-to-code-craft': {
-    description: 'Interactive code learning platform with slide-based tutorials and real-time coding exercises',
-    technologies: ['TypeScript', 'React', 'Vite']
+    description: 'Interactive coding tutorial platform with slide-based lessons that teach programming concepts step-by-step with hands-on exercises.',
+    technologies: ['TypeScript', 'React', 'Vite', 'Education']
   },
   'Eli-Ai': {
-    description: 'HSE AI voice assistant powered by Gemini 2.5 Pro for workplace safety guidance',
-    technologies: ['TypeScript', 'AI', 'Gemini API']
+    description: 'HSE AI voice assistant powered by Gemini 2.5 Pro, providing real-time workplace safety guidance, hazard identification, and compliance support.',
+    technologies: ['TypeScript', 'Gemini API', 'Voice AI', 'HSE']
   },
   'CryptoPulse-AI-Trader': {
-    description: 'Advanced cryptocurrency trading dashboard with AI-powered predictions using Gemini API',
-    technologies: ['TypeScript', 'React', 'AI', 'Crypto']
+    description: 'AI-powered cryptocurrency trading dashboard featuring real-time market analysis, price predictions, and trade suggestions using Gemini API.',
+    technologies: ['TypeScript', 'React', 'AI', 'Crypto Trading']
   },
   'HSE-Guardian': {
-    description: 'Mobile-first safety reporting tool with offline capabilities and evidence management',
-    technologies: ['React', 'PWA', 'Offline-First']
+    description: 'Mobile-first safety incident reporting tool with offline support, photo evidence capture, and professional tracking for workplace safety.',
+    technologies: ['React', 'PWA', 'Offline-First', 'HSE']
   },
   'Equator-Global-Recruitment-EGR-Platform': {
-    description: 'International recruitment & compliance management for global opportunities',
-    technologies: ['TypeScript', 'React', 'Node.js']
-  },
-  'airtablepy3': {
-    description: 'Python API Client for Airtable - easy database integration',
-    technologies: ['Python', 'API', 'Airtable']
-  },
-  'Incident-Image-Taking-System': {
-    description: 'Real-time incident documentation with photo capture and reporting',
-    technologies: ['TypeScript', 'React', 'Camera API']
-  },
-  'haven': {
-    description: 'Transportation & Building Management System (TBMS) for facility operations',
-    technologies: ['TypeScript', 'React', 'Firebase']
-  },
-  'rig-inspect-ui': {
-    description: 'Rig inspection interface for oil & gas equipment safety assessments',
-    technologies: ['TypeScript', 'React', 'HSE']
-  },
-  'Forex-Predictor-AI': {
-    description: 'AI-powered forex market predictor with machine learning algorithms',
-    technologies: ['TypeScript', 'AI', 'ML', 'Trading']
-  },
-  'hse-weeky-statistics-form': {
-    description: 'Weekly HSE statistics data collection and reporting system',
-    technologies: ['Python', 'Forms', 'Analytics']
-  },
-  'ExcelInt': {
-    description: 'Powerful data extraction tool for Excel file processing',
-    technologies: ['HTML', 'JavaScript', 'Excel']
+    description: 'International recruitment platform connecting Ugandan youth with global opportunities, featuring compliance management and ethical hiring standards.',
+    technologies: ['TypeScript', 'React', 'Node.js', 'HR Tech']
   },
   'builder-curry-heaven': {
-    description: 'Visual page builder created with Builder.io for rapid web development',
-    technologies: ['TypeScript', 'Builder.io', 'React']
+    description: 'Visual web page builder demo showcasing Builder.io integration for no-code website creation and rapid prototyping.',
+    technologies: ['TypeScript', 'Builder.io', 'React', 'No-Code']
+  },
+  'ExcelInt': {
+    description: 'Powerful Excel data extraction and processing tool for automating spreadsheet workflows and data transformation tasks.',
+    technologies: ['HTML', 'JavaScript', 'Excel', 'Data Processing']
+  },
+  'hse-weeky-statistics-form': {
+    description: 'Weekly HSE statistics collection system for tracking safety metrics, incident rates, and compliance reporting.',
+    technologies: ['Python', 'Forms', 'Analytics', 'HSE']
+  },
+  'mapper_excel': {
+    description: 'Python utility for mapping and transforming Excel data between different formats and structures.',
+    technologies: ['Python', 'Excel', 'Data Mapping', 'ETL']
+  },
+  's6ft_euro_exc': {
+    description: 'Euro exchange rate tracker and converter with real-time currency data integration.',
+    technologies: ['Python', 'API', 'Finance', 'Currency']
+  },
+  'TBMS': {
+    description: 'Transportation & Building Management System for facility operations, vehicle tracking, and maintenance scheduling.',
+    technologies: ['TypeScript', 'React', 'Firebase', 'Operations']
+  },
+  'Incident-Image-Taking-System': {
+    description: 'Real-time incident documentation app with camera integration for capturing, annotating, and reporting workplace incidents.',
+    technologies: ['TypeScript', 'React', 'Camera API', 'HSE']
+  },
+  'haven': {
+    description: 'Transportation & Building Management System (TBMS) for comprehensive facility operations and fleet management.',
+    technologies: ['TypeScript', 'React', 'Firebase', 'Management']
+  },
+  'rig-inspect-ui': {
+    description: 'Oil & gas rig inspection interface for conducting safety assessments, equipment checks, and compliance documentation.',
+    technologies: ['TypeScript', 'React', 'HSE', 'Oil & Gas']
+  },
+  'Forex-Predictor-AI': {
+    description: 'Machine learning-powered forex market predictor analyzing currency trends and providing trading insights.',
+    technologies: ['TypeScript', 'AI', 'Machine Learning', 'Trading']
+  },
+  'Ai_Agent': {
+    description: 'Python-based AI agent framework for building autonomous assistants with custom capabilities and integrations.',
+    technologies: ['Python', 'AI', 'Agents', 'Automation']
+  },
+  'Eli_3': {
+    description: 'Web3 blockchain application exploring decentralized technologies and smart contract interactions.',
+    technologies: ['TypeScript', 'Web3', 'Blockchain', 'DApps']
+  },
+  'act': {
+    description: 'HSE Inspection Report System with real-time Firebase backend for safety inspections, equipment management, and training records.',
+    technologies: ['HTML', 'JavaScript', 'Firebase', 'HSE']
+  },
+  'track': {
+    description: 'Comprehensive HSE inspection tracking system with modern UI for streamlining safety workflows and compliance reporting.',
+    technologies: ['HTML', 'JavaScript', 'Firebase', 'HSE']
+  },
+  'safety_iemplates': {
+    description: 'Collection of HSE safety document templates and forms for workplace compliance and incident documentation.',
+    technologies: ['HTML', 'Templates', 'HSE', 'Documentation']
+  },
+  'GATDATA': {
+    description: 'Data collection and management interface for gathering and organizing structured information.',
+    technologies: ['HTML', 'JavaScript', 'Data Management']
+  },
+  'checklist2': {
+    description: 'Mobile crane pre-use inspection checklist ensuring equipment safety and regulatory compliance before operations.',
+    technologies: ['TypeScript', 'React', 'HSE', 'Inspections']
+  },
+  'CV': {
+    description: 'Personal portfolio website built with React, TypeScript, and Tailwind CSS showcasing professional experience.',
+    technologies: ['TypeScript', 'React', 'Tailwind CSS', 'Vite']
   }
 }
 
