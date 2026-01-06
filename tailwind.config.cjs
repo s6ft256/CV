@@ -4,6 +4,9 @@ module.exports = {
     './src/**/*.{js,jsx,ts,tsx}'
   ],
   darkMode: 'class',
+  safelist: [
+    'animate-flag-wave',
+  ],
   theme: {
     extend: {
       colors: {
@@ -37,8 +40,15 @@ module.exports = {
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s ease-in-out infinite',
         'gradient': 'gradient 8s ease infinite',
+        'flag-wave': 'flagWave 1.5s ease-in-out infinite',
       },
       keyframes: {
+        flagWave: {
+          '0%, 100%': { transform: 'rotate(-5deg) scale(1)' },
+          '25%': { transform: 'rotate(5deg) scale(1.1)' },
+          '50%': { transform: 'rotate(-3deg) scale(1.05)' },
+          '75%': { transform: 'rotate(3deg) scale(1.1)' },
+        },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },

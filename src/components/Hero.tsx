@@ -55,7 +55,11 @@ export default function Hero() {
                   <img 
                     src="https://em-content.zobj.net/source/apple/419/flag-uganda_1f1fa-1f1ec.png" 
                     alt="Uganda Flag" 
-                    className="w-6 h-6 flag-wave"
+                    className="w-6 h-6 inline-block"
+                    style={{ 
+                      animation: 'flagWave 1.5s ease-in-out infinite',
+                      transformOrigin: 'center center',
+                    }}
                   />
                   UG
                 </span>
