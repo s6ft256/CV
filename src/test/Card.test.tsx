@@ -17,7 +17,7 @@ describe('Card', () => {
   it('applies hover styles when hover prop is true', () => {
     const { container } = render(<Card hover>Hover Card</Card>)
     const card = container.firstChild as HTMLElement
-    expect(card).toHaveClass('hover:scale-[1.02]')
+    expect(card).toHaveClass('hover:-translate-y-2')
   })
 
   it('applies custom className', () => {

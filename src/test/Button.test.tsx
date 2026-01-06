@@ -17,7 +17,7 @@ describe('Button', () => {
 
   it('applies correct variant styles', () => {
     const { rerender } = render(<Button variant="primary">Primary</Button>)
-    expect(screen.getByText('Primary')).toHaveClass('bg-primary')
+    expect(screen.getByText('Primary')).toHaveClass('bg-gradient-to-r')
 
     rerender(<Button variant="ghost">Ghost</Button>)
     expect(screen.getByText('Ghost')).toHaveClass('bg-transparent')

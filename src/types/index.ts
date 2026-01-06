@@ -40,6 +40,8 @@ export interface Certification {
   expiryDate?: string
   credentialId?: string
   credentialUrl?: string
+  category?: 'HSE & Safety' | 'AI & Technology' | 'Business & Professional' | 'IT & Cybersecurity'
+  imageUrl?: string
 }
 
 export interface Project {

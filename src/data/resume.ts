@@ -45,12 +45,99 @@ export const education: Education[] = [
 ]
 
 export const certifications: Certification[] = [
+  // HSE & Safety
   {
     id: '1',
     name: 'IOSH Managing Safely',
     issuer: 'Institution of Occupational Safety and Health',
-    issueDate: '2022-03',
-    credentialId: 'IOSH-123456',
+    issueDate: '2024',
+    credentialId: 'IOSH-MS',
+    credentialUrl: '/iosh.pdf',
+    category: 'HSE & Safety',
+  },
+  {
+    id: '2',
+    name: 'GitHub Certification',
+    issuer: 'GitHub',
+    issueDate: '2024',
+    credentialUrl: '/gh.jpg',
+    category: 'IT & Cybersecurity',
+    imageUrl: '/gh.jpg',
+  },
+  // AI & Technology
+  {
+    id: '3',
+    name: 'AI for Beginners',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/AI%20for%20Beginners.pdf',
+    category: 'AI & Technology',
+  },
+  {
+    id: '4',
+    name: 'AI for Business Professionals',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/AI%20for%20Business%20Professionals.pdf',
+    category: 'AI & Technology',
+  },
+  // IT & Cybersecurity
+  {
+    id: '5',
+    name: 'Introduction to Cybersecurity Awareness',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/Introduction%20to%20Cybersecurity%20Awareness.pdf',
+    category: 'IT & Cybersecurity',
+  },
+  {
+    id: '6',
+    name: 'IT for Business Success',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/IT%20for%20Business%20Success.pdf',
+    category: 'IT & Cybersecurity',
+  },
+  // Business & Professional
+  {
+    id: '7',
+    name: 'Business Email',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/Business%20Email.pdf',
+    category: 'Business & Professional',
+  },
+  {
+    id: '8',
+    name: 'Customer Experience (CX) for Business Success',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/Customer%20Experience%20(CX)%20for%20Business%20Success.pdf',
+    category: 'Business & Professional',
+  },
+  {
+    id: '9',
+    name: 'Inventory Management',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/Inventory%20Management.pdf',
+    category: 'Business & Professional',
+  },
+  {
+    id: '10',
+    name: 'Presenting Data',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/Presenting%20Data.pdf',
+    category: 'Business & Professional',
+  },
+  {
+    id: '11',
+    name: 'Professional Networking for Career Growth',
+    issuer: 'Professional Development Institute',
+    issueDate: '2024',
+    credentialUrl: '/Professional%20Networking%20for%20Career%20Growth.pdf',
+    category: 'Business & Professional',
   },
 ]
 

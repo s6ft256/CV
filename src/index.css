@@ -2,8 +2,5 @@
 @tailwind components;
 @tailwind utilities;
 
-/* include existing site styles so Tailwind utilities are available alongside them */
-@import "../styles.css";
-
 /* small helper for the live widget */
 .bg-white\/6 { background-color: rgba(255,255,255,0.06); }

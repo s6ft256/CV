@@ -3,8 +3,68 @@ import Section from './Section'
 import Card from './Card'
 import { Project } from '../types'
 
+// Enhanced project metadata for better descriptions
+const projectEnhancements: Record<string, { description?: string; technologies?: string[] }> = {
+  'slide-to-code-craft': {
+    description: 'Interactive code learning platform with slide-based tutorials and real-time coding exercises',
+    technologies: ['TypeScript', 'React', 'Vite']
+  },
+  'Eli-Ai': {
+    description: 'HSE AI voice assistant powered by Gemini 2.5 Pro for workplace safety guidance',
+    technologies: ['TypeScript', 'AI', 'Gemini API']
+  },
+  'CryptoPulse-AI-Trader': {
+    description: 'Advanced cryptocurrency trading dashboard with AI-powered predictions using Gemini API',
+    technologies: ['TypeScript', 'React', 'AI', 'Crypto']
+  },
+  'HSE-Guardian': {
+    description: 'Mobile-first safety reporting tool with offline capabilities and evidence management',
+    technologies: ['React', 'PWA', 'Offline-First']
+  },
+  'Equator-Global-Recruitment-EGR-Platform': {
+    description: 'International recruitment & compliance management for global opportunities',
+    technologies: ['TypeScript', 'React', 'Node.js']
+  },
+  'airtablepy3': {
+    description: 'Python API Client for Airtable - easy database integration',
+    technologies: ['Python', 'API', 'Airtable']
+  },
+  'Incident-Image-Taking-System': {
+    description: 'Real-time incident documentation with photo capture and reporting',
+    technologies: ['TypeScript', 'React', 'Camera API']
+  },
+  'haven': {
+    description: 'Transportation & Building Management System (TBMS) for facility operations',
+    technologies: ['TypeScript', 'React', 'Firebase']
+  },
+  'rig-inspect-ui': {
+    description: 'Rig inspection interface for oil & gas equipment safety assessments',
+    technologies: ['TypeScript', 'React', 'HSE']
+  },
+  'Forex-Predictor-AI': {
+    description: 'AI-powered forex market predictor with machine learning algorithms',
+    technologies: ['TypeScript', 'AI', 'ML', 'Trading']
+  },
+  'hse-weeky-statistics-form': {
+    description: 'Weekly HSE statistics data collection and reporting system',
+    technologies: ['Python', 'Forms', 'Analytics']
+  },
+  'ExcelInt': {
+    description: 'Powerful data extraction tool for Excel file processing',
+    technologies: ['HTML', 'JavaScript', 'Excel']
+  },
+  'builder-curry-heaven': {
+    description: 'Visual page builder created with Builder.io for rapid web development',
+    technologies: ['TypeScript', 'Builder.io', 'React']
+  }
+}
+
+interface ExtendedProject extends Project {
+  stars?: number
+}
+
 export default function Projects() {
-  const [projects, setProjects] = useState<Project[]>([])
+  const [projects, setProjects] = useState<ExtendedProject[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -14,45 +74,83 @@ export default function Projects() {
   const fetchGitHubProjects = async () => {
     try {
       const username = import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'
-      const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`)
+      // Fetch more repos to filter the best ones
+      const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
       
       if (!response.ok) throw new Error('Failed to fetch')
       
       const repos = await response.json()
       
-      const projectData: Project[] = repos.map((repo: any) => ({
-        id: repo.id.toString(),
-        name: repo.name,
-        description: repo.description || 'No description available',
-        technologies: repo.language ? [repo.language] : [],
-        githubUrl: repo.html_url,
-        liveUrl: repo.homepage || undefined,
-        featured: repo.stargazers_count > 0,
-      }))
+      // Filter and sort by stars, then by recent activity
+      const sortedRepos = repos
+        .filter((repo: any) => !repo.fork && repo.name !== username) // Exclude forks and profile repo
+        .sort((a: any, b: any) => {
+          // Primary sort by stars
+          if (b.stargazers_count !== a.stargazers_count) {
+            return b.stargazers_count - a.stargazers_count
+          }
+          // Secondary sort by recent push
+          return new Date(b.pushed_at).getTime() - new Date(a.pushed_at).getTime()
+        })
+        .slice(0, 6) // Take top 6
+
+      const projectData: ExtendedProject[] = sortedRepos.map((repo: any) => {
+        const enhancement = projectEnhancements[repo.name]
+        return {
+          id: repo.id.toString(),
+          name: formatProjectName(repo.name),
+          description: enhancement?.description || repo.description || 'No description available',
+          technologies: enhancement?.technologies || (repo.language ? [repo.language] : []),
+          githubUrl: repo.html_url,
+          liveUrl: repo.homepage || undefined,
+          featured: repo.stargazers_count > 0,
+          stars: repo.stargazers_count,
+        }
+      })
       
       setProjects(projectData)
     } catch (error) {
       console.error('Error fetching GitHub projects:', error)
-      // Fallback to static projects
+      // Fallback to curated projects
       setProjects([
         {
           id: '1',
-          name: 'Safety Management Platform',
-          description: 'Enterprise-grade safety reporting and compliance management system',
-          technologies: ['Django', 'React', 'PostgreSQL', 'Docker'],
+          name: 'Slide to Code Craft',
+          description: 'Interactive code learning platform with slide-based tutorials',
+          technologies: ['TypeScript', 'React', 'Vite'],
           featured: true,
+          stars: 3,
         },
         {
           id: '2',
-          name: 'Incident Tracking System',
-          description: 'Real-time incident reporting with automated notifications',
-          technologies: ['Python', 'FastAPI', 'React', 'MongoDB'],
+          name: 'HSE Guardian',
+          description: 'Mobile-first safety reporting with offline capabilities',
+          technologies: ['React', 'PWA', 'Firebase'],
           featured: true,
+          stars: 1,
+        },
+        {
+          id: '3',
+          name: 'CryptoPulse AI Trader',
+          description: 'AI-powered cryptocurrency trading dashboard',
+          technologies: ['TypeScript', 'AI', 'Gemini API'],
+          featured: true,
+          stars: 1,
         },
       ])
     } finally {
       setLoading(false)
     }
+  }
+
+  // Format project names for display (convert kebab/snake case to title case)
+  const formatProjectName = (name: string): string => {
+    return name
+      .replace(/[-_]/g, ' ')
+      .replace(/([a-z])([A-Z])/g, '$1 $2')
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ')
   }
 
   if (loading) {
@@ -67,29 +165,33 @@ export default function Projects() {
     <Section
       id="projects"
       title="Projects"
-      subtitle="Recent work and contributions"
+      subtitle="Featured work and open source contributions"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map(project => (
           <Card key={project.id} hover>
             <div className="flex flex-col h-full">
-              {project.imageUrl && (
-                <img
-                  src={project.imageUrl}
-                  alt={project.name}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-              )}
+              {/* Header with stars badge */}
+              <div className="flex items-start justify-between mb-2">
+                <h3 className="text-xl font-bold text-text pr-2">{project.name}</h3>
+                {project.stars !== undefined && project.stars > 0 && (
+                  <span className="flex items-center gap-1 px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-full text-xs font-medium whitespace-nowrap">
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    {project.stars}
+                  </span>
+                )}
+              </div>
               
-              <h3 className="text-xl font-bold text-text mb-2">{project.name}</h3>
-              <p className="text-muted mb-4 flex-grow">{project.description}</p>
+              <p className="text-muted mb-4 flex-grow text-sm leading-relaxed">{project.description}</p>
               
               {project.technologies.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map(tech => (
+                  {project.technologies.slice(0, 4).map(tech => (
                     <span
                       key={tech}
-                      className="px-2 py-1 bg-primary/10 text-primary rounded text-xs"
+                      className="px-2 py-1 bg-primary/10 text-primary rounded text-xs font-medium"
                     >
                       {tech}
                     </span>
@@ -97,15 +199,18 @@ export default function Projects() {
                 </div>
               )}
               
-              <div className="flex gap-3 mt-auto">
+              <div className="flex gap-4 mt-auto pt-2 border-t border-surface-hover">
                 {project.githubUrl && (
                   <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:text-primary-dark text-sm font-medium"
+                    className="flex items-center gap-1 text-primary hover:text-primary-dark text-sm font-medium transition-colors"
                   >
-                    GitHub →
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                    </svg>
+                    View Code
                   </a>
                 )}
                 {project.liveUrl && (
@@ -113,15 +218,33 @@ export default function Projects() {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary hover:text-primary-dark text-sm font-medium"
+                    className="flex items-center gap-1 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium transition-colors"
                   >
-                    Live Demo →
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Live Demo
                   </a>
                 )}
               </div>
             </div>
           </Card>
         ))}
+      </div>
+      
+      {/* View all link */}
+      <div className="text-center mt-8">
+        <a
+          href="https://github.com/s6ft256?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-primary hover:text-primary-dark font-medium transition-colors"
+        >
+          View all repositories on GitHub
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
       </div>
     </Section>
   )
