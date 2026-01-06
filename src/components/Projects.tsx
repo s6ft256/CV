@@ -4,10 +4,11 @@ import Card from './Card'
 import { Project } from '../types'
 
 // Enhanced project metadata for better descriptions
-const projectEnhancements: Record<string, { description?: string; technologies?: string[] }> = {
+const projectEnhancements: Record<string, { description?: string; technologies?: string[]; liveUrl?: string }> = {
   'slide-to-code-craft': {
     description: 'Interactive coding tutorial platform with slide-based lessons that teach programming concepts step-by-step with hands-on exercises.',
-    technologies: ['TypeScript', 'React', 'Vite', 'Education']
+    technologies: ['TypeScript', 'React', 'Vite', 'Education'],
+    liveUrl: 'https://s6ft256.github.io/slide-to-code-craft/'
   },
   'Eli-Ai': {
     description: 'HSE AI voice assistant powered by Gemini 2.5 Pro, providing real-time workplace safety guidance, hazard identification, and compliance support.',
