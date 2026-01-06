@@ -143,7 +143,7 @@ export default function Projects() {
           description: enhancement?.description || repo.description || 'No description available',
           technologies: enhancement?.technologies || (repo.language ? [repo.language] : []),
           githubUrl: repo.html_url,
-          liveUrl: repo.homepage || undefined,
+          liveUrl: enhancement?.liveUrl || repo.homepage || undefined,
           featured: repo.stargazers_count > 0,
           stars: repo.stargazers_count,
         }
@@ -159,6 +159,7 @@ export default function Projects() {
           name: 'Slide to Code Craft',
           description: 'Interactive code learning platform with slide-based tutorials',
           technologies: ['TypeScript', 'React', 'Vite'],
+          liveUrl: 'https://s6ft256.github.io/slide-to-code-craft/',
           featured: true,
           stars: 3,
         },
