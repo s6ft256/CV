@@ -21,7 +21,7 @@ describe('Experience', () => {
 
   it('renders company name', () => {
     render(<Experience />)
-    expect(screen.getByText('Example Corp')).toBeInTheDocument()
+    expect(screen.getByText('Trojan Construction Group')).toBeInTheDocument()
   })
 
   it('renders location', () => {

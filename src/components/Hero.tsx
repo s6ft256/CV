@@ -50,6 +50,17 @@ export default function Hero() {
                 <span className="hero__stat-value">IOSH</span>
                 <span className="hero__stat-label">Certified</span>
               </div>
+              <div className="hero__stat">
+                <span className="hero__stat-value flex items-center gap-1">
+                  <img 
+                    src="https://em-content.zobj.net/source/apple/419/flag-uganda_1f1fa-1f1ec.png" 
+                    alt="Uganda Flag" 
+                    className="w-6 h-6 animate-bounce"
+                  />
+                  UG
+                </span>
+                <span className="hero__stat-label">Nationality</span>
+              </div>
             </div>
 
             {/* CTA Buttons */}

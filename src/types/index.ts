@@ -14,6 +14,7 @@ export interface Experience {
   id: string
   title: string
   company: string
+  companyLogo?: string
   location: string
   startDate: string
   endDate: string
