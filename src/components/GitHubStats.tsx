@@ -1,6 +1,13 @@
 import { useState, useEffect } from 'react'
 import Section from './Section'
 import Card from './Card'
+import { 
+  ContributionGrid, 
+  LanguageStats, 
+  ActivityFeed, 
+  StatsOverview,
+  ContributionDay 
+} from './github'
 
 interface GitHubStats {
   publicRepos: number
@@ -15,12 +22,6 @@ interface GitHubStats {
     date: string
     message?: string
   }[]
-}
-
-interface ContributionDay {
-  date: string
-  count: number
-  level: 0 | 1 | 2 | 3 | 4
 }
 
 const LANGUAGE_COLORS: Record<string, string> = {
@@ -55,7 +56,6 @@ export default function GitHubStats() {
 
   const fetchGitHubData = async () => {
     try {
-      // Fetch user profile and repos in parallel
       const [userRes, reposRes, eventsRes] = await Promise.all([
         fetch(`https://api.github.com/users/${username}`),
         fetch(`https://api.github.com/users/${username}/repos?per_page=100`),
@@ -68,11 +68,9 @@ export default function GitHubStats() {
       const repos = await reposRes.json()
       const events = eventsRes.ok ? await eventsRes.json() : []
 
-      // Calculate stats
       const totalStars = repos.reduce((sum: number, repo: any) => sum + repo.stargazers_count, 0)
       const totalForks = repos.reduce((sum: number, repo: any) => sum + repo.forks_count, 0)
 
-      // Count languages
       const langCounts: Record<string, number> = {}
       repos.forEach((repo: any) => {
         if (repo.language) {
@@ -89,7 +87,6 @@ export default function GitHubStats() {
           color: LANGUAGE_COLORS[name] || '#6e7681',
         }))
 
-      // Parse recent activity
       const recentActivity = events
         .filter((e: any) => ['PushEvent', 'CreateEvent', 'PullRequestEvent', 'IssuesEvent'].includes(e.type))
         .slice(0, 5)
@@ -110,7 +107,6 @@ export default function GitHubStats() {
         recentActivity,
       })
 
-      // Generate contribution data (simulated from events since GraphQL requires auth)
       generateContributionMatrix(events, repos)
 
     } catch (err) {
@@ -123,17 +119,15 @@ export default function GitHubStats() {
 
   const generateContributionMatrix = (events: any[], repos: any[]) => {
     const today = new Date()
-    const weeks = 20 // Show ~5 months of data
+    const weeks = 20
     const days: ContributionDay[] = []
 
-    // Create a map of activity dates from events
     const activityMap: Record<string, number> = {}
     events.forEach((event: any) => {
       const date = event.created_at.split('T')[0]
       activityMap[date] = (activityMap[date] || 0) + 1
     })
 
-    // Add repo push dates
     repos.forEach((repo: any) => {
       const pushDate = repo.pushed_at?.split('T')[0]
       if (pushDate) {
@@ -141,7 +135,6 @@ export default function GitHubStats() {
       }
     })
 
-    // Generate days for the matrix
     for (let w = weeks - 1; w >= 0; w--) {
       for (let d = 0; d < 7; d++) {
         const date = new Date(today)
@@ -160,46 +153,6 @@ export default function GitHubStats() {
     }
 
     setContributions(days)
-  }
-
-  const getContributionColor = (level: number) => {
-    const colors = [
-      'bg-gray-100 dark:bg-gray-800', // 0
-      'bg-green-200 dark:bg-green-900', // 1
-      'bg-green-400 dark:bg-green-700', // 2
-      'bg-green-500 dark:bg-green-600', // 3
-      'bg-green-600 dark:bg-green-500', // 4
-    ]
-    return colors[level] || colors[0]
-  }
-
-  const getActivityIcon = (type: string) => {
-    switch (type) {
-      case 'Push':
-        return (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
-          </svg>
-        )
-      case 'Create':
-        return (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-          </svg>
-        )
-      case 'PullRequest':
-        return (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-          </svg>
-        )
-      default:
-        return (
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-          </svg>
-        )
-    }
   }
 
   if (loading) {
@@ -228,43 +181,15 @@ export default function GitHubStats() {
       subtitle="Contribution matrix and activity overview"
     >
       <div className="space-y-8">
-        {/* Stats Overview */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          <Card>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-primary">{stats.publicRepos}</div>
-              <div className="text-sm text-muted mt-1">Repositories</div>
-            </div>
-          </Card>
-          <Card>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-yellow-500">{stats.totalStars}</div>
-              <div className="text-sm text-muted mt-1">Total Stars</div>
-            </div>
-          </Card>
-          <Card>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-500">{stats.totalForks}</div>
-              <div className="text-sm text-muted mt-1">Total Forks</div>
-            </div>
-          </Card>
-          <Card>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-500">{stats.followers}</div>
-              <div className="text-sm text-muted mt-1">Followers</div>
-            </div>
-          </Card>
-          <Card>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-500">{stats.following}</div>
-              <div className="text-sm text-muted mt-1">Following</div>
-            </div>
-          </Card>
-        </div>
+        <StatsOverview
+          publicRepos={stats.publicRepos}
+          totalStars={stats.totalStars}
+          totalForks={stats.totalForks}
+          followers={stats.followers}
+          following={stats.following}
+        />
 
-        {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Contribution Matrix */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
             <Card>
               <h3 className="text-lg font-semibold text-text mb-4 flex items-center gap-2">
@@ -273,56 +198,11 @@ export default function GitHubStats() {
                 </svg>
                 Contribution Activity
               </h3>
-              
-              {/* Contribution Grid */}
-              <div className="overflow-x-auto">
-                <div className="inline-flex flex-col gap-0.5 min-w-max">
-                  {/* Day labels */}
-                  <div className="flex items-center gap-0.5 mb-1">
-                    <div className="w-8"></div>
-                    {['Mon', '', 'Wed', '', 'Fri', '', ''].map((day, i) => (
-                      <div key={i} className="w-3 h-3 text-[8px] text-muted flex items-center justify-center">
-                        {day}
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* Grid - 7 rows (days) x 20 cols (weeks) */}
-                  {[0, 1, 2, 3, 4, 5, 6].map(dayIndex => (
-                    <div key={dayIndex} className="flex gap-0.5">
-                      <div className="w-8"></div>
-                      {Array.from({ length: 20 }).map((_, weekIndex) => {
-                        const contrib = contributions[weekIndex * 7 + dayIndex]
-                        return (
-                          <div
-                            key={weekIndex}
-                            className={`w-3 h-3 rounded-sm ${getContributionColor(contrib?.level || 0)} transition-colors cursor-pointer hover:ring-1 hover:ring-primary`}
-                            title={contrib ? `${contrib.date}: ${contrib.count} contributions` : ''}
-                          />
-                        )
-                      })}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Legend */}
-              <div className="flex items-center justify-end gap-2 mt-4 text-xs text-muted">
-                <span>Less</span>
-                {[0, 1, 2, 3, 4].map(level => (
-                  <div
-                    key={level}
-                    className={`w-3 h-3 rounded-sm ${getContributionColor(level)}`}
-                  />
-                ))}
-                <span>More</span>
-              </div>
+              <ContributionGrid contributions={contributions} />
             </Card>
           </div>
 
-          {/* Right Column */}
           <div className="space-y-6">
-            {/* Top Languages */}
             <Card>
               <h3 className="text-lg font-semibold text-text mb-4 flex items-center gap-2">
                 <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -330,28 +210,9 @@ export default function GitHubStats() {
                 </svg>
                 Top Languages
               </h3>
-              <div className="space-y-3">
-                {stats.topLanguages.map(lang => (
-                  <div key={lang.name}>
-                    <div className="flex justify-between text-sm mb-1">
-                      <span className="text-text font-medium">{lang.name}</span>
-                      <span className="text-muted">{lang.count} repos</span>
-                    </div>
-                    <div className="h-2 bg-surface-hover rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full transition-all duration-500"
-                        style={{
-                          width: `${(lang.count / stats.publicRepos) * 100}%`,
-                          backgroundColor: lang.color,
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <LanguageStats languages={stats.topLanguages} totalRepos={stats.publicRepos} />
             </Card>
 
-            {/* Recent Activity */}
             <Card>
               <h3 className="text-lg font-semibold text-text mb-4 flex items-center gap-2">
                 <svg className="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -359,33 +220,11 @@ export default function GitHubStats() {
                 </svg>
                 Recent Activity
               </h3>
-              <div className="space-y-3">
-                {stats.recentActivity.length > 0 ? (
-                  stats.recentActivity.map((activity, index) => (
-                    <div key={index} className="flex items-start gap-3 text-sm">
-                      <div className="text-primary mt-0.5">
-                        {getActivityIcon(activity.type)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-text truncate">{activity.repo}</span>
-                          <span className="text-muted text-xs whitespace-nowrap">{activity.date}</span>
-                        </div>
-                        {activity.message && (
-                          <p className="text-muted text-xs truncate">{activity.message}</p>
-                        )}
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-muted text-sm">No recent activity</p>
-                )}
-              </div>
+              <ActivityFeed activities={stats.recentActivity} />
             </Card>
           </div>
         </div>
 
-        {/* GitHub Profile Link */}
         <div className="text-center">
           <a
             href={`https://github.com/${username}`}

@@ -12,19 +12,40 @@ export default function Contact() {
   })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
+  // Formspree endpoint - set VITE_FORMSPREE_ENDPOINT in .env or replace with your form ID
+  const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT || 'https://formspree.io/f/YOUR_FORM_ID'
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setStatus('sending')
 
-    // TODO: Integrate with EmailJS or Formspree
-    // For now, simulate submission
-    setTimeout(() => {
-      console.log('Form data:', formData)
-      setStatus('success')
-      setFormData({ name: '', email: '', message: '' })
-      
-      setTimeout(() => setStatus('idle'), 3000)
-    }, 1000)
+    try {
+      const response = await fetch(formspreeEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `Portfolio Contact: ${formData.name}`,
+        }),
+      })
+
+      if (response.ok) {
+        setStatus('success')
+        setFormData({ name: '', email: '', message: '' })
+        setTimeout(() => setStatus('idle'), 5000)
+      } else {
+        throw new Error('Form submission failed')
+      }
+    } catch (error) {
+      console.error('Contact form error:', error)
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 5000)
+    }
   }
 
   const contactMethods = [

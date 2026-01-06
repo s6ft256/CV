@@ -1,16 +1,30 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, lazy, Suspense } from 'react'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
-import Experience from './components/Experience'
-import Skills from './components/Skills'
-import Projects from './components/Projects'
-import GitHubStats from './components/GitHubStats'
-import Education from './components/Education'
-import Certifications from './components/Certifications'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
 import ErrorBoundary from './components/ErrorBoundary'
 import { usePageTracking, useLazyLoadImages, useKeyboardNavigation } from './hooks/useEffects'
+
+// Lazy load below-the-fold components for better initial load performance
+const Experience = lazy(() => import('./components/Experience'))
+const Skills = lazy(() => import('./components/Skills'))
+const Projects = lazy(() => import('./components/Projects'))
+const GitHubStats = lazy(() => import('./components/GitHubStats'))
+const Education = lazy(() => import('./components/Education'))
+const Certifications = lazy(() => import('./components/Certifications'))
+const Contact = lazy(() => import('./components/Contact'))
+const Footer = lazy(() => import('./components/Footer'))
+
+// Loading fallback component
+function SectionLoader() {
+  return (
+    <div className="py-20 flex items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <span className="text-muted text-sm">Loading...</span>
+      </div>
+    </div>
+  )
+}
 
 export default function App() {
   usePageTracking()
@@ -56,15 +70,31 @@ export default function App() {
         </a>
         <Hero />
         <main id="main-content" tabIndex={-1}>
-          <Experience />
-          <Skills />
-          <Projects />
-          <GitHubStats />
-          <Education />
-          <Certifications />
-          <Contact />
+          <Suspense fallback={<SectionLoader />}>
+            <Experience />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Skills />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Projects />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <GitHubStats />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Education />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Certifications />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <Contact />
+          </Suspense>
         </main>
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
       </div>
     </ErrorBoundary>
   )
