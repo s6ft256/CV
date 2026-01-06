@@ -9,24 +9,47 @@
     
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.com/s6ft256/CV">
+    <meta property="og:url" content="https://elius.pro">
     <meta property="og:title" content="Elius Niwamanya | Full-Stack Developer & HSE Personnel">
     <meta property="og:description" content="Full-stack engineer uniting Python, Django, and modern JavaScript frameworks with IOSH-informed HSE leadership.">
-    <meta property="og:image" content="Profile.jpeg">
+    <meta property="og:image" content="/Profile.jpeg">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Elius Niwamanya | Full-Stack Developer & HSE Personnel">
     <meta name="twitter:description" content="Full-stack engineer uniting Python, Django, and modern JavaScript frameworks with IOSH-informed HSE leadership.">
-    <meta name="twitter:image" content="Profile.jpeg">
+    <meta name="twitter:image" content="/Profile.jpeg">
     
-    <title>personal profile</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Google Fonts: Inter for UI, Merriweather/Playfair/Roboto Slab for headings -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Merriweather:wght@400;700&family=Playfair+Display:wght@400;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Elius Niwamanya",
+      "jobTitle": "Full-Stack Developer & IOSH-Certified HSE Personnel",
+      "url": "https://elius.pro",
+      "sameAs": [
+        "https://github.com/s6ft256",
+        "https://linkedin.com/in/elius-niwamanya"
+      ],
+      "email": "contact@elius.pro",
+      "telephone": "+971563892557"
+    }
+    </script>
+    
+    <title>Elius Niwamanya | Full-Stack Developer & HSE Personnel</title>
+    
+    <!-- Preload critical fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="Logo.png">
-    <link rel="apple-touch-icon" href="Logo.png">
+    <link rel="icon" type="image/png" href="/Logo.png">
+    <link rel="apple-touch-icon" href="/Logo.png">
+    
+    <!-- Import existing styles -->
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
     <header class="hero" id="top">
@@ -703,8 +726,8 @@
 })();
 </script>
 
-    <!-- Vite React entry: mounts React app and loads Tailwind-built CSS -->
-    <script type="module" src="./src/main.jsx"></script>
-
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
