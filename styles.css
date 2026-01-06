@@ -364,6 +364,29 @@ a:focus {
     50% { opacity: 0.8; transform: scale(1.05); }
 }
 
+/* Flag wave animation - mobile friendly */
+@keyframes flagWave {
+    0%, 100% { 
+        transform: rotate(-5deg) scale(1);
+    }
+    25% {
+        transform: rotate(5deg) scale(1.1);
+    }
+    50% {
+        transform: rotate(-3deg) scale(1.05);
+    }
+    75% {
+        transform: rotate(3deg) scale(1.1);
+    }
+}
+
+.flag-wave {
+    display: inline-block;
+    animation: flagWave 1.5s ease-in-out infinite;
+    transform-origin: center center;
+    will-change: transform;
+}
+
 /* Status Badge */
 .hero__status {
     display: inline-flex;
@@ -903,7 +926,11 @@ body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; animation: none !important; }
+    *, *::before, *::after { 
+        animation-duration: 0.01ms !important; 
+        animation-iteration-count: 1 !important; 
+        transition-duration: 0.01ms !important;
+    }
 }
 
 .card h3 {
