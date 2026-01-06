@@ -29,9 +29,9 @@ export default function Experience() {
               <div className={`flex-1 ${index % 2 === 0 ? 'md:pr-12' : 'md:pl-12'}`}>
                 <Card hover glow="blue">
                   {/* Header */}
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+                  <div className="flex flex-col gap-4 mb-6">
                     <div>
-                      <div className="flex items-center gap-3 mb-2">
+                      <div className="flex flex-wrap items-center gap-3 mb-2">
                         {exp.current && (
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
                             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
@@ -39,23 +39,23 @@ export default function Experience() {
                           </span>
                         )}
                       </div>
-                      <h3 className="text-2xl font-bold text-text mb-2">{exp.title}</h3>
-                      <div className="flex items-center gap-2 text-primary font-medium">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <h3 className="text-xl md:text-2xl font-bold text-text mb-2">{exp.title}</h3>
+                      <div className="flex items-center gap-2 text-primary font-medium text-sm md:text-base">
+                        <svg className="w-4 h-4 md:w-5 md:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
-                        {exp.company}
+                        <span className="break-words">{exp.company}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-muted text-sm mt-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="flex items-center gap-2 text-muted text-xs md:text-sm mt-1">
+                        <svg className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
                         {exp.location}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-muted bg-surface-hover px-4 py-2 rounded-full">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="flex items-center gap-2 text-xs md:text-sm text-muted bg-surface-hover px-3 md:px-4 py-2 rounded-full w-fit">
+                      <svg className="w-3 h-3 md:w-4 md:h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
@@ -63,11 +63,11 @@ export default function Experience() {
                   </div>
                   
                   {/* Description */}
-                  <ul className="space-y-3 mb-6">
+                  <ul className="space-y-2 md:space-y-3 mb-4 md:mb-6">
                     {exp.description.map((desc, idx) => (
-                      <li key={idx} className="flex gap-3 text-muted">
-                        <span className="flex-shrink-0 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
-                          <svg className="w-3 h-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                      <li key={idx} className="flex gap-2 md:gap-3 text-muted text-sm md:text-base">
+                        <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
+                          <svg className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                           </svg>
                         </span>
@@ -78,11 +78,11 @@ export default function Experience() {
                   
                   {/* Technologies */}
                   {exp.technologies && exp.technologies.length > 0 && (
-                    <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
+                    <div className="flex flex-wrap gap-1.5 md:gap-2 pt-4 border-t border-border/50">
                       {exp.technologies.map(tech => (
                         <span
                           key={tech}
-                          className="px-3 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors"
+                          className="px-2 md:px-3 py-1 md:py-1.5 bg-primary/10 text-primary rounded-full text-xs md:text-sm font-medium hover:bg-primary/20 transition-colors"
                         >
                           {tech}
                         </span>

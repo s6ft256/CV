@@ -67,7 +67,7 @@ export default function Contact() {
       subtitle="Let's discuss your next project or opportunity"
       gradient
     >
-      <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
         {/* Contact Info */}
         <div className="space-y-8">
           <div>

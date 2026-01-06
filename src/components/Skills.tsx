@@ -40,7 +40,7 @@ export default function Skills() {
       title="Skills & Expertise"
       subtitle="Technologies and tools I work with daily"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {skillCategories.map((category, catIndex) => (
           <Card 
             key={category.name} 
@@ -49,22 +49,22 @@ export default function Skills() {
             className={catIndex % 2 === 1 ? 'md:mt-8' : ''}
           >
             {/* Category Header */}
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary">
+            <div className="flex items-center gap-3 md:gap-4 mb-6 md:mb-8">
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center text-primary">
                 {categoryIcons[category.name] || (
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 )}
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-text">{category.name}</h3>
-                <p className="text-sm text-muted">{category.skills.length} skills</p>
+                <h3 className="text-xl md:text-2xl font-bold text-text">{category.name}</h3>
+                <p className="text-xs md:text-sm text-muted">{category.skills.length} skills</p>
               </div>
             </div>
             
             {/* Skills List */}
-            <div className="space-y-5">
+            <div className="space-y-4 md:space-y-5">
               {category.skills.map((skill, index) => (
                 <div 
                   key={skill.name}
@@ -72,7 +72,7 @@ export default function Skills() {
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-text font-medium group-hover:text-primary transition-colors">
+                    <span className="text-sm md:text-base text-text font-medium group-hover:text-primary transition-colors">
                       {skill.name}
                     </span>
                     <div className="flex items-center gap-2">
@@ -81,7 +81,7 @@ export default function Skills() {
                         {[1, 2, 3, 4, 5].map((star) => (
                           <svg
                             key={star}
-                            className={`w-4 h-4 ${
+                            className={`w-3 h-3 md:w-4 md:h-4 ${
                               star <= skill.proficiency 
                                 ? 'text-yellow-400' 
                                 : 'text-gray-600'

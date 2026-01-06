@@ -4,17 +4,17 @@ export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="relative py-16 border-t border-border/50 overflow-hidden">
+    <footer className="relative py-12 md:py-16 border-t border-border/50 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
       
       <div className="container mx-auto max-w-[var(--max-width)] px-4 relative z-10">
-        <div className="grid md:grid-cols-3 gap-12 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mb-8 md:mb-12 text-center sm:text-left">
           {/* Brand */}
-          <div>
-            <h3 className="text-2xl font-bold text-text mb-3">{personalInfo.name}</h3>
+          <div className="sm:col-span-2 md:col-span-1">
+            <h3 className="text-xl md:text-2xl font-bold text-text mb-3">{personalInfo.name}</h3>
             <p className="text-muted mb-4">{personalInfo.title}</p>
-            <p className="text-sm text-muted/80 leading-relaxed">
+            <p className="text-sm text-muted/80 leading-relaxed max-w-xs mx-auto sm:mx-0">
               Building robust software solutions with a focus on quality and user experience.
             </p>
           </div>
@@ -38,7 +38,7 @@ export default function Footer() {
           {/* Connect */}
           <div>
             <h4 className="text-sm font-semibold text-text uppercase tracking-wider mb-4">Connect</h4>
-            <div className="flex gap-4 mb-6">
+            <div className="flex gap-4 mb-6 justify-center sm:justify-start">
               <a
                 href={personalInfo.github}
                 target="_blank"
