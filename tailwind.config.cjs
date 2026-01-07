@@ -44,38 +44,38 @@ module.exports = {
       },
       keyframes: {
         flagWave: {
-          '0%, 100%': { transform: 'rotate(-5deg) scale(1)' },
-          '25%': { transform: 'rotate(5deg) scale(1.1)' },
-          '50%': { transform: 'rotate(-3deg) scale(1.05)' },
-          '75%': { transform: 'rotate(3deg) scale(1.1)' },
+          '0%, 100%': { transform: 'rotate(-5deg) scale(1) translateZ(0)' },
+          '25%': { transform: 'rotate(5deg) scale(1.1) translateZ(0)' },
+          '50%': { transform: 'rotate(-3deg) scale(1.05) translateZ(0)' },
+          '75%': { transform: 'rotate(3deg) scale(1.1) translateZ(0)' },
         },
         fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+          '0%': { opacity: '0', transform: 'translateZ(0)' },
+          '100%': { opacity: '1', transform: 'translateZ(0)' },
         },
         fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+          '0%': { opacity: '0', transform: 'translateY(20px) translateZ(0)' },
+          '100%': { opacity: '1', transform: 'translateY(0) translateZ(0)' },
         },
         fadeInDown: {
-          '0%': { opacity: '0', transform: 'translateY(-20px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+          '0%': { opacity: '0', transform: 'translateY(-20px) translateZ(0)' },
+          '100%': { opacity: '1', transform: 'translateY(0) translateZ(0)' },
         },
         slideInLeft: {
-          '0%': { opacity: '0', transform: 'translateX(-30px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
+          '0%': { opacity: '0', transform: 'translateX(-30px) translateZ(0)' },
+          '100%': { opacity: '1', transform: 'translateX(0) translateZ(0)' },
         },
         slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(30px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
+          '0%': { opacity: '0', transform: 'translateX(30px) translateZ(0)' },
+          '100%': { opacity: '1', transform: 'translateX(0) translateZ(0)' },
         },
         scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
+          '0%': { opacity: '0', transform: 'scale(0.95) translateZ(0)' },
+          '100%': { opacity: '1', transform: 'scale(1) translateZ(0)' },
         },
         float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
+          '0%, 100%': { transform: 'translateY(0) translateZ(0)' },
+          '50%': { transform: 'translateY(-10px) translateZ(0)' },
         },
         gradient: {
           '0%, 100%': { backgroundPosition: '0% 50%' },
