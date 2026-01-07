@@ -1,12 +1,7 @@
 module.exports = {
-  content: [
-    './index.html',
-    './src/**/*.{js,jsx,ts,tsx}'
-  ],
+  content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   darkMode: 'class',
-  safelist: [
-    'animate-flag-wave',
-  ],
+  safelist: ['animate-flag-wave'],
   theme: {
     extend: {
       colors: {
@@ -37,9 +32,9 @@ module.exports = {
         'slide-in-left': 'slideInLeft 0.6s ease-out',
         'slide-in-right': 'slideInRight 0.6s ease-out',
         'scale-in': 'scaleIn 0.4s ease-out',
-        'float': 'float 6s ease-in-out infinite',
+        float: 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s ease-in-out infinite',
-        'gradient': 'gradient 8s ease infinite',
+        gradient: 'gradient 8s ease infinite',
         'flag-wave': 'flagWave 1.5s ease-in-out infinite',
       },
       keyframes: {
@@ -86,7 +81,7 @@ module.exports = {
         xs: '2px',
       },
       boxShadow: {
-        'glow': '0 0 40px rgba(56, 189, 248, 0.15)',
+        glow: '0 0 40px rgba(56, 189, 248, 0.15)',
         'glow-lg': '0 0 60px rgba(56, 189, 248, 0.25)',
         'glow-accent': '0 0 40px rgba(255, 122, 89, 0.15)',
       },

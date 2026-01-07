@@ -3,30 +3,33 @@
 @tailwind utilities;
 
 /* small helper for the live widget */
-.bg-white\/6 { background-color: rgba(255,255,255,0.06); }
+.bg-white\/6 {
+  background-color: rgba(255, 255, 255, 0.06);
+}
 
 /* Flag wave animation - mobile friendly - v2 */
 @keyframes flagWave {
-    0%, 100% { 
-        transform: rotate(-5deg) scale(1) translateZ(0);
-    }
-    25% {
-        transform: rotate(5deg) scale(1.1) translateZ(0);
-    }
-    50% {
-        transform: rotate(-3deg) scale(1.05) translateZ(0);
-    }
-    75% {
-        transform: rotate(3deg) scale(1.1) translateZ(0);
-    }
+  0%,
+  100% {
+    transform: rotate(-5deg) scale(1) translateZ(0);
+  }
+  25% {
+    transform: rotate(5deg) scale(1.1) translateZ(0);
+  }
+  50% {
+    transform: rotate(-3deg) scale(1.05) translateZ(0);
+  }
+  75% {
+    transform: rotate(3deg) scale(1.1) translateZ(0);
+  }
 }
 
 .flag-wave {
-    display: inline-block;
-    animation: flagWave 1.5s ease-in-out infinite;
-    transform-origin: center center;
-    will-change: transform;
-    backface-visibility: hidden;
+  display: inline-block;
+  animation: flagWave 1.5s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 /* Force rebuild marker: 20260106-1302 */
