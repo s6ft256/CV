@@ -47,7 +47,7 @@ const projectEnhancements: Record<string, { description?: string; technologies?:
     technologies: ['Python', 'API', 'Finance', 'Currency']
   },
   'TBMS': {
-    description: 'Transportation & Building Management System for facility operations, vehicle tracking, and maintenance scheduling.',
+    description: 'A clone of Trojan Business Management System.',
     technologies: ['TypeScript', 'React', 'Firebase', 'Operations']
   },
   'Incident-Image-Taking-System': {

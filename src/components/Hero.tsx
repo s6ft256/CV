@@ -24,14 +24,7 @@ export default function Hero() {
 
           {/* Content */}
           <div className="hero__content">
-            <p className="hero__eyebrow flex items-center gap-2">
-              {personalInfo.title}
-              <img
-                src="https://em-content.zobj.net/source/google/439/flag-uganda_1f1fa-1f1ec.png"
-                alt="Uganda Flag"
-                className="animate-flag-wave w-5 h-5 inline-block"
-              />
-            </p>
+            <p className="hero__eyebrow flex items-center gap-2">{personalInfo.title}</p>
             <h1>{personalInfo.name}</h1>
             <p className="hero__summary">{personalInfo.summary}</p>
 

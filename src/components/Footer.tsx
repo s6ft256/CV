@@ -93,11 +93,6 @@ export default function Footer() {
             Built with
             <span className="text-red-500 animate-pulse">❤</span>
             using React & TypeScript
-            <img
-              src="https://em-content.zobj.net/source/google/439/flag-uganda_1f1fa-1f1ec.png"
-              alt="Uganda Flag"
-              className="animate-flag-wave w-5 h-5 ml-1 inline-block"
-            />
           </p>
         </div>
       </div>

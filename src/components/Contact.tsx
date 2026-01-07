@@ -13,7 +13,8 @@ export default function Contact() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   // Formspree endpoint - set VITE_FORMSPREE_ENDPOINT in .env or replace with your form ID
-  const formspreeEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT || 'https://formspree.io/f/YOUR_FORM_ID'
+  const formspreeEndpoint =
+    import.meta.env.VITE_FORMSPREE_ENDPOINT || 'https://formspree.io/f/YOUR_FORM_ID'
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -24,7 +25,7 @@ export default function Contact() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           name: formData.name,
@@ -52,11 +53,16 @@ export default function Contact() {
     {
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
         </svg>
       ),
       label: 'Email',
-      value: personalInfo.email,
+      value: 'niwamanyaelius95@gmail.com',
       href: `mailto:${personalInfo.email}`,
     },
     {
@@ -94,14 +100,14 @@ export default function Contact() {
           <div>
             <h3 className="text-2xl font-bold text-text mb-4">Let's work together</h3>
             <p className="text-muted leading-relaxed">
-              I'm always interested in hearing about new projects and opportunities. 
-              Whether you have a question or just want to say hi, feel free to reach out!
+              I'm always interested in hearing about new projects and opportunities. Whether you
+              have a question or just want to say hi, feel free to reach out!
             </p>
           </div>
-          
+
           {/* Contact Methods */}
           <div className="space-y-4">
-            {contactMethods.map((method) => (
+            {contactMethods.map(method => (
               <a
                 key={method.label}
                 href={method.href}
@@ -120,7 +126,7 @@ export default function Contact() {
             ))}
           </div>
         </div>
-        
+
         {/* Contact Form */}
         <Card glow="accent">
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -179,15 +185,31 @@ export default function Contact() {
               {status === 'sending' ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
                   </svg>
                   Sending...
                 </span>
               ) : status === 'success' ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                   Sent!
                 </span>
@@ -195,7 +217,12 @@ export default function Contact() {
                 <span className="flex items-center justify-center gap-2">
                   Send Message
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    />
                   </svg>
                 </span>
               )}
@@ -210,9 +237,7 @@ export default function Contact() {
             )}
             {status === 'error' && (
               <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-center">
-                <p className="text-red-400 text-sm">
-                  Something went wrong. Please try again.
-                </p>
+                <p className="text-red-400 text-sm">Something went wrong. Please try again.</p>
               </div>
             )}
           </form>

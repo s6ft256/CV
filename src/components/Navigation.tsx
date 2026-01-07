@@ -65,11 +65,7 @@ export default function Navigation() {
         `}
       >
         <div className="pl-3 pr-2 border-r border-border/50 mr-1">
-          <img
-            src="https://em-content.zobj.net/source/google/439/flag-uganda_1f1fa-1f1ec.png"
-            alt="Uganda Flag"
-            className="animate-flag-wave w-6 h-6 inline-block"
-          />
+          <span className="text-primary font-bold text-xl uppercase tracking-tighter">EN</span>
         </div>
         {navItems.map(item => (
           <a
