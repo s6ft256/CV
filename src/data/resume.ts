@@ -5,7 +5,7 @@ export const personalInfo: PersonalInfo = {
   title: 'Full-Stack Developer & IOSH-Certified HSE Personnel',
   summary:
     'Full-stack engineer uniting Python, Django, and modern JavaScript frameworks with IOSH-informed HSE leadership. Designs security-conscious tools that automate reporting, uphold compliance, and keep teams aligned on safety.',
-  email: import.meta.env.VITE_EMAIL || 'contact@elius.pro',
+  email: import.meta.env.VITE_EMAIL || 'niwamanyaelius95@gmail.com',
   phone: import.meta.env.VITE_PHONE || '+971563892557',
   whatsapp: import.meta.env.VITE_WHATSAPP || '971563892557',
   github: `https://github.com/${import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'}`,
