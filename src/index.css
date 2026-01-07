@@ -32,4 +32,53 @@
   backface-visibility: hidden;
 }
 
-/* Force rebuild marker: 20260106-1302 */
+/* Force rebuild marker: 20260107-0540 */
+
+/* Game-specific glow effects */
+.glow-effect {
+  box-shadow:
+    0 0 20px currentColor,
+    0 0 40px rgba(59, 130, 246, 0.4);
+}
+
+.pattern-glow {
+  animation: patternGlow 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes patternGlow {
+  0% {
+    box-shadow:
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 30px currentColor;
+  }
+  100% {
+    box-shadow:
+      0 0 20px currentColor,
+      0 0 40px currentColor,
+      0 0 60px currentColor;
+  }
+}
+
+.matrix-grid-cell {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.matrix-grid-cell:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+.matrix-grid-cell::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.matrix-grid-cell:hover::before {
+  opacity: 1;
+}

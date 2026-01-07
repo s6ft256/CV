@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import ThemeToggle from './ThemeToggle'
+import MiniGame from './MiniGame'
 
 const navItems = [
   { href: '#experience', label: 'Experience' },
@@ -9,12 +10,14 @@ const navItems = [
   { href: '#education', label: 'Education' },
   { href: '#certifications', label: 'Certifications' },
   { href: '#contact', label: 'Contact' },
+  { href: '#game', label: 'Game', isSpecial: true },
 ]
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isGameOpen, setIsGameOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,8 +42,19 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+    isSpecial?: boolean
+  ) => {
     e.preventDefault()
+
+    if (isSpecial && href === '#game') {
+      setIsGameOpen(true)
+      setIsMobileMenuOpen(false)
+      return
+    }
+
     const target = document.querySelector(href)
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -71,18 +85,20 @@ export default function Navigation() {
           <a
             key={item.href}
             href={item.href}
-            onClick={e => handleNavClick(e, item.href)}
+            onClick={e => handleNavClick(e, item.href, item.isSpecial)}
             className={`
               px-4 py-2 rounded-full text-sm font-medium
               transition-all duration-200
               ${
                 activeSection === item.href.slice(1)
                   ? 'bg-primary text-[var(--button-text)]'
-                  : 'text-muted hover:text-text hover:bg-surface-hover'
+                  : item.isSpecial
+                    ? 'text-amber-500 hover:text-amber-400 hover:bg-amber-500/10 bg-amber-500/5'
+                    : 'text-muted hover:text-text hover:bg-surface-hover'
               }
             `}
           >
-            {item.label}
+            {item.isSpecial ? '🎮' : ''} {item.label}
           </a>
         ))}
         <div className="ml-2 pl-2 border-l border-border">
@@ -157,14 +173,16 @@ export default function Navigation() {
               <a
                 key={item.href}
                 href={item.href}
-                onClick={e => handleNavClick(e, item.href)}
+                onClick={e => handleNavClick(e, item.href, item.isSpecial)}
                 className={`
                   text-2xl font-medium py-3 px-8 rounded-full
                   transition-all duration-300
                   ${
                     activeSection === item.href.slice(1)
                       ? 'bg-primary text-[var(--button-text)]'
-                      : 'text-muted hover:text-text hover:bg-surface-hover'
+                      : item.isSpecial
+                        ? 'text-amber-500 hover:text-amber-400 hover:bg-amber-500/10 bg-amber-500/5'
+                        : 'text-muted hover:text-text hover:bg-surface-hover'
                   }
                 `}
                 style={{
@@ -172,12 +190,15 @@ export default function Navigation() {
                   animation: isMobileMenuOpen ? 'fadeInUp 0.5s ease-out forwards' : 'none',
                 }}
               >
+                {item.isSpecial ? '🎮 ' : ''}
                 {item.label}
               </a>
             ))}
           </div>
         </div>
       </div>
+
+      <MiniGame isOpen={isGameOpen} onClose={() => setIsGameOpen(false)} />
     </>
   )
 }

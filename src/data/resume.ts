@@ -18,7 +18,8 @@ export const experiences: Experience[] = [
     id: '1',
     title: 'Senior Full-Stack Developer',
     company: 'Trojan Construction Group',
-    companyLogo: 'https://trojanconstruction.group/storage/subsidiaries/May2024/rehLTrUcmNB1tlhPsMn9.png',
+    companyLogo:
+      'https://trojanconstruction.group/storage/subsidiaries/May2024/rehLTrUcmNB1tlhPsMn9.png',
     location: 'Dubai, UAE',
     startDate: '2023-01',
     endDate: '',
