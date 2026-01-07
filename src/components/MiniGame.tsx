@@ -411,24 +411,20 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
       {/* Celebration overlay */}
       {gameState.showCelebration && (
         <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-6xl font-bold text-yellow-500 animate-bounce flex items-center gap-4">
-            🎉 Level {gameState.currentLevel}! 🎉
+          <div className="text-4xl font-bold text-yellow-500 animate-bounce">
+            Level {gameState.currentLevel}!
           </div>
         </div>
       )}
 
-      <div className="bg-gradient-to-br from-card-bg via-card-bg to-surface-hover border border-border/50 rounded-3xl p-8 max-w-lg w-full shadow-2xl shadow-primary/5 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-card-bg via-card-bg to-surface-hover border border-border/50 rounded-2xl p-6 max-w-md w-full shadow-2xl shadow-primary/5 relative overflow-hidden">
         {/* Animated background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-50" />
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-8 relative z-10">
+        <div className="flex items-center justify-between mb-6 relative z-10">
           <div>
-            <h2 className="text-3xl font-bold text-text mb-1 flex items-center gap-3">
-              <span>🧠</span>
-              <span>Memory Challenge</span>
-            </h2>
-            <p className="text-sm text-muted">Test your memory and have fun!</p>
+            <h2 className="text-2xl font-bold text-text mb-1">Memory Challenge</h2>
           </div>
           <button
             onClick={onClose}
@@ -450,7 +446,7 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 relative z-10">
           <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/20 border border-blue-500/20 rounded-xl p-3 text-center">
             <div className="text-lg font-bold text-blue-400">{gameState.currentLevel}</div>
-            <div className="text-xs text-blue-300/80">Round</div>
+            <div className="text-xs text-blue-300/80">Level</div>
           </div>
           <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-600/20 border border-emerald-500/20 rounded-xl p-3 text-center">
             <div className="text-lg font-bold text-emerald-400">
@@ -493,42 +489,33 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
         {/* Status Messages */}
         <div className="text-center mb-6 h-8 relative z-10">
           {gameState.showingPattern && (
-            <div className="flex items-center justify-center gap-2">
-              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-ping" />
-              <p className="text-yellow-400 font-medium animate-pulse">
-                Watch closely... {gameState.pattern.length} squares to remember!
-              </p>
-            </div>
+            <p className="text-blue-400 font-medium">Memorizing pattern...</p>
           )}
 
           {!gameState.isPlaying && !gameState.gameOver && (
-            <p className="text-muted text-sm leading-relaxed">
-              🎯 Watch the pattern, then click the squares in the same order!
-            </p>
+            <p className="text-muted text-sm">Watch the pattern, then repeat it</p>
           )}
 
           {gameState.gameOver && (
             <div className="space-y-1">
-              <p className="text-red-400 font-bold">� Oops! Don't worry, try again!</p>
+              <p className="text-red-400 font-bold">Game Over</p>
               <p className="text-sm text-muted">
-                Your score:{' '}
+                Score:{' '}
                 <span className="text-accent font-bold">{gameState.score.toLocaleString()}</span>
                 {gameState.score === gameState.highScore && gameState.score > 0 && (
-                  <span className="text-yellow-400 ml-2">🎆 New personal best!</span>
+                  <span className="text-yellow-400 ml-2">New Best!</span>
                 )}
               </p>
             </div>
           )}
 
           {gameState.isPlaying && !gameState.showingPattern && gameState.multiplier > 1 && (
-            <p className="text-purple-400 text-sm">
-              ✨ You're on fire! {gameState.multiplier}x bonus!
-            </p>
+            <p className="text-green-400 text-sm">{gameState.multiplier}x multiplier!</p>
           )}
         </div>
 
         {/* Game Grid */}
-        <div className="grid-container grid grid-cols-3 gap-3 mb-8 justify-items-center relative z-10">
+        <div className="grid-container grid grid-cols-3 gap-2 mb-6 justify-items-center relative z-10">
           {Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, index) => (
             <button
               key={index}
@@ -561,45 +548,29 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
           {!gameState.isPlaying && !gameState.gameOver && (
             <button
               onClick={startGame}
-              className="flex-1 bg-gradient-to-r from-primary to-primary-dark text-white py-4 px-6 rounded-xl font-bold text-lg hover:from-primary-dark hover:to-primary transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-primary/25"
+              className="flex-1 bg-gradient-to-r from-primary to-primary-dark text-white py-3 px-4 rounded-xl font-medium hover:from-primary-dark hover:to-primary transition-all shadow-lg shadow-primary/25"
             >
-              🎉 Let's Play!
+              Start Game
             </button>
           )}
 
           {gameState.gameOver && (
             <button
               onClick={startGame}
-              className="flex-1 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white py-4 px-6 rounded-xl font-bold text-lg hover:from-emerald-600 hover:to-emerald-700 transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-emerald-500/25"
+              className="flex-1 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white py-3 px-4 rounded-xl font-medium hover:from-emerald-600 hover:to-emerald-700 transition-all shadow-lg shadow-emerald-500/25"
             >
-              � Try Again!
+              Play Again
             </button>
           )}
 
           {gameState.isPlaying && (
             <button
               onClick={resetGame}
-              className="flex-1 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white py-4 px-6 rounded-xl font-bold text-lg hover:from-red-600/90 hover:to-red-700/90 border border-red-400/30 transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-red-500/20"
+              className="flex-1 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white py-3 px-4 rounded-xl font-medium hover:from-red-600/90 hover:to-red-700/90 border border-red-400/30 transition-all shadow-lg shadow-red-500/20"
             >
-              🚩 Stop Game
+              Reset
             </button>
           )}
-        </div>
-
-        {/* Game Tips */}
-        <div className="mt-6 text-xs text-muted/80 space-y-1 relative z-10">
-          <div className="flex items-center gap-2">
-            <span className="text-blue-400">💡</span>
-            <span>Watch the pattern, then click squares in the same order</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-emerald-400">⚡</span>
-            <span>Complete rounds quickly for bonus points</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-purple-400">🎯</span>
-            <span>Build streaks to unlock score multipliers</span>
-          </div>
         </div>
       </div>
     </div>
