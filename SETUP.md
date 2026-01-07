@@ -27,11 +27,13 @@ Node.js was not found on your system. Before you can run this project, you need 
 ## 🚀 Quick Start (After Node.js is installed)
 
 ### 1. Install Dependencies
+
 ```powershell
 npm install
 ```
 
 This will install all required packages:
+
 - React & React DOM
 - TypeScript & type definitions
 - Vite (build tool)
@@ -40,11 +42,13 @@ This will install all required packages:
 - Tailwind CSS (styling utilities)
 
 ### 2. Configure Environment
+
 ```powershell
 # The .env file is already created, edit it with your details
 ```
 
 Open `.env` and update:
+
 ```env
 VITE_EMAIL=your-email@example.com
 VITE_PHONE=+971563892557
@@ -56,12 +60,14 @@ VITE_LINKEDIN_URL=https://linkedin.com/in/elius-niwamanya
 ### 3. Update Your Data
 
 Edit `src/data/resume.ts` with your personal information:
+
 - Work experience
 - Education history
 - Certifications
 - Skills and proficiency levels
 
 ### 4. Start Development Server
+
 ```powershell
 npm run dev
 ```
@@ -91,12 +97,14 @@ npm run test:coverage    # Generate coverage report
 ## 📝 What's Been Implemented
 
 ### ✅ Architecture & Structure
+
 - [x] Migrated from static HTML to React components
 - [x] Added full TypeScript support with strict type checking
 - [x] Created organized component structure
 - [x] Setup development tooling (ESLint, Prettier, Vitest)
 
 ### ✅ Features
+
 - [x] **Hero Section** - Dynamic with personal info from data file
 - [x] **Experience Section** - Timeline of work history
 - [x] **Skills Section** - Visual proficiency indicators
@@ -109,6 +117,7 @@ npm run test:coverage    # Generate coverage report
 - [x] **LinkedIn Import** - Python script to import profile data
 
 ### ✅ Code Quality
+
 - [x] ESLint configuration for React & TypeScript
 - [x] Prettier for consistent code formatting
 - [x] Vitest + React Testing Library setup
@@ -116,6 +125,7 @@ npm run test:coverage    # Generate coverage report
 - [x] TypeScript strict mode enabled
 
 ### ✅ Performance & SEO
+
 - [x] Code splitting with manual chunks
 - [x] Lazy loading hooks for images
 - [x] Sitemap.xml for search engines
@@ -125,6 +135,7 @@ npm run test:coverage    # Generate coverage report
 - [x] Google Analytics & Plausible support
 
 ### ✅ Accessibility
+
 - [x] ARIA labels on interactive elements
 - [x] Keyboard navigation support
 - [x] Semantic HTML structure
@@ -132,31 +143,37 @@ npm run test:coverage    # Generate coverage report
 - [x] Screen reader friendly
 
 ### ✅ Deployment
-- [x] Vite configured to build to `docs/` for GitHub Pages
+
+- [x] Vite configured to build to root (`/`) for GitHub Pages
 - [x] CNAME file for custom domain (elius.pro)
 - [x] Production-ready build configuration
 
 ## 🎨 Customization
 
 ### Update Personal Information
+
 1. Open `src/data/resume.ts`
 2. Update `personalInfo` object
 3. Add/edit entries in `experiences`, `education`, `certifications`, `skillCategories`
 
 ### Change Theme Colors
+
 1. Open `styles.css`
 2. Edit CSS variables in `:root` and `body.theme-light` sections
 
 ### Add New Components
+
 1. Create component file in `src/components/`
 2. Import and use in `src/App.tsx`
 
 ### Configure Analytics
+
 1. Get your Google Analytics tracking ID
 2. Add to `.env` as `VITE_GA_TRACKING_ID=GA-XXXXXXXXXX`
 3. Analytics will auto-initialize on first page load
 
 ### Setup Contact Form
+
 1. Create free EmailJS account: https://www.emailjs.com/
 2. Get Service ID, Template ID, and Public Key
 3. Add to `.env`:
@@ -170,14 +187,17 @@ npm run test:coverage    # Generate coverage report
 ## 🌐 Deployment to GitHub Pages
 
 ### First Time Setup
+
 1. Build the project:
+
    ```powershell
    npm run build
    ```
 
-2. Commit the docs folder:
+2. Commit the changes:
+
    ```powershell
-   git add docs/
+   git add .
    git commit -m "Deploy to GitHub Pages"
    git push
    ```
@@ -187,12 +207,13 @@ npm run test:coverage    # Generate coverage report
    - Settings → Pages
    - Source: "Deploy from a branch"
    - Branch: main
-   - Folder: /docs
+   - Folder: / (root)
    - Save
 
 4. Your site will be live at: `https://yourusername.github.io/CV/`
 
 ### Custom Domain (Optional)
+
 1. Edit `CNAME` file with your domain: `elius.pro`
 2. Configure DNS:
    - Add A records pointing to GitHub Pages IPs:
@@ -205,17 +226,21 @@ npm run test:coverage    # Generate coverage report
 ## 🐛 Troubleshooting
 
 ### Port 5173 already in use
+
 ```powershell
 # Kill the process using the port or change port in vite.config.ts
 ```
 
 ### TypeScript errors
+
 ```powershell
 npm run type-check
 ```
+
 Fix reported issues or add `// @ts-ignore` above problematic lines.
 
 ### Build fails
+
 ```powershell
 # Clear cache and reinstall
 rm -rf node_modules
@@ -225,6 +250,7 @@ npm run build
 ```
 
 ### Theme not persisting
+
 - Check browser localStorage is enabled
 - Clear browser cache and try again
 
@@ -240,6 +266,7 @@ npm run build
 ## 📞 Support
 
 If you run into issues:
+
 1. Check this guide carefully
 2. Review the main README.md
 3. Check Vite documentation: https://vitejs.dev

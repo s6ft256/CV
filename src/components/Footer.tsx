@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="relative py-12 md:py-16 border-t border-border/50 overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none" />
-      
+
       <div className="container mx-auto max-w-[var(--max-width)] px-4 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 md:gap-12 mb-8 md:mb-12 text-center sm:text-left">
           {/* Brand */}
@@ -18,10 +18,12 @@ export default function Footer() {
               Building robust software solutions with a focus on quality and user experience.
             </p>
           </div>
-          
+
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold text-text uppercase tracking-wider mb-4">Quick Links</h4>
+            <h4 className="text-sm font-semibold text-text uppercase tracking-wider mb-4">
+              Quick Links
+            </h4>
             <nav className="space-y-2">
               {['Experience', 'Skills', 'Projects', 'Education', 'Contact'].map(link => (
                 <a
@@ -34,10 +36,12 @@ export default function Footer() {
               ))}
             </nav>
           </div>
-          
+
           {/* Connect */}
           <div>
-            <h4 className="text-sm font-semibold text-text uppercase tracking-wider mb-4">Connect</h4>
+            <h4 className="text-sm font-semibold text-text uppercase tracking-wider mb-4">
+              Connect
+            </h4>
             <div className="flex gap-4 mb-6 justify-center sm:justify-start">
               <a
                 href={personalInfo.github}
@@ -67,13 +71,16 @@ export default function Footer() {
                 aria-label="Email"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
                 </svg>
               </a>
             </div>
-            <p className="text-sm text-muted">
-              {personalInfo.email}
-            </p>
+            <p className="text-sm text-muted">{personalInfo.email}</p>
           </div>
         </div>
 
@@ -86,6 +93,11 @@ export default function Footer() {
             Built with
             <span className="text-red-500 animate-pulse">❤</span>
             using React & TypeScript
+            <img
+              src="https://em-content.zobj.net/source/google/439/flag-uganda_1f1fa-1f1ec.png"
+              alt="Uganda Flag"
+              className="animate-flag-wave w-5 h-5 ml-1 inline-block"
+            />
           </p>
         </div>
       </div>

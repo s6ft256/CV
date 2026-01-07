@@ -3,20 +3,22 @@ import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
+  root: 'src',
+  publicDir: '../public',
   base: './',
   plugins: [
     react(),
-    // Bundle analyzer - generates stats.html in docs folder
+    // Bundle analyzer - generates stats.html
     visualizer({
-      filename: 'docs/stats.html',
+      filename: '../stats.html',
       open: false,
       gzipSize: true,
       brotliSize: true,
     }),
   ],
   build: {
-    outDir: 'docs',
-    emptyOutDir: true,
+    outDir: '../',
+    emptyOutDir: false,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -27,5 +29,6 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    host: true,
   },
 })

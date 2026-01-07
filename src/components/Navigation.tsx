@@ -57,23 +57,32 @@ export default function Navigation() {
           hidden lg:flex items-center gap-1
           px-2 py-2 rounded-full
           transition-all duration-300
-          ${isScrolled 
-            ? 'bg-card-bg/90 backdrop-blur-lg shadow-lg border border-border' 
-            : 'bg-transparent'
+          ${
+            isScrolled
+              ? 'bg-card-bg/90 backdrop-blur-lg shadow-lg border border-border'
+              : 'bg-transparent'
           }
         `}
       >
+        <div className="pl-3 pr-2 border-r border-border/50 mr-1">
+          <img
+            src="https://em-content.zobj.net/source/google/439/flag-uganda_1f1fa-1f1ec.png"
+            alt="Uganda Flag"
+            className="animate-flag-wave w-6 h-6 inline-block"
+          />
+        </div>
         {navItems.map(item => (
           <a
             key={item.href}
             href={item.href}
-            onClick={(e) => handleNavClick(e, item.href)}
+            onClick={e => handleNavClick(e, item.href)}
             className={`
               px-4 py-2 rounded-full text-sm font-medium
               transition-all duration-200
-              ${activeSection === item.href.slice(1)
-                ? 'bg-primary text-[var(--button-text)]'
-                : 'text-muted hover:text-text hover:bg-surface-hover'
+              ${
+                activeSection === item.href.slice(1)
+                  ? 'bg-primary text-[var(--button-text)]'
+                  : 'text-muted hover:text-text hover:bg-surface-hover'
               }
             `}
           >
@@ -95,9 +104,10 @@ export default function Navigation() {
             w-12 h-12 rounded-full
             flex items-center justify-center
             transition-all duration-300
-            ${isScrolled || isMobileMenuOpen
-              ? 'bg-card-bg/90 backdrop-blur-lg shadow-lg border border-border'
-              : 'bg-card-bg/50 backdrop-blur-sm'
+            ${
+              isScrolled || isMobileMenuOpen
+                ? 'bg-card-bg/90 backdrop-blur-lg shadow-lg border border-border'
+                : 'bg-card-bg/50 backdrop-blur-sm'
             }
           `}
           aria-label="Toggle menu"
@@ -127,9 +137,10 @@ export default function Navigation() {
           className={`
             fixed top-4 right-20 z-50
             transition-all duration-300
-            ${isScrolled
-              ? 'bg-card-bg/90 backdrop-blur-lg shadow-lg border border-border rounded-full'
-              : ''
+            ${
+              isScrolled
+                ? 'bg-card-bg/90 backdrop-blur-lg shadow-lg border border-border rounded-full'
+                : ''
             }
           `}
         >
@@ -150,18 +161,19 @@ export default function Navigation() {
               <a
                 key={item.href}
                 href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                onClick={e => handleNavClick(e, item.href)}
                 className={`
                   text-2xl font-medium py-3 px-8 rounded-full
                   transition-all duration-300
-                  ${activeSection === item.href.slice(1)
-                    ? 'bg-primary text-[var(--button-text)]'
-                    : 'text-muted hover:text-text hover:bg-surface-hover'
+                  ${
+                    activeSection === item.href.slice(1)
+                      ? 'bg-primary text-[var(--button-text)]'
+                      : 'text-muted hover:text-text hover:bg-surface-hover'
                   }
                 `}
-                style={{ 
+                style={{
                   animationDelay: `${index * 50}ms`,
-                  animation: isMobileMenuOpen ? 'fadeInUp 0.5s ease-out forwards' : 'none'
+                  animation: isMobileMenuOpen ? 'fadeInUp 0.5s ease-out forwards' : 'none',
                 }}
               >
                 {item.label}
