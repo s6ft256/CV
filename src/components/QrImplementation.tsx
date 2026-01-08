@@ -12,7 +12,7 @@ export default function QrImplementation() {
       <Card hover glow="accent">
         <div className="flex flex-col md:flex-row gap-8 items-center">
           <img
-            src="Qrcode Implementation.jpeg"
+            src="Qrcode Implementation-old.jpeg"
             alt="QR code implementation on plant and equipment at JBL5"
             className="w-full max-w-xs md:max-w-sm rounded shadow-glow border border-border"
           />
