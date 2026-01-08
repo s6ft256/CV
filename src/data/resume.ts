@@ -1,4 +1,32 @@
-import { PersonalInfo, Experience, Education, Certification, SkillCategory } from '../types'
+import {
+  PersonalInfo,
+  Experience,
+  Education,
+  Certification,
+  SkillCategory,
+  Project,
+} from '../types'
+
+export const projects: Project[] = [
+  {
+    id: '1',
+    name: 'PDF Extractor For Me',
+    description:
+      'A web app to extract text and data from PDF files with a user-friendly interface.',
+    technologies: ['React', 'Node.js', 'Express', 'PDF.js'],
+    githubUrl: 'https://github.com/s6ft256/PDFExtractorForme.git',
+    liveUrl: 'https://pdfextractorforme.onrender.com',
+    featured: true,
+  },
+  {
+    id: '2',
+    name: 'HSE Guardian',
+    description: 'Incident image capture and reporting system for safety management in the field.',
+    technologies: ['React', 'Vercel', 'Cloud Storage'],
+    liveUrl: 'https://incident-image-taking-system.vercel.app/',
+    featured: true,
+  },
+]
 
 export const personalInfo: PersonalInfo = {
   name: 'Elius Niwamanya',

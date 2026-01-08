@@ -11,7 +11,7 @@ export default function Hero() {
           {/* Profile Image */}
           <div className="hero__image-wrapper">
             <div className="hero__image-container">
-              <img src="/Profile.jpeg" alt={personalInfo.name} className="hero__image" />
+              <img src="Profile.jpeg" alt={personalInfo.name} className="hero__image" />
               <div className="hero__image-ring" aria-hidden="true" />
               <div className="hero__image-glow" aria-hidden="true" />
             </div>

@@ -4,100 +4,125 @@ import Card from './Card'
 import { Project } from '../types'
 
 // Enhanced project metadata for better descriptions
-const projectEnhancements: Record<string, { description?: string; technologies?: string[]; liveUrl?: string }> = {
+const projectEnhancements: Record<
+  string,
+  { description?: string; technologies?: string[]; liveUrl?: string }
+> = {
   'slide-to-code-craft': {
-    description: 'Interactive coding tutorial platform with slide-based lessons that teach programming concepts step-by-step with hands-on exercises.',
+    description:
+      'Interactive coding tutorial platform with slide-based lessons that teach programming concepts step-by-step with hands-on exercises.',
     technologies: ['TypeScript', 'React', 'Vite', 'Education'],
-    liveUrl: 'https://s6ft256.github.io/slide-to-code-craft/'
+    liveUrl: 'https://s6ft256.github.io/slide-to-code-craft/',
   },
   'Eli-Ai': {
-    description: 'HSE AI voice assistant powered by Gemini 2.5 Pro, providing real-time workplace safety guidance, hazard identification, and compliance support.',
-    technologies: ['TypeScript', 'Gemini API', 'Voice AI', 'HSE']
+    description:
+      'HSE AI voice assistant powered by Gemini 2.5 Pro, providing real-time workplace safety guidance, hazard identification, and compliance support.',
+    technologies: ['TypeScript', 'Gemini API', 'Voice AI', 'HSE'],
   },
   'CryptoPulse-AI-Trader': {
-    description: 'AI-powered cryptocurrency trading dashboard featuring real-time market analysis, price predictions, and trade suggestions using Gemini API.',
-    technologies: ['TypeScript', 'React', 'AI', 'Crypto Trading']
+    description:
+      'AI-powered cryptocurrency trading dashboard featuring real-time market analysis, price predictions, and trade suggestions using Gemini API.',
+    technologies: ['TypeScript', 'React', 'AI', 'Crypto Trading'],
   },
   'HSE-Guardian': {
-    description: 'Mobile-first safety incident reporting tool with offline support, photo evidence capture, and professional tracking for workplace safety.',
-    technologies: ['React', 'PWA', 'Offline-First', 'HSE']
+    description:
+      'Mobile-first safety incident reporting tool with offline support, photo evidence capture, and professional tracking for workplace safety.',
+    technologies: ['React', 'PWA', 'Offline-First', 'HSE'],
   },
   'Equator-Global-Recruitment-EGR-Platform': {
-    description: 'International recruitment platform connecting Ugandan youth with global opportunities, featuring compliance management and ethical hiring standards.',
-    technologies: ['TypeScript', 'React', 'Node.js', 'HR Tech']
+    description:
+      'International recruitment platform connecting Ugandan youth with global opportunities, featuring compliance management and ethical hiring standards.',
+    technologies: ['TypeScript', 'React', 'Node.js', 'HR Tech'],
   },
   'builder-curry-heaven': {
-    description: 'Visual web page builder demo showcasing Builder.io integration for no-code website creation and rapid prototyping.',
-    technologies: ['TypeScript', 'Builder.io', 'React', 'No-Code']
+    description:
+      'Visual web page builder demo showcasing Builder.io integration for no-code website creation and rapid prototyping.',
+    technologies: ['TypeScript', 'Builder.io', 'React', 'No-Code'],
   },
-  'ExcelInt': {
-    description: 'Powerful Excel data extraction and processing tool for automating spreadsheet workflows and data transformation tasks.',
-    technologies: ['HTML', 'JavaScript', 'Excel', 'Data Processing']
+  ExcelInt: {
+    description:
+      'Powerful Excel data extraction and processing tool for automating spreadsheet workflows and data transformation tasks.',
+    technologies: ['HTML', 'JavaScript', 'Excel', 'Data Processing'],
   },
   'hse-weeky-statistics-form': {
-    description: 'Weekly HSE statistics collection system for tracking safety metrics, incident rates, and compliance reporting.',
-    technologies: ['Python', 'Forms', 'Analytics', 'HSE']
+    description:
+      'Weekly HSE statistics collection system for tracking safety metrics, incident rates, and compliance reporting.',
+    technologies: ['Python', 'Forms', 'Analytics', 'HSE'],
   },
-  'mapper_excel': {
-    description: 'Python utility for mapping and transforming Excel data between different formats and structures.',
-    technologies: ['Python', 'Excel', 'Data Mapping', 'ETL']
+  mapper_excel: {
+    description:
+      'Python utility for mapping and transforming Excel data between different formats and structures.',
+    technologies: ['Python', 'Excel', 'Data Mapping', 'ETL'],
   },
-  's6ft_euro_exc': {
-    description: 'Euro exchange rate tracker and converter with real-time currency data integration.',
-    technologies: ['Python', 'API', 'Finance', 'Currency']
+  s6ft_euro_exc: {
+    description:
+      'Euro exchange rate tracker and converter with real-time currency data integration.',
+    technologies: ['Python', 'API', 'Finance', 'Currency'],
   },
-  'TBMS': {
+  TBMS: {
     description: 'A clone of Trojan Business Management System.',
-    technologies: ['TypeScript', 'React', 'Firebase', 'Operations']
+    technologies: ['TypeScript', 'React', 'Firebase', 'Operations'],
   },
   'Incident-Image-Taking-System': {
-    description: 'Real-time incident documentation app with camera integration for capturing, annotating, and reporting workplace incidents.',
-    technologies: ['TypeScript', 'React', 'Camera API', 'HSE']
+    description:
+      'Real-time incident documentation app with camera integration for capturing, annotating, and reporting workplace incidents.',
+    technologies: ['TypeScript', 'React', 'Camera API', 'HSE'],
   },
-  'haven': {
-    description: 'Transportation & Building Management System (TBMS) for comprehensive facility operations and fleet management.',
-    technologies: ['TypeScript', 'React', 'Firebase', 'Management']
+  haven: {
+    description:
+      'Transportation & Building Management System (TBMS) for comprehensive facility operations and fleet management.',
+    technologies: ['TypeScript', 'React', 'Firebase', 'Management'],
   },
   'rig-inspect-ui': {
-    description: 'Oil & gas rig inspection interface for conducting safety assessments, equipment checks, and compliance documentation.',
-    technologies: ['TypeScript', 'React', 'HSE', 'Oil & Gas']
+    description:
+      'Oil & gas rig inspection interface for conducting safety assessments, equipment checks, and compliance documentation.',
+    technologies: ['TypeScript', 'React', 'HSE', 'Oil & Gas'],
   },
   'Forex-Predictor-AI': {
-    description: 'Machine learning-powered forex market predictor analyzing currency trends and providing trading insights.',
-    technologies: ['TypeScript', 'AI', 'Machine Learning', 'Trading']
+    description:
+      'Machine learning-powered forex market predictor analyzing currency trends and providing trading insights.',
+    technologies: ['TypeScript', 'AI', 'Machine Learning', 'Trading'],
   },
-  'Ai_Agent': {
-    description: 'Python-based AI agent framework for building autonomous assistants with custom capabilities and integrations.',
-    technologies: ['Python', 'AI', 'Agents', 'Automation']
+  Ai_Agent: {
+    description:
+      'Python-based AI agent framework for building autonomous assistants with custom capabilities and integrations.',
+    technologies: ['Python', 'AI', 'Agents', 'Automation'],
   },
-  'Eli_3': {
-    description: 'Web3 blockchain application exploring decentralized technologies and smart contract interactions.',
-    technologies: ['TypeScript', 'Web3', 'Blockchain', 'DApps']
+  Eli_3: {
+    description:
+      'Web3 blockchain application exploring decentralized technologies and smart contract interactions.',
+    technologies: ['TypeScript', 'Web3', 'Blockchain', 'DApps'],
   },
-  'act': {
-    description: 'HSE Inspection Report System with real-time Firebase backend for safety inspections, equipment management, and training records.',
-    technologies: ['HTML', 'JavaScript', 'Firebase', 'HSE']
+  act: {
+    description:
+      'HSE Inspection Report System with real-time Firebase backend for safety inspections, equipment management, and training records.',
+    technologies: ['HTML', 'JavaScript', 'Firebase', 'HSE'],
   },
-  'track': {
-    description: 'Comprehensive HSE inspection tracking system with modern UI for streamlining safety workflows and compliance reporting.',
-    technologies: ['HTML', 'JavaScript', 'Firebase', 'HSE']
+  track: {
+    description:
+      'Comprehensive HSE inspection tracking system with modern UI for streamlining safety workflows and compliance reporting.',
+    technologies: ['HTML', 'JavaScript', 'Firebase', 'HSE'],
   },
-  'safety_iemplates': {
-    description: 'Collection of HSE safety document templates and forms for workplace compliance and incident documentation.',
-    technologies: ['HTML', 'Templates', 'HSE', 'Documentation']
+  safety_iemplates: {
+    description:
+      'Collection of HSE safety document templates and forms for workplace compliance and incident documentation.',
+    technologies: ['HTML', 'Templates', 'HSE', 'Documentation'],
   },
-  'GATDATA': {
-    description: 'Data collection and management interface for gathering and organizing structured information.',
-    technologies: ['HTML', 'JavaScript', 'Data Management']
+  GATDATA: {
+    description:
+      'Data collection and management interface for gathering and organizing structured information.',
+    technologies: ['HTML', 'JavaScript', 'Data Management'],
   },
-  'checklist2': {
-    description: 'Mobile crane pre-use inspection checklist ensuring equipment safety and regulatory compliance before operations.',
-    technologies: ['TypeScript', 'React', 'HSE', 'Inspections']
+  checklist2: {
+    description:
+      'Mobile crane pre-use inspection checklist ensuring equipment safety and regulatory compliance before operations.',
+    technologies: ['TypeScript', 'React', 'HSE', 'Inspections'],
   },
-  'CV': {
-    description: 'Personal portfolio website built with React, TypeScript, and Tailwind CSS showcasing professional experience.',
-    technologies: ['TypeScript', 'React', 'Tailwind CSS', 'Vite']
-  }
+  CV: {
+    description:
+      'Personal portfolio website built with React, TypeScript, and Tailwind CSS showcasing professional experience.',
+    technologies: ['TypeScript', 'React', 'Tailwind CSS', 'Vite'],
+  },
 }
 
 interface ExtendedProject extends Project {
@@ -117,11 +142,11 @@ export default function Projects() {
       const username = import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'
       // Fetch more repos to filter the best ones
       const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
-      
+
       if (!response.ok) throw new Error('Failed to fetch')
-      
+
       const repos = await response.json()
-      
+
       // Filter and sort by stars, then by recent activity
       const sortedRepos = repos
         .filter((repo: any) => !repo.fork && repo.name !== username) // Exclude forks and profile repo
@@ -148,7 +173,7 @@ export default function Projects() {
           stars: repo.stargazers_count,
         }
       })
-      
+
       setProjects(projectData)
     } catch (error) {
       console.error('Error fetching GitHub projects:', error)
@@ -156,26 +181,22 @@ export default function Projects() {
       setProjects([
         {
           id: '1',
-          name: 'Slide to Code Craft',
-          description: 'Interactive code learning platform with slide-based tutorials',
-          technologies: ['TypeScript', 'React', 'Vite'],
-          liveUrl: 'https://s6ft256.github.io/slide-to-code-craft/',
+          name: 'PDF Extractor For Me',
+          description:
+            'A web app to extract text and data from PDF files with a user-friendly interface.',
+          technologies: ['React', 'Node.js', 'Express', 'PDF.js'],
+          githubUrl: 'https://github.com/s6ft256/PDFExtractorForme.git',
+          liveUrl: 'https://pdfextractorforme.onrender.com',
           featured: true,
-          stars: 3,
+          stars: 2,
         },
         {
           id: '2',
           name: 'HSE Guardian',
-          description: 'Mobile-first safety reporting with offline capabilities',
-          technologies: ['React', 'PWA', 'Firebase'],
-          featured: true,
-          stars: 1,
-        },
-        {
-          id: '3',
-          name: 'CryptoPulse AI Trader',
-          description: 'AI-powered cryptocurrency trading dashboard',
-          technologies: ['TypeScript', 'AI', 'Gemini API'],
+          description:
+            'Incident image capture and reporting system for safety management in the field.',
+          technologies: ['React', 'Vercel', 'Cloud Storage'],
+          liveUrl: 'https://incident-image-taking-system.vercel.app/',
           featured: true,
           stars: 1,
         },
@@ -204,11 +225,7 @@ export default function Projects() {
   }
 
   return (
-    <Section
-      id="projects"
-      title="Projects"
-      subtitle="Featured work and open source contributions"
-    >
+    <Section id="projects" title="Projects" subtitle="Featured work and open source contributions">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map(project => (
           <Card key={project.id} hover>
@@ -225,9 +242,11 @@ export default function Projects() {
                   </span>
                 )}
               </div>
-              
-              <p className="text-muted mb-4 flex-grow text-sm leading-relaxed">{project.description}</p>
-              
+
+              <p className="text-muted mb-4 flex-grow text-sm leading-relaxed">
+                {project.description}
+              </p>
+
               {project.technologies.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.technologies.slice(0, 4).map(tech => (
@@ -240,7 +259,7 @@ export default function Projects() {
                   ))}
                 </div>
               )}
-              
+
               <div className="flex gap-4 mt-auto pt-2 border-t border-surface-hover">
                 {project.githubUrl && (
                   <a
@@ -250,7 +269,11 @@ export default function Projects() {
                     className="flex items-center gap-1 text-primary hover:text-primary-dark text-sm font-medium transition-colors"
                   >
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                      <path
+                        fillRule="evenodd"
+                        d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                        clipRule="evenodd"
+                      />
                     </svg>
                     View Code
                   </a>
@@ -263,7 +286,12 @@ export default function Projects() {
                     className="flex items-center gap-1 text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm font-medium transition-colors"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                      />
                     </svg>
                     Live Demo
                   </a>
@@ -273,7 +301,7 @@ export default function Projects() {
           </Card>
         ))}
       </div>
-      
+
       {/* View all link */}
       <div className="text-center mt-8">
         <a
@@ -284,7 +312,12 @@ export default function Projects() {
         >
           View all repositories on GitHub
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17 8l4 4m0 0l-4 4m4-4H3"
+            />
           </svg>
         </a>
       </div>
