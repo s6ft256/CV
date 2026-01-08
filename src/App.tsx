@@ -8,6 +8,7 @@ import { usePageTracking, useLazyLoadImages, useKeyboardNavigation } from './hoo
 const Experience = lazy(() => import('./components/Experience'))
 const Skills = lazy(() => import('./components/Skills'))
 const Projects = lazy(() => import('./components/Projects'))
+const QrImplementation = lazy(() => import('./components/QrImplementation'))
 const GitHubStats = lazy(() => import('./components/GitHubStats'))
 const Education = lazy(() => import('./components/Education'))
 const Certifications = lazy(() => import('./components/Certifications'))
@@ -78,6 +79,9 @@ export default function App() {
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
             <Projects />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <QrImplementation />
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
             <GitHubStats />
