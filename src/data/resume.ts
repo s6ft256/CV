@@ -31,6 +31,24 @@ export const experiences: Experience[] = [
     ],
     technologies: ['Python', 'Django', 'React', 'PostgreSQL', 'Docker', 'AWS'],
   },
+  {
+    id: '2',
+    title: 'HSE & Software Projects Lead',
+    company: 'Freelance / Consulting',
+    location: 'Remote / UAE',
+    startDate: '2020-06',
+    endDate: '',
+    current: false,
+    description: [
+      'Designed and implemented digital HSE reporting tools for construction and industrial clients',
+      'Developed custom incident management and risk assessment web apps using Django and React',
+      'Automated safety audit workflows, improving compliance and reducing paperwork',
+      'Integrated analytics dashboards for real-time safety KPI tracking',
+      'Provided HSE training and digital transformation consulting for safety teams',
+      'Delivered projects for clients in construction, oil & gas, and logistics sectors',
+    ],
+    technologies: ['Python', 'Django', 'React', 'TypeScript', 'PostgreSQL', 'Docker', 'Power BI'],
+  },
   // Add more experiences as needed
 ]
 
