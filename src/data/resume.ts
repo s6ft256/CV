@@ -69,9 +69,9 @@ export const experiences: Experience[] = [
   },
   {
     id: '2',
-    title: 'HSE & Software Projects Lead',
-    company: 'Freelance / Consulting',
-    location: 'Remote / UAE',
+    title: 'care car',
+    company: 'freelance',
+    location: 'uganda developer remote',
     startDate: '2020-06',
     endDate: '',
     current: false,
