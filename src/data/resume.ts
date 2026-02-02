@@ -26,6 +26,14 @@ export const projects: Project[] = [
     liveUrl: 'https://incident-image-taking-system.vercel.app/',
     featured: true,
   },
+  {
+    id: '3',
+    name: 'CV EXTRACTOR',
+    description: 'A live web app for extracting CV/resume data from PDF files. Try it online!',
+    technologies: ['React', 'Node.js', 'Express', 'PDF.js'],
+    liveUrl: 'https://pdfextractorforme.onrender.com/',
+    featured: true,
+  },
 ]
 
 export const personalInfo: PersonalInfo = {
@@ -83,12 +91,12 @@ export const experiences: Experience[] = [
 export const education: Education[] = [
   {
     id: '1',
-    degree: 'Bachelor of Science in Computer Science',
-    institution: 'University Name',
-    location: 'City, Country',
-    startDate: '2015',
-    endDate: '2019',
-    description: 'Focused on software engineering and data structures',
+    degree: 'Diploma in computer science',
+    institution: 'UICT Nakawa',
+    location: 'Kampala city, Uganda',
+    startDate: '2014',
+    endDate: '2018',
+    description: '',
   },
 ]
 
