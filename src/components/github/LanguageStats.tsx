@@ -14,9 +14,18 @@ export default function LanguageStats({ languages, totalRepos }: LanguageStatsPr
     <div className="space-y-3">
       {languages.map(lang => (
         <div key={lang.name}>
-          <div className="flex justify-between text-sm mb-1">
-            <span className="text-text font-medium">{lang.name}</span>
-            <span className="text-muted">{lang.count} repos</span>
+          <div className="flex justify-between items-center text-sm mb-1">
+            <span className="inline-flex items-center gap-2 text-text font-medium">
+              <span
+                className="w-2.5 h-2.5 rounded-full"
+                style={{ backgroundColor: lang.color }}
+                aria-hidden="true"
+              />
+              {lang.name}
+            </span>
+            <span className="text-muted">
+              {Math.round((lang.count / totalRepos) * 100)}% · {lang.count} repos
+            </span>
           </div>
           <div className="h-2 bg-surface-hover rounded-full overflow-hidden">
             <div

@@ -19,7 +19,6 @@ export default function Hero() {
                 width={320}
                 height={320}
                 decoding="async"
-                fetchPriority="high"
               />
               <div className="hero__image-ring" aria-hidden="true" />
               <div className="hero__image-glow" aria-hidden="true" />

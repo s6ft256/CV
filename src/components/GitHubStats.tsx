@@ -271,9 +271,42 @@ export default function GitHubStats() {
         title="GitHub Activity"
         subtitle="Contribution matrix and activity overview"
       >
-        <div className="text-center text-muted">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-primary border-r-transparent"></div>
-          <p className="mt-2">Loading GitHub statistics...</p>
+        <div className="space-y-8">
+          {/* Stats skeleton */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Card key={i}>
+                <div className="animate-pulse text-center">
+                  <div className="h-7 bg-surface-hover rounded w-16 mx-auto mb-2" />
+                  <div className="h-3 bg-surface-hover rounded w-24 mx-auto" />
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2">
+              <Card>
+                <div className="animate-pulse">
+                  <div className="h-5 bg-surface-hover rounded w-40 mb-4" />
+                  <div className="h-40 bg-surface-hover rounded" />
+                </div>
+              </Card>
+            </div>
+            <div>
+              <Card>
+                <div className="animate-pulse space-y-3">
+                  <div className="h-5 bg-surface-hover rounded w-32" />
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div key={i} className="space-y-2">
+                      <div className="h-4 bg-surface-hover rounded" />
+                      <div className="h-2 bg-surface-hover rounded" />
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          </div>
         </div>
       </Section>
     )

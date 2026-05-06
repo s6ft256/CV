@@ -33,7 +33,9 @@ export default function StatsOverview({
       {stats.map(stat => (
         <Card key={stat.label}>
           <div className="text-center">
-            <div className={`text-2xl md:text-3xl font-bold ${stat.color}`}>{stat.value}</div>
+            <div className={`text-2xl md:text-3xl font-bold ${stat.color}`}>
+              {Intl.NumberFormat().format(stat.value)}
+            </div>
             <div className="text-xs md:text-sm text-muted mt-0.5">{stat.label}</div>
             {stat.hint && <div className="text-xs text-muted/60 mt-0.5">{stat.hint}</div>}
           </div>
