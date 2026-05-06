@@ -89,13 +89,6 @@ export default function Footer() {
           <p className="text-sm text-muted">
             &copy; {currentYear} {personalInfo.name}. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <p className="text-sm text-muted flex items-center gap-2">
-              Built with
-              <span className="text-red-500 animate-pulse">❤</span>
-              using React & TypeScript
-            </p>
-          </div>
         </div>
       </div>
     </footer>
