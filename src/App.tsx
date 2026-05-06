@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -34,6 +34,14 @@ function SectionLoader() {
 export default function App() {
   usePageTracking()
   useKeyboardNavigation()
+
+  // Start at top on full page reload
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [])
 
   // Smooth scrolling is handled via CSS (html { scroll-behavior: smooth })
   // and by Navigation's click handler. Avoids stale listeners on lazy-mounted
