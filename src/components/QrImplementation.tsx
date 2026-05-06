@@ -5,7 +5,7 @@ export default function QrImplementation() {
   return (
     <Section
       id="qr-implementation"
-      title="QR Code Implementation at JBL5"
+      title="QR Asset Tracking at JBL5"
       subtitle="Innovative QR design for plant and equipment tracking"
       gradient
     >
