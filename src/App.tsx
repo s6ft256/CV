@@ -1,8 +1,8 @@
-import { useEffect, useCallback, lazy, Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import ErrorBoundary from './components/ErrorBoundary'
-import { usePageTracking, useLazyLoadImages, useKeyboardNavigation } from './hooks/useEffects'
+import { usePageTracking, useKeyboardNavigation } from './hooks/useEffects'
 
 // Lazy load below-the-fold components for better initial load performance
 const Experience = lazy(() => import('./components/Experience'))
@@ -29,46 +29,19 @@ function SectionLoader() {
 
 export default function App() {
   usePageTracking()
-  useLazyLoadImages()
   useKeyboardNavigation()
 
-  const handleSmoothScroll = useCallback((e: Event) => {
-    const anchor = e.currentTarget as HTMLAnchorElement
-    e.preventDefault()
-    const href = anchor.getAttribute('href')
-    if (href) {
-      const target = document.querySelector(href)
-      if (target) {
-        target.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-        })
-      }
-    }
-  }, [])
-
-  useEffect(() => {
-    // Smooth scroll behavior for anchor links
-    const anchors = document.querySelectorAll('a[href^="#"]')
-    anchors.forEach(anchor => {
-      anchor.addEventListener('click', handleSmoothScroll)
-    })
-
-    // Cleanup event listeners on unmount
-    return () => {
-      anchors.forEach(anchor => {
-        anchor.removeEventListener('click', handleSmoothScroll)
-      })
-    }
-  }, [handleSmoothScroll])
+  // Smooth scrolling is handled via CSS (html { scroll-behavior: smooth })
+  // and by Navigation's click handler. Avoids stale listeners on lazy-mounted
+  // sections and respects prefers-reduced-motion via CSS.
 
   return (
     <ErrorBoundary>
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <div className="app min-h-screen">
         <Navigation />
-        <a href="#main-content" className="skip-link">
-          Skip to main content
-        </a>
         <Hero />
         <main id="main-content" tabIndex={-1}>
           <Suspense fallback={<SectionLoader />}>

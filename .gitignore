@@ -36,5 +36,8 @@ docs/
 build/
 coverage/
 
+# Bundle analyzer output
+stats.html
+
 # Testing
 .vitest/

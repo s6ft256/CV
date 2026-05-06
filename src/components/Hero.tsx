@@ -11,7 +11,15 @@ export default function Hero() {
           {/* Profile Image */}
           <div className="hero__image-wrapper">
             <div className="hero__image-container">
-              <img src="Profile.jpeg" alt={personalInfo.name} className="hero__image" />
+              <img
+                src="Profile.jpeg"
+                alt={personalInfo.name}
+                className="hero__image"
+                width={320}
+                height={320}
+                decoding="async"
+                fetchPriority="high"
+              />
               <div className="hero__image-ring" aria-hidden="true" />
               <div className="hero__image-glow" aria-hidden="true" />
             </div>
@@ -48,6 +56,10 @@ export default function Hero() {
                     src="https://em-content.zobj.net/source/google/439/flag-uganda_1f1fa-1f1ec.png"
                     alt="Uganda Flag"
                     className="w-6 h-6 inline-block animate-flag-wave"
+                    width={24}
+                    height={24}
+                    loading="lazy"
+                    decoding="async"
                   />
                   UG
                 </span>

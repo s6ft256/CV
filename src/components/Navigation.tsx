@@ -1,6 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import ThemeToggle from './ThemeToggle'
-import MiniGame from './MiniGame'
+
+// MiniGame is ~21KB and only needed when the user opens it; lazy-load on demand.
+const MiniGame = lazy(() => import('./MiniGame'))
 
 const navItems = [
   { href: '#experience', label: 'Experience' },
@@ -86,6 +88,7 @@ export default function Navigation() {
             key={item.href}
             href={item.href}
             onClick={e => handleNavClick(e, item.href, item.isSpecial)}
+            aria-current={activeSection === item.href.slice(1) ? 'page' : undefined}
             className={`
               px-4 py-2 rounded-full text-sm font-medium
               transition-all duration-200
@@ -174,6 +177,7 @@ export default function Navigation() {
                 key={item.href}
                 href={item.href}
                 onClick={e => handleNavClick(e, item.href, item.isSpecial)}
+                aria-current={activeSection === item.href.slice(1) ? 'page' : undefined}
                 className={`
                   text-2xl font-medium py-3 px-8 rounded-full
                   transition-all duration-300
@@ -198,7 +202,11 @@ export default function Navigation() {
         </div>
       </div>
 
-      <MiniGame isOpen={isGameOpen} onClose={() => setIsGameOpen(false)} />
+      {isGameOpen && (
+        <Suspense fallback={null}>
+          <MiniGame isOpen={isGameOpen} onClose={() => setIsGameOpen(false)} />
+        </Suspense>
+      )}
     </>
   )
 }

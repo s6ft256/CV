@@ -1,12 +1,14 @@
-export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
+export const trackEvent = (eventName: string, properties?: Record<string, unknown>) => {
+  if (typeof window === 'undefined') return
+
   // Google Analytics 4
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', eventName, properties)
+  if (window.gtag) {
+    window.gtag('event', eventName, properties)
   }
 
   // Plausible Analytics
-  if (typeof window !== 'undefined' && (window as any).plausible) {
-    (window as any).plausible(eventName, { props: properties })
+  if (window.plausible) {
+    window.plausible(eventName, { props: properties })
   }
 
   // Console log in development

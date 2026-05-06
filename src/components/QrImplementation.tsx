@@ -14,6 +14,8 @@ export default function QrImplementation() {
           <img
             src="Qrcode Implementation-old.jpeg"
             alt="QR code implementation on plant and equipment at JBL5"
+            loading="lazy"
+            decoding="async"
             className="w-full max-w-xs md:max-w-sm rounded shadow-glow border border-border"
           />
           <div>

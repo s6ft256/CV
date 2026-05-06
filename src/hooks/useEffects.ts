@@ -1,59 +1,46 @@
 import { useEffect } from 'react'
 
+type GtagArgs =
+  | ['js', Date]
+  | ['config', string, Record<string, unknown>?]
+  | ['event', string, Record<string, unknown>?]
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[]
+    gtag?: (...args: GtagArgs) => void
+    plausible?: (event: string, options?: { props?: Record<string, unknown> }) => void
+  }
+}
+
 export function usePageTracking() {
   useEffect(() => {
-    // Track initial page load
-    if (import.meta.env.VITE_GA_TRACKING_ID) {
-      // Initialize Google Analytics
+    const gaId = import.meta.env.VITE_GA_TRACKING_ID as string | undefined
+    if (gaId) {
       const script = document.createElement('script')
       script.async = true
-      script.src = `https://www.googletagmanager.com/gtag/js?id=${import.meta.env.VITE_GA_TRACKING_ID}`
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`
       document.head.appendChild(script)
 
       script.onload = () => {
-        ;(window as any).dataLayer = (window as any).dataLayer || []
-        function gtag(..._args: any[]) {
-          ;(window as any).dataLayer.push(arguments)
+        window.dataLayer = window.dataLayer || []
+        const gtag = (...args: GtagArgs) => {
+          window.dataLayer!.push(args)
         }
-        ;(window as any).gtag = gtag
+        window.gtag = gtag
         gtag('js', new Date())
-        gtag('config', import.meta.env.VITE_GA_TRACKING_ID)
+        gtag('config', gaId)
       }
     }
 
-    // Initialize Plausible Analytics
-    if (import.meta.env.VITE_PLAUSIBLE_DOMAIN) {
+    const plausibleDomain = import.meta.env.VITE_PLAUSIBLE_DOMAIN as string | undefined
+    if (plausibleDomain) {
       const script = document.createElement('script')
       script.async = true
       script.defer = true
-      script.setAttribute('data-domain', import.meta.env.VITE_PLAUSIBLE_DOMAIN)
+      script.setAttribute('data-domain', plausibleDomain)
       script.src = 'https://plausible.io/js/script.js'
       document.head.appendChild(script)
-    }
-  }, [])
-}
-
-export function useLazyLoadImages() {
-  useEffect(() => {
-    if ('IntersectionObserver' in window) {
-      const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const img = entry.target as HTMLImageElement
-            if (img.dataset.src) {
-              img.src = img.dataset.src
-              img.removeAttribute('data-src')
-              observer.unobserve(img)
-            }
-          }
-        })
-      })
-
-      document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img)
-      })
-
-      return () => imageObserver.disconnect()
     }
   }, [])
 }

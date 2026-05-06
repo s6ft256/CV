@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Native smooth scrolling for in-page anchor links.
+ * Respects user's reduced-motion preference. */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 /* small helper for the live widget */
 .bg-white\/6 {
   background-color: rgba(255, 255, 255, 0.06);
