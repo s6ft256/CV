@@ -6,9 +6,9 @@ import { ContributionGrid, LanguageStats, StatsOverview, ContributionDay } from 
 interface GitHubStats {
   publicRepos: number
   followers: number
-  following: number
   totalStars: number
   totalForks: number
+  totalContributions: number
   topLanguages: { name: string; count: number; color: string }[]
 }
 
@@ -52,6 +52,20 @@ type GitHubEventResponse = {
   repo: { name: string }
   created_at: string
   payload?: { commits?: { message?: string }[] }
+}
+
+type GQLContribDay = { date: string; contributionCount: number }
+type GQLContribResponse = {
+  data?: {
+    user?: {
+      contributionsCollection?: {
+        contributionCalendar?: {
+          totalContributions: number
+          weeks: { contributionDays: GQLContribDay[] }[]
+        }
+      }
+    }
+  }
 }
 
 export default function GitHubStats() {
@@ -128,16 +142,75 @@ export default function GitHubStats() {
           color: LANGUAGE_COLORS[name] || '#6e7681',
         }))
 
+      // --- GraphQL contribution calendar (exact match to GitHub profile) ---
+      let totalContributions = 0
+      let usedGraphQL = false
+
+      if (token) {
+        try {
+          const now = new Date()
+          const from = new Date(now)
+          from.setDate(from.getDate() - 20 * 7) // 20-week window
+          const gqlRes = await fetch('https://api.github.com/graphql', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+              'X-GitHub-Api-Version': '2022-11-28',
+            },
+            body: JSON.stringify({
+              query: `query($login:String!,$from:DateTime!,$to:DateTime!){
+                user(login:$login){
+                  contributionsCollection(from:$from,to:$to){
+                    contributionCalendar{
+                      totalContributions
+                      weeks{ contributionDays{ date contributionCount } }
+                    }
+                  }
+                }
+              }`,
+              variables: {
+                login: username,
+                from: from.toISOString(),
+                to: now.toISOString(),
+              },
+            }),
+          })
+          if (gqlRes.ok) {
+            const gql: GQLContribResponse = await gqlRes.json()
+            const calendar = gql.data?.user?.contributionsCollection?.contributionCalendar
+            if (calendar) {
+              totalContributions = calendar.totalContributions
+              const days: ContributionDay[] = calendar.weeks.flatMap(w =>
+                w.contributionDays.map(d => {
+                  const c = d.contributionCount
+                  let level: 0 | 1 | 2 | 3 | 4 = 0
+                  if (c >= 1) level = 1
+                  if (c >= 3) level = 2
+                  if (c >= 6) level = 3
+                  if (c >= 10) level = 4
+                  return { date: d.date, count: c, level }
+                })
+              )
+              setContributions(days)
+              usedGraphQL = true
+            }
+          }
+        } catch {
+          // fall through to event-based fallback
+        }
+      }
+
+      if (!usedGraphQL) generateContributionMatrix(events, repos)
+
       setStats({
         publicRepos: user.public_repos,
         followers: user.followers,
-        following: user.following,
         totalStars,
         totalForks,
+        totalContributions,
         topLanguages,
       })
-
-      generateContributionMatrix(events, repos)
     } catch (err) {
       console.error('Error fetching GitHub data:', err)
       setError('Unable to load GitHub statistics')
@@ -230,7 +303,7 @@ export default function GitHubStats() {
           totalStars={stats.totalStars}
           totalForks={stats.totalForks}
           followers={stats.followers}
-          following={stats.following}
+          totalContributions={stats.totalContributions}
         />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
