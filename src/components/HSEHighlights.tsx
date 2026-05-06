@@ -27,7 +27,7 @@ function SmartImage({
 
 export default function HSEHighlights() {
   return (
-    <Section id="hse-highlights" gradient>
+    <Section id="hse-highlights">
       <div className="space-y-6">
         <Card hover glow="accent">
           <div className="flex flex-col md:flex-row gap-8 items-center">

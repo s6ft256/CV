@@ -5,8 +5,8 @@ export default function QrImplementation() {
   return (
     <Section
       id="qr-implementation"
-      title="QR Asset Tracking at JBL5"
-      subtitle="Innovative QR design for plant and equipment tracking"
+      title="JBL5 HSE Highlights"
+      subtitle="QR implementation, Training/TBT, and on-site inspections for safety compliance"
       gradient
     >
       <Card hover glow="accent">
