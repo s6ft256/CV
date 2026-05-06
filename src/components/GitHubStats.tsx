@@ -1,13 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Section from './Section'
 import Card from './Card'
-import {
-  ContributionGrid,
-  LanguageStats,
-  ActivityFeed,
-  StatsOverview,
-  ContributionDay,
-} from './github'
+import { ContributionGrid, LanguageStats, StatsOverview, ContributionDay } from './github'
 
 interface GitHubStats {
   publicRepos: number
@@ -16,12 +10,6 @@ interface GitHubStats {
   totalStars: number
   totalForks: number
   topLanguages: { name: string; count: number; color: string }[]
-  recentActivity: {
-    type: string
-    repo: string
-    date: string
-    message?: string
-  }[]
 }
 
 const LANGUAGE_COLORS: Record<string, string> = {
@@ -140,21 +128,6 @@ export default function GitHubStats() {
           color: LANGUAGE_COLORS[name] || '#6e7681',
         }))
 
-      const recentActivity = events
-        .filter(e =>
-          ['PushEvent', 'CreateEvent', 'PullRequestEvent', 'IssuesEvent'].includes(e.type)
-        )
-        .slice(0, 5)
-        .map(e => ({
-          type: e.type.replace('Event', ''),
-          repo: e.repo.name.split('/')[1],
-          date: new Date(e.created_at).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-          }),
-          message: e.payload?.commits?.[0]?.message?.slice(0, 50) || undefined,
-        }))
-
       setStats({
         publicRepos: user.public_repos,
         followers: user.followers,
@@ -162,7 +135,6 @@ export default function GitHubStats() {
         totalStars,
         totalForks,
         topLanguages,
-        recentActivity,
       })
 
       generateContributionMatrix(events, repos)
@@ -274,7 +246,7 @@ export default function GitHubStats() {
             </Card>
           </div>
 
-          <div className="space-y-6">
+          <div>
             <Card>
               <h3 className="text-lg font-semibold text-text mb-4 flex items-center gap-2">
                 <svg
@@ -293,26 +265,6 @@ export default function GitHubStats() {
                 Top Languages
               </h3>
               <LanguageStats languages={stats.topLanguages} totalRepos={stats.publicRepos} />
-            </Card>
-
-            <Card>
-              <h3 className="text-lg font-semibold text-text mb-4 flex items-center gap-2">
-                <svg
-                  className="w-5 h-5 text-orange-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 10V3L4 14h7v7l9-11h-7z"
-                  />
-                </svg>
-                Recent Activity
-              </h3>
-              <ActivityFeed activities={stats.recentActivity} />
             </Card>
           </div>
         </div>

@@ -7,6 +7,7 @@ export interface PersonalInfo {
   whatsapp: string
   github: string
   linkedin: string
+  tiktok?: string
   location?: string
 }
 

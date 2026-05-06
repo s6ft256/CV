@@ -46,6 +46,7 @@ export const personalInfo: PersonalInfo = {
   whatsapp: import.meta.env.VITE_WHATSAPP || '971563892557',
   github: `https://github.com/${import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'}`,
   linkedin: import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com/in/elius-niwamanya',
+  tiktok: 'https://www.tiktok.com/@one.s6ft',
   location: 'UAE',
 }
 

@@ -74,9 +74,8 @@ export default function Certifications() {
       id="certifications"
       title="Certifications"
       subtitle="Professional certifications and credentials"
-      gradient
     >
-      <div className="space-y-16">
+      <div className="space-y-10">
         {categoryOrder.map(category => {
           const certs = grouped[category]
           if (!certs || certs.length === 0) return null
@@ -84,32 +83,51 @@ export default function Certifications() {
           return (
             <div key={category}>
               {/* Category Header */}
-              <div className="flex items-center gap-4 mb-8">
+              <div className="flex items-center gap-3 mb-5">
                 <div
-                  className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${categoryColors[category]} flex items-center justify-center text-white shadow-lg`}
+                  className={`w-9 h-9 rounded-xl bg-gradient-to-br ${categoryColors[category]} flex items-center justify-center text-white flex-shrink-0`}
                 >
-                  {categoryIcons[category]}
+                  <span className="w-5 h-5">{categoryIcons[category]}</span>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-text">{category}</h3>
-                  <p className="text-sm text-muted">
-                    {certs.length} certification{certs.length > 1 ? 's' : ''}
-                  </p>
+                <div className="flex items-baseline gap-2">
+                  <h3 className="text-base font-bold text-text">{category}</h3>
+                  <span className="text-xs text-muted">
+                    {certs.length} cert{certs.length > 1 ? 's' : ''}
+                  </span>
                 </div>
+                <div className="flex-1 h-px bg-border/40 ml-2" aria-hidden="true" />
               </div>
 
               {/* Certifications Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {certs.map(cert => (
-                  <Card key={cert.id} hover glow="accent">
-                    <div className="flex flex-col h-full">
-                      {/* Header with badge icon */}
-                      <div className="flex items-start gap-4 mb-4">
-                        <div
-                          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${categoryColors[category]} flex items-center justify-center text-white flex-shrink-0`}
+                  <Card key={cert.id} hover>
+                    <div className="flex flex-col h-full gap-2">
+                      {/* Name + Issuer */}
+                      <div>
+                        <h4 className="text-sm font-bold text-text leading-snug">{cert.name}</h4>
+                        <p className="text-xs text-primary font-medium mt-0.5">{cert.issuer}</p>
+                      </div>
+
+                      {/* Date row */}
+                      <p className="text-xs text-muted">
+                        Issued {cert.issueDate}
+                        {cert.expiryDate && (
+                          <span className="ml-1 text-border/80">· Exp. {cert.expiryDate}</span>
+                        )}
+                      </p>
+
+                      {/* Credential link */}
+                      {cert.credentialUrl && (
+                        <a
+                          href={cert.credentialUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-auto inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium transition-colors group"
                         >
+                          View credential
                           <svg
-                            className="w-6 h-6"
+                            className="w-3 h-3 transition-transform group-hover:translate-x-0.5"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -118,66 +136,11 @@ export default function Certifications() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={2}
-                              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                             />
                           </svg>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-lg font-bold text-text leading-tight">{cert.name}</h4>
-                          <p className="text-sm text-primary font-medium mt-1">{cert.issuer}</p>
-                        </div>
-                      </div>
-
-                      {/* Date info */}
-                      <div className="flex items-center gap-2 text-xs text-muted mb-4 bg-surface-hover px-3 py-2 rounded-lg">
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
-                        <span>Issued: {cert.issueDate}</span>
-                        {cert.expiryDate && (
-                          <>
-                            <span className="text-border">•</span>
-                            <span>Expires: {cert.expiryDate}</span>
-                          </>
-                        )}
-                      </div>
-
-                      {/* View Credential Link */}
-                      <div className="mt-auto pt-4 border-t border-border/30">
-                        {cert.credentialUrl && (
-                          <a
-                            href={cert.credentialUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-primary hover:text-primary-dark text-sm font-medium transition-colors group"
-                          >
-                            <span>View Credential</span>
-                            <svg
-                              className="w-4 h-4 transition-transform group-hover:translate-x-1"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                              />
-                            </svg>
-                          </a>
-                        )}
-                      </div>
+                        </a>
+                      )}
                     </div>
                   </Card>
                 ))}
