@@ -11,21 +11,31 @@ export default function Hero() {
           {/* Profile Image */}
           <div className="hero__image-wrapper">
             <div className="hero__image-container group relative">
-              {/* Default image */}
+              {/* Primary image (default) */}
               <img
                 src="/images/profile/Profile1.png"
                 alt={personalInfo.name}
-                className="hero__image transition-opacity duration-500 ease-out group-hover:opacity-0"
+                className="hero__image profile-img profile-img--1"
                 width={320}
                 height={320}
                 decoding="async"
               />
-              {/* Hover image */}
+              {/* Secondary image */}
               <img
                 src="/images/profile/Profile2.jpg"
                 alt=""
                 aria-hidden="true"
-                className="hero__image absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+                className="hero__image profile-img profile-img--2 absolute inset-0"
+                width={320}
+                height={320}
+                decoding="async"
+              />
+              {/* Tertiary image (original) */}
+              <img
+                src="/Profile.jpeg"
+                alt=""
+                aria-hidden="true"
+                className="hero__image profile-img profile-img--3 absolute inset-0"
                 width={320}
                 height={320}
                 decoding="async"

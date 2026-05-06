@@ -353,6 +353,47 @@ a:focus {
     0 0 0 2px rgba(var(--blue-rgb), 0.2);
 }
 
+/* 3-image hover crossfade for hero profile */
+.profile-img {
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+.profile-img--1 {
+  opacity: 1;
+}
+
+/* On hover, cycle through 3 images with a gentle, slower fade */
+.hero__image-container.group:hover .profile-img--1 {
+  animation: profileCycle1 12s ease-in-out infinite;
+}
+.hero__image-container.group:hover .profile-img--2 {
+  animation: profileCycle2 12s ease-in-out infinite;
+}
+.hero__image-container.group:hover .profile-img--3 {
+  animation: profileCycle3 12s ease-in-out infinite;
+}
+
+@keyframes profileCycle1 {
+  0% { opacity: 1; }
+  30% { opacity: 1; }
+  40% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes profileCycle2 {
+  0% { opacity: 0; }
+  30% { opacity: 0; }
+  40% { opacity: 1; }
+  70% { opacity: 1; }
+  80% { opacity: 0; }
+  100% { opacity: 0; }
+}
+@keyframes profileCycle3 {
+  0% { opacity: 0; }
+  70% { opacity: 0; }
+  80% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
 .hero__image-ring {
   position: absolute;
   inset: -8px;
