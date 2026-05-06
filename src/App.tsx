@@ -8,6 +8,7 @@ import { usePageTracking, useKeyboardNavigation } from './hooks/useEffects'
 
 // Lazy load below-the-fold components for better initial load performance
 const About = lazy(() => import('./components/About'))
+const HSEHighlights = lazy(() => import('./components/HSEHighlights'))
 const Experience = lazy(() => import('./components/Experience'))
 const Skills = lazy(() => import('./components/Skills'))
 const Projects = lazy(() => import('./components/Projects'))
@@ -49,6 +50,9 @@ export default function App() {
         <Hero />
         <Suspense fallback={<SectionLoader />}>
           <About />
+        </Suspense>
+        <Suspense fallback={<SectionLoader />}>
+          <HSEHighlights />
         </Suspense>
         <main id="main-content" tabIndex={-1}>
           <Suspense fallback={<SectionLoader />}>
