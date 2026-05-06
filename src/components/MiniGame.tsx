@@ -20,6 +20,7 @@ interface GameState {
   particles: Particle[]
   perfectRounds: number
   showCelebration: boolean
+  patternStep: number
 }
 
 interface Particle {
@@ -34,9 +35,11 @@ interface Particle {
 }
 
 const GRID_SIZE = 3
-const SHOW_PATTERN_TIME = 800
 const TIME_PER_LEVEL = 15000
 const PERFECT_STREAK_THRESHOLD = 3
+// Sequential pattern reveal timings
+const PATTERN_ON_MS = 600
+const PATTERN_OFF_MS = 180
 
 export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [gameState, setGameState] = useState<GameState>({
@@ -54,10 +57,12 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
     particles: [],
     perfectRounds: 0,
     showCelebration: false,
+    patternStep: -1,
   })
 
   const gameLoopRef = useRef<number>()
   const timerRef = useRef<number>()
+  const showTimeoutRef = useRef<number>()
   const audioContextRef = useRef<AudioContext>()
   const particleIdRef = useRef(0)
 
@@ -131,6 +136,34 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
     }))
   }, [])
 
+  // Sequentially show the pattern one cell at a time
+  const showPatternSequence = useCallback((pattern: number[], onDone?: () => void) => {
+    if (showTimeoutRef.current) {
+      clearTimeout(showTimeoutRef.current)
+    }
+    setGameState(prev => ({ ...prev, showingPattern: true, patternStep: -1, userInput: [] }))
+
+    let step = 0
+    const doStep = () => {
+      if (step >= pattern.length) {
+        setGameState(prev => ({ ...prev, showingPattern: false, patternStep: -1 }))
+        if (onDone) onDone()
+        return
+      }
+      const idx = step
+      setGameState(prev => ({ ...prev, patternStep: idx }))
+      showTimeoutRef.current = window.setTimeout(() => {
+        // turn off highlight briefly
+        setGameState(prev => ({ ...prev, patternStep: -1 }))
+        showTimeoutRef.current = window.setTimeout(() => {
+          step += 1
+          doStep()
+        }, PATTERN_OFF_MS)
+      }, PATTERN_ON_MS)
+    }
+    doStep()
+  }, [])
+
   const generatePattern = useCallback((level: number) => {
     const baseLength = Math.min(3 + Math.floor(level / 2), 9)
     const bonusLength = level > 5 ? Math.floor(level / 3) : 0
@@ -151,6 +184,9 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
   }, [])
 
   const startGame = useCallback(() => {
+    // Safety: clear any previous timers
+    clearInterval(timerRef.current)
+
     const pattern = generatePattern(1)
     setGameState(prev => ({
       pattern,
@@ -167,14 +203,14 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
       perfectRounds: 0,
       showCelebration: false,
       highScore: prev.highScore,
+      patternStep: -1,
     }))
 
     // Play start sound
     playSound(523, 0.2, 'sine') // C note
 
-    setTimeout(() => {
-      setGameState(prev => ({ ...prev, showingPattern: false }))
-      // Start timer
+    // Reveal pattern then start countdown
+    showPatternSequence(pattern, () => {
       timerRef.current = window.setInterval(() => {
         setGameState(prev => {
           if (prev.timeLeft <= 100) {
@@ -186,8 +222,8 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
           return { ...prev, timeLeft: prev.timeLeft - 100 }
         })
       }, 100)
-    }, SHOW_PATTERN_TIME + 500)
-  }, [generatePattern, playSound])
+    })
+  }, [generatePattern, playSound, showPatternSequence])
 
   const handleCellClick = useCallback(
     (index: number) => {
@@ -280,18 +316,14 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
           perfectRounds: newPerfectRounds,
           showCelebration,
           highScore: Math.max(totalScore, gameState.highScore),
+          patternStep: -1,
         })
 
-        setTimeout(
-          () => {
-            setGameState(prev => ({
-              ...prev,
-              showingPattern: false,
-              showCelebration: false,
-            }))
-          },
-          Math.max(SHOW_PATTERN_TIME - newLevel * 50, 400)
-        )
+        // Sequentially reveal next pattern; keep the countdown running
+        showPatternSequence(newPattern, () => {
+          // hide celebration flag once sequence is done
+          setGameState(prev => ({ ...prev, showCelebration: false }))
+        })
       } else {
         setGameState(prev => ({
           ...prev,
@@ -299,12 +331,13 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
         }))
       }
     },
-    [gameState, generatePattern, playSound, createParticles]
+    [gameState, generatePattern, playSound, createParticles, showPatternSequence]
   )
 
   const resetGame = useCallback(() => {
     clearInterval(timerRef.current)
-    cancelAnimationFrame(gameLoopRef.current!)
+    if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current)
+    if (showTimeoutRef.current) clearTimeout(showTimeoutRef.current)
     setGameState(prev => ({
       pattern: [],
       userInput: [],
@@ -320,12 +353,15 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
       perfectRounds: 0,
       showCelebration: false,
       highScore: prev.highScore,
+      patternStep: -1,
     }))
   }, [])
 
   const getCellClass = (index: number) => {
     const isUserInput = gameState.userInput.includes(index)
-    const isCurrentlyShowing = gameState.showingPattern && gameState.pattern.includes(index)
+    const activePatternIndex =
+      gameState.patternStep >= 0 ? gameState.pattern[gameState.patternStep] : -1
+    const isCurrentlyShowing = gameState.showingPattern && index === activePatternIndex
     const isCorrectInPattern = gameState.pattern
       .slice(0, gameState.userInput.length + 1)
       .includes(index)
@@ -381,7 +417,8 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
   useEffect(() => {
     return () => {
       clearInterval(timerRef.current)
-      cancelAnimationFrame(gameLoopRef.current!)
+      if (gameLoopRef.current) cancelAnimationFrame(gameLoopRef.current)
+      if (showTimeoutRef.current) clearTimeout(showTimeoutRef.current)
     }
   }, [])
 
@@ -532,21 +569,25 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
               disabled={gameState.showingPattern || gameState.gameOver}
             >
               {/* Cell number for pattern display */}
-              {gameState.showingPattern && gameState.pattern.includes(index) && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-6 h-6 bg-white/90 text-black rounded-full flex items-center justify-center text-xs font-bold animate-bounce">
-                    {gameState.pattern.indexOf(index) + 1}
+              {gameState.showingPattern &&
+                gameState.patternStep >= 0 &&
+                index === gameState.pattern[gameState.patternStep] && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-6 h-6 bg-white/90 text-black rounded-full flex items-center justify-center text-xs font-bold animate-bounce">
+                      {gameState.patternStep + 1}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Ripple effect on click */}
               <div className="absolute inset-0 rounded-xl opacity-0 group-active:opacity-100 bg-primary/20 transition-opacity duration-150" />
 
               {/* Glow effect for pattern cells */}
-              {gameState.showingPattern && gameState.pattern.includes(index) && (
-                <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-sm animate-pulse" />
-              )}
+              {gameState.showingPattern &&
+                gameState.patternStep >= 0 &&
+                index === gameState.pattern[gameState.patternStep] && (
+                  <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-sm animate-pulse" />
+                )}
             </button>
           ))}
         </div>
