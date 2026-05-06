@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Section from './Section'
 import Card from './Card'
 import {
@@ -42,6 +42,30 @@ const LANGUAGE_COLORS: Record<string, string> = {
   Shell: '#89e051',
 }
 
+type GitHubUserResponse = {
+  public_repos: number
+  followers: number
+  following: number
+}
+
+type GitHubRepoResponse = {
+  stargazers_count: number
+  forks_count: number
+  language?: string | null
+  pushed_at?: string
+  id: number
+  name: string
+  html_url: string
+  homepage?: string | null
+}
+
+type GitHubEventResponse = {
+  type: string
+  repo: { name: string }
+  created_at: string
+  payload?: { commits?: { message?: string }[] }
+}
+
 export default function GitHubStats() {
   const [stats, setStats] = useState<GitHubStats | null>(null)
   const [contributions, setContributions] = useState<ContributionDay[]>([])
@@ -50,11 +74,7 @@ export default function GitHubStats() {
 
   const username = import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'
 
-  useEffect(() => {
-    fetchGitHubData()
-  }, [])
-
-  const fetchGitHubData = async () => {
+  const fetchGitHubData = useCallback(async () => {
     try {
       const [userRes, reposRes, eventsRes] = await Promise.all([
         fetch(`https://api.github.com/users/${username}`),
@@ -64,15 +84,21 @@ export default function GitHubStats() {
 
       if (!userRes.ok || !reposRes.ok) throw new Error('Failed to fetch GitHub data')
 
-      const user = await userRes.json()
-      const repos = await reposRes.json()
-      const events = eventsRes.ok ? await eventsRes.json() : []
+      const user: GitHubUserResponse = await userRes.json()
+      const repos: GitHubRepoResponse[] = await reposRes.json()
+      const events: GitHubEventResponse[] = eventsRes.ok ? await eventsRes.json() : []
 
-      const totalStars = repos.reduce((sum: number, repo: any) => sum + repo.stargazers_count, 0)
-      const totalForks = repos.reduce((sum: number, repo: any) => sum + repo.forks_count, 0)
+      const totalStars = repos.reduce(
+        (sum: number, repo: GitHubRepoResponse) => sum + repo.stargazers_count,
+        0
+      )
+      const totalForks = repos.reduce(
+        (sum: number, repo: GitHubRepoResponse) => sum + repo.forks_count,
+        0
+      )
 
       const langCounts: Record<string, number> = {}
-      repos.forEach((repo: any) => {
+      repos.forEach((repo: GitHubRepoResponse) => {
         if (repo.language) {
           langCounts[repo.language] = (langCounts[repo.language] || 0) + 1
         }
@@ -88,11 +114,11 @@ export default function GitHubStats() {
         }))
 
       const recentActivity = events
-        .filter((e: any) =>
+        .filter(e =>
           ['PushEvent', 'CreateEvent', 'PullRequestEvent', 'IssuesEvent'].includes(e.type)
         )
         .slice(0, 5)
-        .map((e: any) => ({
+        .map(e => ({
           type: e.type.replace('Event', ''),
           repo: e.repo.name.split('/')[1],
           date: new Date(e.created_at).toLocaleDateString('en-US', {
@@ -119,20 +145,27 @@ export default function GitHubStats() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [username])
 
-  const generateContributionMatrix = (events: any[], repos: any[]) => {
+  useEffect(() => {
+    fetchGitHubData()
+  }, [fetchGitHubData])
+
+  const generateContributionMatrix = (
+    events: GitHubEventResponse[],
+    repos: GitHubRepoResponse[]
+  ) => {
     const today = new Date()
     const weeks = 20
     const days: ContributionDay[] = []
 
     const activityMap: Record<string, number> = {}
-    events.forEach((event: any) => {
+    events.forEach(event => {
       const date = event.created_at.split('T')[0]
       activityMap[date] = (activityMap[date] || 0) + 1
     })
 
-    repos.forEach((repo: any) => {
+    repos.forEach(repo => {
       const pushDate = repo.pushed_at?.split('T')[0]
       if (pushDate) {
         activityMap[pushDate] = (activityMap[pushDate] || 0) + 1

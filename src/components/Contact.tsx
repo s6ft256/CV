@@ -98,10 +98,10 @@ export default function Contact() {
         {/* Contact Info */}
         <div className="space-y-8">
           <div>
-            <h3 className="text-2xl font-bold text-text mb-4">Let's work together</h3>
+            <h3 className="text-2xl font-bold text-text mb-4">Let&apos;s work together</h3>
             <p className="text-muted leading-relaxed">
-              I'm always interested in hearing about new projects and opportunities. Whether you
-              have a question or just want to say hi, feel free to reach out!
+              I&apos;m always interested in hearing about new projects and opportunities. Whether
+              you have a question or just want to say hi, feel free to reach out!
             </p>
           </div>
 
@@ -231,7 +231,7 @@ export default function Contact() {
             {status === 'success' && (
               <div className="p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-center">
                 <p className="text-green-400 text-sm">
-                  Message sent successfully! I'll get back to you soon.
+                  Message sent successfully! I&apos;ll get back to you soon.
                 </p>
               </div>
             )}

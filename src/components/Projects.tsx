@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Section from './Section'
 import Card from './Card'
 import { Project } from '../types'
@@ -133,11 +133,7 @@ export default function Projects() {
   const [projects, setProjects] = useState<ExtendedProject[]>([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchGitHubProjects()
-  }, [])
-
-  const fetchGitHubProjects = async () => {
+  const fetchGitHubProjects = useCallback(async () => {
     try {
       const username = import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'
       // Fetch more repos to filter the best ones
@@ -145,12 +141,24 @@ export default function Projects() {
 
       if (!response.ok) throw new Error('Failed to fetch')
 
-      const repos = await response.json()
+      type Repo = {
+        id: number
+        name: string
+        stargazers_count: number
+        pushed_at: string
+        language?: string | null
+        html_url: string
+        homepage?: string | null
+        fork?: boolean
+        description?: string | null
+      }
+
+      const repos: Repo[] = await response.json()
 
       // Filter and sort by stars, then by recent activity
       const sortedRepos = repos
-        .filter((repo: any) => !repo.fork && repo.name !== username) // Exclude forks and profile repo
-        .sort((a: any, b: any) => {
+        .filter(repo => !repo.fork && repo.name !== username) // Exclude forks and profile repo
+        .sort((a, b) => {
           // Primary sort by stars
           if (b.stargazers_count !== a.stargazers_count) {
             return b.stargazers_count - a.stargazers_count
@@ -160,7 +168,7 @@ export default function Projects() {
         })
         .slice(0, 6) // Take top 6
 
-      const projectData: ExtendedProject[] = sortedRepos.map((repo: any) => {
+      const projectData: ExtendedProject[] = sortedRepos.map(repo => {
         const enhancement = projectEnhancements[repo.name]
         return {
           id: repo.id.toString(),
@@ -204,7 +212,11 @@ export default function Projects() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
+
+  useEffect(() => {
+    fetchGitHubProjects()
+  }, [fetchGitHubProjects])
 
   // Format project names for display (convert kebab/snake case to title case)
   const formatProjectName = (name: string): string => {

@@ -1,5 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 
+type WindowWithWebkitAudio = Window & {
+  webkitAudioContext?: typeof AudioContext
+  AudioContext: typeof AudioContext
+}
+
 interface GameState {
   pattern: number[]
   userInput: number[]
@@ -60,7 +65,10 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
   const playSound = useCallback(
     (frequency: number, duration: number, type: 'sine' | 'square' | 'triangle' = 'sine') => {
       if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)()
+        const w = window as WindowWithWebkitAudio
+        const Ctor = w.AudioContext || w.webkitAudioContext
+        audioContextRef.current = Ctor ? new Ctor() : undefined
+        if (!audioContextRef.current) return
       }
 
       const oscillator = audioContextRef.current.createOscillator()

@@ -39,7 +39,7 @@ export default class ErrorBoundary extends Component<Props, State> {
           <div className="error-boundary__content">
             <h2 className="error-boundary__title">Something went wrong</h2>
             <p className="error-boundary__message">
-              We're sorry, but something unexpected happened. Please try refreshing the page.
+              We&apos;re sorry, but something unexpected happened. Please try refreshing the page.
             </p>
             {this.state.error && (
               <details className="error-boundary__details">
