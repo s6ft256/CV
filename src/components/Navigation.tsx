@@ -4,15 +4,29 @@ import ThemeToggle from './ThemeToggle'
 // MiniGame is ~21KB and only needed when the user opens it; lazy-load on demand.
 const MiniGame = lazy(() => import('./MiniGame'))
 
-const navItems = [
-  { href: '#experience', label: 'Experience' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#github-stats', label: 'GitHub' },
-  { href: '#education', label: 'Education' },
-  { href: '#certifications', label: 'Certifications' },
-  { href: '#contact', label: 'Contact' },
-  { href: '#game', label: 'Game', isSpecial: true },
+type NavItem = {
+  href: string
+  label: string
+  description?: string
+  icon: string
+  isSpecial?: boolean
+}
+
+const navItems: NavItem[] = [
+  { href: '#experience', label: 'Experience', description: 'Work history', icon: '💼' },
+  { href: '#skills', label: 'Skills', description: 'Tech stack', icon: '🛠️' },
+  { href: '#projects', label: 'Projects', description: 'Selected work', icon: '🚀' },
+  { href: '#github-stats', label: 'GitHub', description: 'Open-source activity', icon: '⭐' },
+  { href: '#education', label: 'Education', description: 'Academic background', icon: '🎓' },
+  { href: '#certifications', label: 'Certifications', description: 'Credentials', icon: '📜' },
+  { href: '#contact', label: 'Contact', description: 'Get in touch', icon: '✉️' },
+  {
+    href: '#game',
+    label: 'Game',
+    description: 'Memory challenge',
+    icon: '🎮',
+    isSpecial: true,
+  },
 ]
 
 export default function Navigation() {
@@ -43,6 +57,21 @@ export default function Navigation() {
     handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  // Lock body scroll while mobile menu is open + close on Escape
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsMobileMenuOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [isMobileMenuOpen])
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -101,7 +130,12 @@ export default function Navigation() {
               }
             `}
           >
-            {item.isSpecial ? '🎮' : ''} {item.label}
+            <span className="inline-flex items-center gap-1.5">
+              <span aria-hidden="true" className="text-base leading-none">
+                {item.icon}
+              </span>
+              {item.label}
+            </span>
           </a>
         ))}
         <div className="ml-2 pl-2 border-l border-border">
@@ -164,40 +198,112 @@ export default function Navigation() {
 
         {/* Mobile Menu Overlay */}
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Site navigation"
+          aria-hidden={!isMobileMenuOpen}
           className={`
             fixed inset-0 z-40
-            bg-bg/95 backdrop-blur-lg
-            transition-all duration-300
+            transition-opacity duration-300
             ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}
           `}
         >
-          <div className="flex flex-col items-center justify-center min-h-screen gap-4 p-8">
-            {navItems.map((item, index) => (
-              <a
-                key={item.href}
-                href={item.href}
-                onClick={e => handleNavClick(e, item.href, item.isSpecial)}
-                aria-current={activeSection === item.href.slice(1) ? 'page' : undefined}
-                className={`
-                  text-2xl font-medium py-3 px-8 rounded-full
-                  transition-all duration-300
-                  ${
-                    activeSection === item.href.slice(1)
-                      ? 'bg-primary text-[var(--button-text)]'
-                      : item.isSpecial
-                        ? 'text-amber-500 hover:text-amber-400 hover:bg-amber-500/10 bg-amber-500/5'
-                        : 'text-muted hover:text-text hover:bg-surface-hover'
-                  }
-                `}
-                style={{
-                  animationDelay: `${index * 50}ms`,
-                  animation: isMobileMenuOpen ? 'fadeInUp 0.5s ease-out forwards' : 'none',
-                }}
-              >
-                {item.isSpecial ? '🎮 ' : ''}
-                {item.label}
-              </a>
-            ))}
+          {/* Click-outside backdrop */}
+          <button
+            type="button"
+            aria-label="Close menu"
+            tabIndex={isMobileMenuOpen ? 0 : -1}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="absolute inset-0 w-full h-full bg-bg/80 backdrop-blur-lg cursor-default"
+          />
+
+          {/* Drawer */}
+          <div
+            className={`
+              relative ml-auto h-full w-full max-w-sm
+              bg-card-bg/95 backdrop-blur-xl
+              border-l border-border
+              shadow-2xl
+              flex flex-col
+              transition-transform duration-300 ease-out
+              ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}
+            `}
+          >
+            <div className="flex items-center justify-between px-6 pt-20 pb-4 border-b border-border/40">
+              <span className="text-sm font-semibold tracking-wider uppercase text-muted">
+                Navigation
+              </span>
+              <span className="text-xs text-muted/70" aria-hidden="true">
+                ESC to close
+              </span>
+            </div>
+
+            <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+              {navItems.map((item, index) => {
+                const isActive = activeSection === item.href.slice(1)
+                return (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={e => handleNavClick(e, item.href, item.isSpecial)}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`
+                      flex items-center gap-4 px-4 py-3 rounded-xl
+                      transition-all duration-200
+                      ${
+                        isActive
+                          ? 'bg-primary/15 border border-primary/40 text-text'
+                          : item.isSpecial
+                            ? 'text-amber-400 bg-amber-500/5 border border-amber-500/20 hover:bg-amber-500/10'
+                            : 'text-text hover:bg-surface-hover border border-transparent'
+                      }
+                    `}
+                    style={{
+                      animationDelay: `${index * 40}ms`,
+                      animation: isMobileMenuOpen ? 'fadeInUp 0.4s ease-out forwards' : 'none',
+                      opacity: isMobileMenuOpen ? undefined : 0,
+                    }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className={`
+                        flex items-center justify-center w-10 h-10 rounded-lg
+                        text-xl flex-shrink-0
+                        ${isActive ? 'bg-primary/20' : 'bg-surface-hover'}
+                      `}
+                    >
+                      {item.icon}
+                    </span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block text-base font-semibold leading-tight">
+                        {item.label}
+                      </span>
+                      {item.description && (
+                        <span className="block text-xs text-muted mt-0.5 truncate">
+                          {item.description}
+                        </span>
+                      )}
+                    </span>
+                    <svg
+                      className={`w-4 h-4 flex-shrink-0 transition-transform ${
+                        isActive ? 'text-primary translate-x-1' : 'text-muted/60'
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </a>
+                )
+              })}
+            </nav>
           </div>
         </div>
       </div>

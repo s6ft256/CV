@@ -6,7 +6,8 @@ import { generateResumePDF } from '../utils/pdfExport'
 export default function Hero() {
   return (
     <header className="hero min-h-screen flex items-center relative" id="top">
-      <div className="container mx-auto max-w-[var(--max-width)] px-4">
+      <div className="mesh-bg" aria-hidden="true" />
+      <div className="container mx-auto max-w-[var(--max-width)] px-4 relative z-10">
         <div className="hero__grid">
           {/* Profile Image */}
           <div className="hero__image-wrapper">

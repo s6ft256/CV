@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 interface SectionProps {
   id?: string
@@ -17,6 +18,9 @@ export default function Section({
   className = '',
   gradient = false,
 }: SectionProps) {
+  const headerRef = useScrollReveal<HTMLDivElement>()
+  const bodyRef = useScrollReveal<HTMLDivElement>()
+
   return (
     <section
       id={id}
@@ -36,7 +40,7 @@ export default function Section({
 
       <div className="container mx-auto max-w-[var(--max-width)] px-4 relative z-10">
         {(title || subtitle) && (
-          <div className="mb-16 text-center">
+          <div ref={headerRef} className="reveal mb-16 text-center">
             {title && (
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-text tracking-tight">
                 <span className="bg-gradient-to-r from-text via-text to-muted bg-clip-text">
@@ -57,7 +61,9 @@ export default function Section({
             </div>
           </div>
         )}
-        {children}
+        <div ref={bodyRef} className="reveal">
+          {children}
+        </div>
       </div>
     </section>
   )

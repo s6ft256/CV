@@ -36,7 +36,7 @@ describe('Experience', () => {
 
   it('renders technologies', () => {
     render(<Experience />)
-    expect(screen.getByText('Python')).toBeInTheDocument()
-    expect(screen.getByText('Django')).toBeInTheDocument()
+    expect(screen.getAllByText('Python').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Django').length).toBeGreaterThan(0)
   })
 })

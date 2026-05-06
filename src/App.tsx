@@ -2,6 +2,8 @@ import { lazy, Suspense } from 'react'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import ErrorBoundary from './components/ErrorBoundary'
+import ScrollProgress from './components/ScrollProgress'
+import ScrollToTop from './components/ScrollToTop'
 import { usePageTracking, useKeyboardNavigation } from './hooks/useEffects'
 
 // Lazy load below-the-fold components for better initial load performance
@@ -40,6 +42,7 @@ export default function App() {
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
+      <ScrollProgress />
       <div className="app min-h-screen">
         <Navigation />
         <Hero />
@@ -73,6 +76,7 @@ export default function App() {
           <Footer />
         </Suspense>
       </div>
+      <ScrollToTop />
     </ErrorBoundary>
   )
 }
