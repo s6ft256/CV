@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect } from 'react'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
 import ErrorBoundary from './components/ErrorBoundary'
+import SectionErrorBoundary from './components/SectionErrorBoundary'
 import ScrollProgress from './components/ScrollProgress'
 import ScrollToTop from './components/ScrollToTop'
 import { usePageTracking, useKeyboardNavigation } from './hooks/useEffects'
@@ -61,31 +62,49 @@ export default function App() {
         </Suspense>
         <main id="main-content" tabIndex={-1}>
           <Suspense fallback={<SectionLoader />}>
-            <Experience />
+            <SectionErrorBoundary sectionName="Experience">
+              <Experience />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <Skills />
+            <SectionErrorBoundary sectionName="Skills">
+              <Skills />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <Projects />
+            <SectionErrorBoundary sectionName="Projects">
+              <Projects />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <QrImplementation />
+            <SectionErrorBoundary sectionName="QR Implementation">
+              <QrImplementation />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <HSEHighlights />
+            <SectionErrorBoundary sectionName="HSE Highlights">
+              <HSEHighlights />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <GitHubStats />
+            <SectionErrorBoundary sectionName="GitHub Stats">
+              <GitHubStats />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <Education />
+            <SectionErrorBoundary sectionName="Education">
+              <Education />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <Certifications />
+            <SectionErrorBoundary sectionName="Certifications">
+              <Certifications />
+            </SectionErrorBoundary>
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
-            <Contact />
+            <SectionErrorBoundary sectionName="Contact">
+              <Contact />
+            </SectionErrorBoundary>
           </Suspense>
         </main>
         <Suspense fallback={null}>

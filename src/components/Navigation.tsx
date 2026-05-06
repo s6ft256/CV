@@ -1,6 +1,7 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import type { ReactNode } from 'react'
 import ThemeToggle from './ThemeToggle'
+import LanguageSwitcher from './LanguageSwitcher'
 
 // MiniGame is ~21KB and only needed when the user opens it; lazy-load on demand.
 const MiniGame = lazy(() => import('./MiniGame'))
@@ -275,8 +276,8 @@ export default function Navigation() {
           }
         `}
       >
-        <div className="pl-3 pr-2 border-r border-border/50 mr-1">
-          <span className="text-primary font-bold text-xl uppercase tracking-tighter">EN</span>
+        <div className="pl-2 pr-2 border-r border-border/50 mr-1">
+          <LanguageSwitcher />
         </div>
         {navItems.map(item => (
           <a
