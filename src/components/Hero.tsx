@@ -13,7 +13,7 @@ export default function Hero() {
           <div className="hero__image-wrapper">
             <div className="hero__image-container">
               <img
-                src="Profile.jpeg"
+                src="/Profile.jpeg"
                 alt={personalInfo.name}
                 className="hero__image"
                 width={320}
