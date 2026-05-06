@@ -131,15 +131,10 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.7;
   min-height: 100vh;
-  padding: 1rem;
-}
-
-@media (min-width: 640px) {
-  body {
-    padding: 2rem;
-  }
+  padding: 0;
 }
 
 p {
@@ -470,14 +465,15 @@ a:focus {
   align-items: center;
   gap: 0.5rem;
   color: var(--primary);
-  background: linear-gradient(90deg, rgba(var(--blue-rgb), 0.1), rgba(var(--blue-rgb), 0.05));
-  padding: 0.4rem 1rem;
+  background: rgba(var(--blue-rgb), 0.08);
+  padding: 0.35rem 0.9rem;
   border-radius: 999px;
-  font-size: 0.8rem;
-  letter-spacing: 0.03em;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
   font-weight: 600;
+  text-transform: uppercase;
   width: fit-content;
-  border: 1px solid rgba(var(--blue-rgb), 0.15);
+  border: 1px solid rgba(var(--blue-rgb), 0.18);
   margin: 0 auto;
 }
 
@@ -761,15 +757,20 @@ body::after {
 
 /* Page sections: unified spacing and seamless background */
 .section {
-  padding: 2.5rem 0;
-  background: transparent; /* keep sections seamlessly layered */
-  box-shadow: 0 12px 30px rgba(var(--accent-rgb), 0.025);
+  padding: 4rem 0;
+  background: transparent;
+  position: relative;
 }
 
 @media (min-width: 640px) {
   .section {
-    padding: 3.5rem 0;
+    padding: 5.5rem 0;
   }
+}
+
+/* Subtle top border separator between sections */
+.section + .section {
+  border-top: 1px solid var(--border);
 }
 
 #certificates .cert-badge {
@@ -888,36 +889,31 @@ body::after {
 }
 
 .section h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1.25rem;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
   position: relative;
-  padding-bottom: 0.75rem;
   text-align: center;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  transition: color 220ms ease;
 }
 
 @media (min-width: 640px) {
   .section h2 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+    font-size: 2.25rem;
   }
 }
 
+/* Gradient underline accent — centered, short */
 .section h2::after {
   content: '';
   display: block;
-  width: 72px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
-  border-radius: 4px;
-  margin: 0.35rem auto 0;
-  opacity: 0.95;
-}
-
-/* Section headings (Skills, Projects, Experience, etc.) use the accent color
-   to visually separate them from the main title text */
-.section h2 {
-  color: var(--accent);
-  transition: color 220ms ease;
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 99px;
+  margin: 0.5rem auto 0;
+  opacity: 1;
 }
 
 .grid {
@@ -945,30 +941,32 @@ body::after {
 }
 
 .card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-  backdrop-filter: blur(6px) saturate(0.95);
-  -webkit-backdrop-filter: blur(6px) saturate(0.95);
-  border: 1px solid rgba(255, 255, 255, 0.04);
-  border-radius: calc(var(--radius) - 4px);
-  padding: 1.25rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.012));
+  backdrop-filter: blur(8px) saturate(1.1);
+  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: var(--radius);
+  padding: 1.5rem;
   transition:
-    transform 360ms cubic-bezier(0.2, 0.9, 0.2, 1),
-    box-shadow 360ms cubic-bezier(0.2, 0.9, 0.2, 1);
-  /* subtle entrance animation */
-  animation: fadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.2, 1) backwards;
+    transform 300ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    box-shadow 300ms cubic-bezier(0.2, 0.9, 0.2, 1),
+    border-color 300ms ease;
+  animation: fadeInUp 0.55s cubic-bezier(0.2, 0.9, 0.2, 1) backwards;
 }
 
 @media (min-width: 640px) {
   .card {
-    padding: 1.6rem;
+    padding: 1.75rem;
   }
 }
 
 .card:hover {
-  transform: translateY(-6px) scale(1.01);
+  transform: translateY(-5px);
   box-shadow:
-    0 18px 50px rgba(8, 18, 34, 0.45),
-    0 0 40px var(--blue-glow);
+    0 20px 48px rgba(2, 8, 24, 0.5),
+    0 0 0 1px rgba(var(--blue-rgb), 0.18),
+    0 0 32px rgba(var(--blue-rgb), 0.08);
+  border-color: rgba(var(--blue-rgb), 0.22);
 }
 
 /* Stagger card animations */
@@ -1282,24 +1280,30 @@ body.theme-light #skills .card {
 
 .timeline {
   display: grid;
-  gap: 2.5rem;
+  gap: 3rem;
 }
 
 .timeline__item {
-  border-left: 2px solid var(--accent);
-  padding-left: 1.5rem;
+  border-left: 2px solid rgba(var(--blue-rgb), 0.3);
+  padding-left: 1.75rem;
   position: relative;
+  transition: border-color 0.3s ease;
+}
+
+.timeline__item:hover {
+  border-left-color: var(--primary);
 }
 
 .timeline__item::before {
-  background: var(--accent);
+  background: var(--primary);
   border-radius: 50%;
   content: '';
-  height: 12px;
-  width: 12px;
+  height: 10px;
+  width: 10px;
   position: absolute;
-  left: -7px;
-  top: 0.35rem;
+  left: -6px;
+  top: 0.4rem;
+  box-shadow: 0 0 0 3px rgba(var(--blue-rgb), 0.15);
 }
 
 .timeline__meta {

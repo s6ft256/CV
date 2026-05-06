@@ -144,7 +144,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <div className="hero__scroll-indicator">
-        <a href="#experience" aria-label="Scroll to experience section">
+        <a href="#about" aria-label="Scroll to about section">
           <span className="hero__scroll-text">Scroll</span>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path

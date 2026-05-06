@@ -69,11 +69,11 @@ export const experiences: Experience[] = [
   },
   {
     id: '2',
-    title: 'care car',
-    company: 'freelance',
-    location: 'uganda developer remote',
+    title: 'Freelance Full-Stack Developer & HSE Consultant',
+    company: 'Independent / Remote',
+    location: 'Uganda · Remote',
     startDate: '2020-06',
-    endDate: '',
+    endDate: '2022-12',
     current: false,
     description: [
       'Designed and implemented digital HSE reporting tools for construction and industrial clients',
