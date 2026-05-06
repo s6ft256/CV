@@ -136,10 +136,12 @@ export default function Projects() {
   const fetchGitHubProjects = useCallback(async () => {
     try {
       const username = import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'
-      // Fetch more repos to filter the best ones
-      const response = await fetch(`https://api.github.com/users/${username}/repos?per_page=100`)
-
-      if (!response.ok) throw new Error('Failed to fetch')
+      const token = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
+      const headers: HeadersInit = {
+        Accept: 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+      }
+      if (token) headers['Authorization'] = `Bearer ${token}`
 
       type Repo = {
         id: number
@@ -153,7 +155,19 @@ export default function Projects() {
         description?: string | null
       }
 
-      const repos: Repo[] = await response.json()
+      // Fetch all pages (up to 10 * 100 repos) for accuracy
+      const repos: Repo[] = []
+      const perPage = 100
+      for (let page = 1; page <= 10; page++) {
+        const res = await fetch(
+          `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`,
+          { headers }
+        )
+        if (!res.ok) throw new Error('Failed to fetch')
+        const batch: Repo[] = await res.json()
+        repos.push(...batch)
+        if (batch.length < perPage) break
+      }
 
       // Filter and sort by stars, then by recent activity
       const sortedRepos = repos
