@@ -1,5 +1,4 @@
 import Section from './Section'
-import { personalInfo } from '../data/resume'
 
 const pillars = [
   {
@@ -86,35 +85,7 @@ const pillars = [
 
 export default function About() {
   return (
-    <Section
-      id="about"
-      title="About Me"
-      subtitle="Full-Stack Developer · IOSH-Certified HSE Professional · Based in UAE"
-    >
-      {/* Bio */}
-      <div className="max-w-3xl mx-auto text-center mb-14">
-        <p className="text-muted text-lg leading-relaxed">{personalInfo.summary}</p>
-        <div className="flex flex-wrap justify-center gap-3 mt-6">
-          {['5+ years experience', 'IOSH Certified', 'UAE · Remote', 'Available now'].map(tag => (
-            <span
-              key={tag}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border"
-              style={{
-                borderColor: 'var(--border)',
-                color: 'var(--primary)',
-                background: 'rgba(56,189,248,0.06)',
-              }}
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block"
-                aria-hidden="true"
-              />
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-
+    <Section id="about">
       {/* Expertise pillars */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {pillars.map(p => (
