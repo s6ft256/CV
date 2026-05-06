@@ -41,6 +41,6 @@ describe('Hero', () => {
 
   it('renders scroll indicator', () => {
     render(<Hero />)
-    expect(screen.getByLabelText(/Scroll to experience section/i)).toBeInTheDocument()
+    expect(screen.getByLabelText(/Scroll to about section/i)).toBeInTheDocument()
   })
 })
