@@ -1,8 +1,14 @@
+import { useState } from 'react'
 import { personalInfo } from '../data/resume'
 import Button from './Button'
 import { generateResumePDF } from '../utils/pdfExport'
 
 export default function Hero() {
+  const [currentImage, setCurrentImage] = useState(1)
+
+  const handleHover = () => {
+    setCurrentImage(prev => (prev % 3) + 1)
+  }
   return (
     <header className="hero min-h-screen flex items-center relative" id="top">
       <div className="mesh-bg" aria-hidden="true" />
@@ -10,22 +16,32 @@ export default function Hero() {
         <div className="hero__grid">
           {/* Profile Image */}
           <div className="hero__image-wrapper">
-            <div className="hero__image-container group relative">
-              {/* Primary image (default) */}
+            <div className="hero__image-container group relative" onMouseEnter={handleHover}>
+              {/* Image 1 */}
               <img
                 src="/images/profile/Profile1.png"
                 alt={personalInfo.name}
-                className="hero__image profile-img profile-img--1"
+                className={`hero__image profile-img ${currentImage === 1 ? 'opacity-100' : 'opacity-0'}`}
                 width={320}
                 height={320}
                 decoding="async"
               />
-              {/* Hover image */}
+              {/* Image 2 */}
               <img
                 src="/images/profile/Profile2.jpg"
                 alt=""
                 aria-hidden="true"
-                className="hero__image profile-img profile-img--2 absolute inset-0"
+                className={`hero__image profile-img absolute inset-0 ${currentImage === 2 ? 'opacity-100' : 'opacity-0'}`}
+                width={320}
+                height={320}
+                decoding="async"
+              />
+              {/* Image 3 */}
+              <img
+                src="/Profile.jpeg"
+                alt=""
+                aria-hidden="true"
+                className={`hero__image profile-img absolute inset-0 ${currentImage === 3 ? 'opacity-100' : 'opacity-0'}`}
                 width={320}
                 height={320}
                 decoding="async"

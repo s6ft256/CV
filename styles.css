@@ -353,20 +353,12 @@ a:focus {
     0 0 0 2px rgba(var(--blue-rgb), 0.2);
 }
 
-/* 2-image hover crossfade for hero profile */
+/* 3-image hover crossfade for hero profile */
 .profile-img {
   opacity: 0;
   transition: opacity 1.2s ease-in-out;
 }
-.profile-img--1 {
-  opacity: 1;
-}
-
-/* On hover, swap to second image with slow fade */
-.hero__image-container.group:hover .profile-img--1 {
-  opacity: 0;
-}
-.hero__image-container.group:hover .profile-img--2 {
+.profile-img.opacity-100 {
   opacity: 1;
 }
 
