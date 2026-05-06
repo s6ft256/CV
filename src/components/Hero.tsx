@@ -1,6 +1,5 @@
 import { personalInfo } from '../data/resume'
 import Button from './Button'
-import ThemeToggle from './ThemeToggle'
 import { generateResumePDF } from '../utils/pdfExport'
 
 export default function Hero() {
@@ -95,7 +94,6 @@ export default function Hero() {
                 </svg>
                 Resume
               </Button>
-              <ThemeToggle />
             </div>
 
             {/* Social links */}
