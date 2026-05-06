@@ -10,11 +10,22 @@ export default function Hero() {
         <div className="hero__grid">
           {/* Profile Image */}
           <div className="hero__image-wrapper">
-            <div className="hero__image-container">
+            <div className="hero__image-container group relative">
+              {/* Default image */}
               <img
-                src="/Profile.jpeg"
+                src="/images/profile/Profile1.png"
                 alt={personalInfo.name}
-                className="hero__image"
+                className="hero__image transition-opacity duration-500 ease-out group-hover:opacity-0"
+                width={320}
+                height={320}
+                decoding="async"
+              />
+              {/* Hover image */}
+              <img
+                src="/images/profile/Profile2.jpg"
+                alt=""
+                aria-hidden="true"
+                className="hero__image absolute inset-0 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
                 width={320}
                 height={320}
                 decoding="async"
