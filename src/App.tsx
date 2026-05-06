@@ -7,6 +7,7 @@ import ScrollToTop from './components/ScrollToTop'
 import { usePageTracking, useKeyboardNavigation } from './hooks/useEffects'
 
 // Lazy load below-the-fold components for better initial load performance
+const About = lazy(() => import('./components/About'))
 const Experience = lazy(() => import('./components/Experience'))
 const Skills = lazy(() => import('./components/Skills'))
 const Projects = lazy(() => import('./components/Projects'))
@@ -46,6 +47,9 @@ export default function App() {
       <div className="app min-h-screen">
         <Navigation />
         <Hero />
+        <Suspense fallback={<SectionLoader />}>
+          <About />
+        </Suspense>
         <main id="main-content" tabIndex={-1}>
           <Suspense fallback={<SectionLoader />}>
             <Experience />

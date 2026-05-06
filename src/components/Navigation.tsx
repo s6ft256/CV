@@ -13,6 +13,7 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
+  { href: '#about', label: 'About', description: 'Who I am', icon: '👋' },
   { href: '#experience', label: 'Experience', description: 'Work history', icon: '💼' },
   { href: '#skills', label: 'Skills', description: 'Tech stack', icon: '🛠️' },
   { href: '#projects', label: 'Projects', description: 'Selected work', icon: '🚀' },
