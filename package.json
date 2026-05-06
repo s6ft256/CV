@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "prebuild:github": "node ./scripts/prebuild-github.mjs",
+    "prebuild": "npm run prebuild:github",
+    "fetch:github": "node ./scripts/prebuild-github.mjs",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",

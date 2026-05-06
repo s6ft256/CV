@@ -45,6 +45,7 @@ type GitHubRepoResponse = {
   name: string
   html_url: string
   homepage?: string | null
+  fork?: boolean
 }
 
 type GitHubEventResponse = {
@@ -71,6 +72,9 @@ type GQLContribResponse = {
 export default function GitHubStats() {
   const [stats, setStats] = useState<GitHubStats | null>(null)
   const [contributions, setContributions] = useState<ContributionDay[]>([])
+  const [topRepos, setTopRepos] = useState<
+    { name: string; stars: number; forks: number; url: string }[]
+  >([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
@@ -103,7 +107,32 @@ export default function GitHubStats() {
         if (batch.length < 100) break
       }
 
-      // Fetch all repository pages to ensure totals are accurate
+      // Try to load prebuilt data if available (for production/static)
+      let prebuiltStats = false
+      let prebuiltContrib = false
+      let prebuiltTopRepos = false
+      try {
+        const preb = await fetch('/data/github.json', { cache: 'no-cache' })
+        if (preb.ok) {
+          const json = await preb.json()
+          if (json?.stats) {
+            setStats(json.stats)
+            prebuiltStats = true
+          }
+          if (Array.isArray(json?.contributions) && json.contributions.length) {
+            setContributions(json.contributions)
+            prebuiltContrib = true
+          }
+          if (Array.isArray(json?.topRepos)) {
+            setTopRepos(json.topRepos)
+            prebuiltTopRepos = true
+          }
+        }
+      } catch {
+        // ignore if not present (local dev)
+      }
+
+      // Fetch all repository pages to ensure totals are accurate (runtime fallback)
       const perPage = 100
       const repos: GitHubRepoResponse[] = []
       for (let page = 1; page <= 10; page++) {
@@ -201,16 +230,32 @@ export default function GitHubStats() {
         }
       }
 
-      if (!usedGraphQL) generateContributionMatrix(events, repos)
+      if (!usedGraphQL && !prebuiltContrib) generateContributionMatrix(events, repos)
 
-      setStats({
-        publicRepos: user.public_repos,
-        followers: user.followers,
-        totalStars,
-        totalForks,
-        totalContributions,
-        topLanguages,
-      })
+      if (!prebuiltStats)
+        setStats({
+          publicRepos: user.public_repos,
+          followers: user.followers,
+          totalStars,
+          totalForks,
+          totalContributions,
+          topLanguages,
+        })
+
+      // Compute top repos on the fly if we didn't load from prebuilt
+      if (!prebuiltTopRepos) {
+        const tops = repos
+          .filter(r => !r.fork)
+          .sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
+          .slice(0, 6)
+          .map(r => ({
+            name: r.name,
+            stars: r.stargazers_count || 0,
+            forks: r.forks_count || 0,
+            url: r.html_url,
+          }))
+        setTopRepos(tops)
+      }
     } catch (err) {
       console.error('Error fetching GitHub data:', err)
       setError('Unable to load GitHub statistics')
@@ -371,6 +416,54 @@ export default function GitHubStats() {
                 Top Languages
               </h3>
               <LanguageStats languages={stats.topLanguages} totalRepos={stats.publicRepos} />
+            </Card>
+
+            <Card className="mt-6">
+              <h3 className="text-lg font-semibold text-text mb-4 flex items-center gap-2">
+                <svg className="w-5 h-5 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 .587l3.668 7.431L24 9.748l-6 5.847L19.335 24 12 19.897 4.665 24 6 15.595 0 9.748l8.332-1.73z" />
+                </svg>
+                Most-Starred Repos
+              </h3>
+              <ul className="space-y-3">
+                {topRepos.map(repo => (
+                  <li key={repo.name} className="flex items-center justify-between gap-3">
+                    <a
+                      href={repo.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium text-text hover:underline truncate"
+                    >
+                      {repo.name}
+                    </a>
+                    <div className="flex items-center gap-3 text-xs text-muted flex-shrink-0">
+                      <span className="inline-flex items-center gap-1">
+                        <svg
+                          className="w-4 h-4 text-yellow-500"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.802 2.035a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.802-2.035a1 1 0 00-1.175 0l-2.802 2.035c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        {repo.stars}
+                      </span>
+                      <span className="inline-flex items-center gap-1">
+                        <svg
+                          className="w-4 h-4 text-blue-500"
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M5 3a2 2 0 00-2 2v10l7-3 7 3V5a2 2 0 00-2-2H5z" />
+                        </svg>
+                        {repo.forks}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+                {topRepos.length === 0 && (
+                  <li className="text-sm text-muted">No repositories found.</li>
+                )}
+              </ul>
             </Card>
           </div>
         </div>

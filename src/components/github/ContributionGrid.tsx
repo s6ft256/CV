@@ -20,6 +20,7 @@ const getContributionColor = (level: number) => {
 }
 
 export default function ContributionGrid({ contributions }: ContributionGridProps) {
+  const fmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   return (
     <div>
       {/* Contribution Grid */}
@@ -44,12 +45,24 @@ export default function ContributionGrid({ contributions }: ContributionGridProp
               <div className="w-8"></div>
               {Array.from({ length: 20 }).map((_, weekIndex) => {
                 const contrib = contributions[weekIndex * 7 + dayIndex]
+                const title = contrib ? `${contrib.date}: ${contrib.count} contributions` : ''
+                const label = contrib
+                  ? `${fmt.format(new Date(contrib.date))} · ${contrib.count} ${
+                      contrib.count === 1 ? 'contribution' : 'contributions'
+                    }`
+                  : ''
                 return (
-                  <div
-                    key={weekIndex}
-                    className={`w-3 h-3 rounded-sm ${getContributionColor(contrib?.level || 0)} transition-colors cursor-pointer hover:ring-1 hover:ring-primary`}
-                    title={contrib ? `${contrib.date}: ${contrib.count} contributions` : ''}
-                  />
+                  <div key={weekIndex} className="relative group">
+                    <div
+                      className={`w-3 h-3 rounded-sm ${getContributionColor(contrib?.level || 0)} transition-colors cursor-pointer hover:ring-1 hover:ring-primary`}
+                      title={title}
+                    />
+                    {contrib && (
+                      <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-1.5 py-0.5 rounded text-[10px] bg-gray-900 text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity shadow-lg z-10">
+                        {label}
+                      </div>
+                    )}
+                  </div>
                 )
               })}
             </div>
