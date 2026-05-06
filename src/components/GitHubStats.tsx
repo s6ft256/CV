@@ -76,17 +76,36 @@ export default function GitHubStats() {
 
   const fetchGitHubData = useCallback(async () => {
     try {
-      const [userRes, reposRes, eventsRes] = await Promise.all([
-        fetch(`https://api.github.com/users/${username}`),
-        fetch(`https://api.github.com/users/${username}/repos?per_page=100`),
-        fetch(`https://api.github.com/users/${username}/events/public?per_page=30`),
+      const reqInit: RequestInit = {
+        headers: {
+          Accept: 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28',
+        },
+      }
+
+      const [userRes, eventsRes] = await Promise.all([
+        fetch(`https://api.github.com/users/${username}`, reqInit),
+        fetch(`https://api.github.com/users/${username}/events/public?per_page=100`, reqInit),
       ])
 
-      if (!userRes.ok || !reposRes.ok) throw new Error('Failed to fetch GitHub data')
+      if (!userRes.ok) throw new Error('Failed to fetch GitHub data')
 
       const user: GitHubUserResponse = await userRes.json()
-      const repos: GitHubRepoResponse[] = await reposRes.json()
       const events: GitHubEventResponse[] = eventsRes.ok ? await eventsRes.json() : []
+
+      // Fetch all repository pages to ensure totals are accurate
+      const perPage = 100
+      const repos: GitHubRepoResponse[] = []
+      for (let page = 1; page <= 10; page++) {
+        const res = await fetch(
+          `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`,
+          reqInit
+        )
+        if (!res.ok) throw new Error('Failed to fetch GitHub repos')
+        const batch: GitHubRepoResponse[] = await res.json()
+        repos.push(...batch)
+        if (batch.length < perPage) break
+      }
 
       const totalStars = repos.reduce(
         (sum: number, repo: GitHubRepoResponse) => sum + repo.stargazers_count,
