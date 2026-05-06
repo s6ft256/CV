@@ -84,15 +84,22 @@ export default function GitHubStats() {
       if (token) headers['Authorization'] = `Bearer ${token}`
       const reqInit: RequestInit = { headers }
 
-      const [userRes, eventsRes] = await Promise.all([
-        fetch(`https://api.github.com/users/${username}`, reqInit),
-        fetch(`https://api.github.com/users/${username}/events/public?per_page=100`, reqInit),
-      ])
-
+      const userRes = await fetch(`https://api.github.com/users/${username}`, reqInit)
       if (!userRes.ok) throw new Error('Failed to fetch GitHub data')
-
       const user: GitHubUserResponse = await userRes.json()
-      const events: GitHubEventResponse[] = eventsRes.ok ? await eventsRes.json() : []
+
+      // GitHub REST API allows up to 3 pages × 100 = 300 public events (the API hard limit)
+      const events: GitHubEventResponse[] = []
+      for (let page = 1; page <= 3; page++) {
+        const res = await fetch(
+          `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
+          reqInit
+        )
+        if (!res.ok) break
+        const batch: GitHubEventResponse[] = await res.json()
+        events.push(...batch)
+        if (batch.length < 100) break
+      }
 
       // Fetch all repository pages to ensure totals are accurate
       const perPage = 100

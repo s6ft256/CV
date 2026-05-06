@@ -6,12 +6,13 @@ import { Project } from '../types'
 // Enhanced project metadata for better descriptions
 const projectEnhancements: Record<
   string,
-  { description?: string; technologies?: string[]; liveUrl?: string }
+  { displayName?: string; description?: string; technologies?: string[]; liveUrl?: string }
 > = {
   'slide-to-code-craft': {
+    displayName: 'TBMS 2.0 HSE',
     description:
-      'Interactive coding tutorial platform with slide-based lessons that teach programming concepts step-by-step with hands-on exercises.',
-    technologies: ['TypeScript', 'React', 'Vite', 'Education'],
+      'Transportation & Building Management System v2 — a comprehensive HSE-integrated platform for facility operations, safety workflows, and compliance tracking.',
+    technologies: ['TypeScript', 'React', 'Firebase', 'HSE', 'Vite'],
     liveUrl: 'https://s6ft256.github.io/slide-to-code-craft/',
   },
   'Eli-Ai': {
@@ -186,7 +187,7 @@ export default function Projects() {
         const enhancement = projectEnhancements[repo.name]
         return {
           id: repo.id.toString(),
-          name: formatProjectName(repo.name),
+          name: enhancement?.displayName || formatProjectName(repo.name),
           description: enhancement?.description || repo.description || 'No description available',
           technologies: enhancement?.technologies || (repo.language ? [repo.language] : []),
           githubUrl: repo.html_url,
