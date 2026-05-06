@@ -4,12 +4,14 @@ import App from './App'
 import '../styles.css'
 import './index.css'
 
-const el = document.getElementById('root') || (() => {
-  const d = document.createElement('div')
-  d.id = 'root'
-  document.body.appendChild(d)
-  return d
-})()
+const el =
+  document.getElementById('root') ||
+  (() => {
+    const d = document.createElement('div')
+    d.id = 'root'
+    document.body.appendChild(d)
+    return d
+  })()
 
 createRoot(el).render(
   <StrictMode>

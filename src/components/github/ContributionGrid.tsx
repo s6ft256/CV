@@ -29,12 +29,15 @@ export default function ContributionGrid({ contributions }: ContributionGridProp
           <div className="flex items-center gap-0.5 mb-1">
             <div className="w-8"></div>
             {['Mon', '', 'Wed', '', 'Fri', '', ''].map((day, i) => (
-              <div key={i} className="w-3 h-3 text-[8px] text-muted flex items-center justify-center">
+              <div
+                key={i}
+                className="w-3 h-3 text-[8px] text-muted flex items-center justify-center"
+              >
                 {day}
               </div>
             ))}
           </div>
-          
+
           {/* Grid - 7 rows (days) x 20 cols (weeks) */}
           {[0, 1, 2, 3, 4, 5, 6].map(dayIndex => (
             <div key={dayIndex} className="flex gap-0.5">
@@ -58,10 +61,7 @@ export default function ContributionGrid({ contributions }: ContributionGridProp
       <div className="flex items-center justify-end gap-2 mt-4 text-xs text-muted">
         <span>Less</span>
         {[0, 1, 2, 3, 4].map(level => (
-          <div
-            key={level}
-            className={`w-3 h-3 rounded-sm ${getContributionColor(level)}`}
-          />
+          <div key={level} className={`w-3 h-3 rounded-sm ${getContributionColor(level)}`} />
         ))}
         <span>More</span>
       </div>

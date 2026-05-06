@@ -60,13 +60,13 @@ describe('ErrorBoundary', () => {
         <ThrowError />
       </ErrorBoundary>
     )
-    
+
     const retryButton = screen.getByRole('button', { name: /Try again/i })
     expect(retryButton).toBeInTheDocument()
-    
+
     // Clicking retry should reset error state
     fireEvent.click(retryButton)
-    
+
     // After retry, component should try to render children again
     // This will throw again since ThrowError always throws
     expect(screen.getByText('Something went wrong')).toBeInTheDocument()

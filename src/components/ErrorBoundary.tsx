@@ -47,10 +47,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                 <pre>{this.state.error.message}</pre>
               </details>
             )}
-            <button
-              onClick={this.handleRetry}
-              className="button error-boundary__button"
-            >
+            <button onClick={this.handleRetry} className="button error-boundary__button">
               Try again
             </button>
           </div>

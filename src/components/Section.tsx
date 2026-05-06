@@ -9,10 +9,17 @@ interface SectionProps {
   gradient?: boolean
 }
 
-export default function Section({ id, title, subtitle, children, className = '', gradient = false }: SectionProps) {
+export default function Section({
+  id,
+  title,
+  subtitle,
+  children,
+  className = '',
+  gradient = false,
+}: SectionProps) {
   return (
-    <section 
-      id={id} 
+    <section
+      id={id}
       className={`
         py-20 md:py-28 relative overflow-hidden
         ${gradient ? 'bg-gradient-to-b from-transparent via-primary/5 to-transparent' : ''}
@@ -26,7 +33,7 @@ export default function Section({ id, title, subtitle, children, className = '',
           <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
         </>
       )}
-      
+
       <div className="container mx-auto max-w-[var(--max-width)] px-4 relative z-10">
         {(title || subtitle) && (
           <div className="mb-16 text-center">

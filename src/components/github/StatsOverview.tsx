@@ -8,12 +8,12 @@ interface StatsOverviewProps {
   following: number
 }
 
-export default function StatsOverview({ 
-  publicRepos, 
-  totalStars, 
-  totalForks, 
-  followers, 
-  following 
+export default function StatsOverview({
+  publicRepos,
+  totalStars,
+  totalForks,
+  followers,
+  following,
 }: StatsOverviewProps) {
   const stats = [
     { value: publicRepos, label: 'Repositories', color: 'text-primary' },

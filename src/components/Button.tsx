@@ -34,13 +34,13 @@ export default function Button({
     rounded-xl
     focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary
   `
-  
+
   const sizeStyles = {
     sm: 'px-4 py-2 text-sm',
     md: 'px-6 py-3 text-base',
     lg: 'px-8 py-4 text-lg',
   }
-  
+
   const variantStyles = {
     primary: `
       bg-gradient-to-r from-primary to-blue-400
@@ -73,17 +73,13 @@ export default function Button({
     ${variantStyles[variant]}
     ${className}
     ${disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'cursor-pointer'}
-  `.replace(/\s+/g, ' ').trim()
+  `
+    .replace(/\s+/g, ' ')
+    .trim()
 
   if (href) {
     return (
-      <a
-        href={href}
-        className={classes}
-        target={target}
-        rel={rel}
-        aria-label={ariaLabel}
-      >
+      <a href={href} className={classes} target={target} rel={rel} aria-label={ariaLabel}>
         {children}
       </a>
     )
