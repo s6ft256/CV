@@ -20,22 +20,12 @@ export default function Hero() {
                 height={320}
                 decoding="async"
               />
-              {/* Secondary image */}
+              {/* Hover image */}
               <img
                 src="/images/profile/Profile2.jpg"
                 alt=""
                 aria-hidden="true"
                 className="hero__image profile-img profile-img--2 absolute inset-0"
-                width={320}
-                height={320}
-                decoding="async"
-              />
-              {/* Tertiary image (original) */}
-              <img
-                src="/Profile.jpeg"
-                alt=""
-                aria-hidden="true"
-                className="hero__image profile-img profile-img--3 absolute inset-0"
                 width={320}
                 height={320}
                 decoding="async"
