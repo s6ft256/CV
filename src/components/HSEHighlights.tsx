@@ -26,12 +26,22 @@ export default function HSEHighlights() {
             <SmartImage basePath="/images/hse/training" alt="HSE Training Session at JBL5" />
             <figcaption className="text-center text-sm text-muted">Training at JBL5</figcaption>
           </figure>
+          <p className="mt-2 text-muted text-sm leading-relaxed">
+            Toolbox Talk (TBT) and practical training for flagmen/signalmen and riggers, covering
+            safe signalling protocols, lifting communications, standard hand signals, rigging
+            checks, load-path awareness, spotter responsibilities, and PPE requirements.
+          </p>
         </Card>
         <Card hover glow="accent">
           <figure className="space-y-3">
             <SmartImage basePath="/images/hse/inspections" alt="Site Safety Inspection at JBL5" />
             <figcaption className="text-center text-sm text-muted">Inspections at JBL5</figcaption>
           </figure>
+          <p className="mt-2 text-muted text-sm leading-relaxed">
+            Field inspections for the JBL Etihad Rail road works, focusing on equipment compliance,
+            lifting and rigging setups, work permits, traffic management, barricading and signage,
+            housekeeping standards, and documentation readiness for audits.
+          </p>
         </Card>
       </div>
     </Section>
