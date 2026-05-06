@@ -23,14 +23,14 @@ export default function HSEHighlights() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card hover glow="accent">
           <figure className="space-y-3">
-            <SmartImage basePath="/images/hse/training" alt="HSE Training Session" />
-            <figcaption className="text-center text-sm text-muted">HSE Training</figcaption>
+            <SmartImage basePath="/images/hse/training" alt="HSE Training Session at JBL5" />
+            <figcaption className="text-center text-sm text-muted">Training at JBL5</figcaption>
           </figure>
         </Card>
         <Card hover glow="accent">
           <figure className="space-y-3">
-            <SmartImage basePath="/images/hse/inspections" alt="Site Safety Inspection" />
-            <figcaption className="text-center text-sm text-muted">Inspections</figcaption>
+            <SmartImage basePath="/images/hse/inspections" alt="Site Safety Inspection at JBL5" />
+            <figcaption className="text-center text-sm text-muted">Inspections at JBL5</figcaption>
           </figure>
         </Card>
       </div>

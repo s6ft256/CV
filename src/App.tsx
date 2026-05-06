@@ -51,9 +51,6 @@ export default function App() {
         <Suspense fallback={<SectionLoader />}>
           <About />
         </Suspense>
-        <Suspense fallback={<SectionLoader />}>
-          <HSEHighlights />
-        </Suspense>
         <main id="main-content" tabIndex={-1}>
           <Suspense fallback={<SectionLoader />}>
             <Experience />
@@ -66,6 +63,9 @@ export default function App() {
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
             <QrImplementation />
+          </Suspense>
+          <Suspense fallback={<SectionLoader />}>
+            <HSEHighlights />
           </Suspense>
           <Suspense fallback={<SectionLoader />}>
             <GitHubStats />
