@@ -34,7 +34,6 @@ interface Particle {
   color: string
 }
 
-const GRID_SIZE = 3
 const TIME_PER_LEVEL = 15000
 const PERFECT_STREAK_THRESHOLD = 3
 // Sequential pattern reveal timings
@@ -42,6 +41,15 @@ const PATTERN_ON_MS = 600
 const PATTERN_OFF_MS = 180
 
 export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const [gridSize, setGridSize] = useState<number>(
+    () => parseInt(localStorage.getItem('memory_challenge_grid') || '3') || 3
+  )
+  const [soundOn, setSoundOn] = useState<boolean>(
+    () =>
+      (typeof window !== 'undefined' ? localStorage.getItem('memory_challenge_sound') : null) !==
+      '0'
+  )
+
   const [gameState, setGameState] = useState<GameState>({
     pattern: [],
     userInput: [],
@@ -51,7 +59,7 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
     score: 0,
     isPlaying: false,
     streak: 0,
-    highScore: parseInt(localStorage.getItem('memory_challenge_best') || '0'),
+    highScore: parseInt(localStorage.getItem(`memory_challenge_best_${gridSize}`) || '0'),
     timeLeft: TIME_PER_LEVEL,
     multiplier: 1,
     particles: [],
@@ -69,6 +77,7 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
   // Sound effects using Web Audio API
   const playSound = useCallback(
     (frequency: number, duration: number, type: 'sine' | 'square' | 'triangle' = 'sine') => {
+      if (!soundOn) return
       if (!audioContextRef.current) {
         const w = window as WindowWithWebkitAudio
         const Ctor = w.AudioContext || w.webkitAudioContext
@@ -94,7 +103,7 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
       oscillator.start(audioContextRef.current.currentTime)
       oscillator.stop(audioContextRef.current.currentTime + duration)
     },
-    []
+    [soundOn]
   )
 
   // Create explosion particles
@@ -164,24 +173,28 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
     doStep()
   }, [])
 
-  const generatePattern = useCallback((level: number) => {
-    const baseLength = Math.min(3 + Math.floor(level / 2), 9)
-    const bonusLength = level > 5 ? Math.floor(level / 3) : 0
-    const patternLength = Math.min(baseLength + bonusLength, 9)
-    const pattern = []
+  const generatePattern = useCallback(
+    (level: number) => {
+      const maxCells = gridSize * gridSize
+      const baseLength = Math.min(3 + Math.floor(level / 2), maxCells)
+      const bonusLength = level > 5 ? Math.floor(level / 3) : 0
+      const patternLength = Math.min(baseLength + bonusLength, maxCells)
+      const pattern = []
 
-    // Ensure no immediate repeats for better challenge
-    let lastIndex = -1
-    for (let i = 0; i < patternLength; i++) {
-      let index
-      do {
-        index = Math.floor(Math.random() * (GRID_SIZE * GRID_SIZE))
-      } while (index === lastIndex && GRID_SIZE * GRID_SIZE > 1)
-      pattern.push(index)
-      lastIndex = index
-    }
-    return pattern
-  }, [])
+      // Ensure no immediate repeats for better challenge
+      let lastIndex = -1
+      for (let i = 0; i < patternLength; i++) {
+        let index
+        do {
+          index = Math.floor(Math.random() * maxCells)
+        } while (index === lastIndex && maxCells > 1)
+        pattern.push(index)
+        lastIndex = index
+      }
+      return pattern
+    },
+    [gridSize]
+  )
 
   const startGame = useCallback(() => {
     // Safety: clear any previous timers
@@ -246,7 +259,7 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
 
         // Save high score
         if (gameState.score > gameState.highScore) {
-          localStorage.setItem('memory_challenge_best', gameState.score.toString())
+          localStorage.setItem(`memory_challenge_best_${gridSize}`, gameState.score.toString())
         }
 
         setGameState(prev => ({
@@ -301,6 +314,11 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
         // Show celebration for milestone levels
         const showCelebration = newLevel % 5 === 0
 
+        // Persist high score per difficulty if improved
+        if (totalScore > gameState.highScore) {
+          localStorage.setItem(`memory_challenge_best_${gridSize}`, totalScore.toString())
+        }
+
         setGameState({
           pattern: newPattern,
           userInput: [],
@@ -331,7 +349,7 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
         }))
       }
     },
-    [gameState, generatePattern, playSound, createParticles, showPatternSequence]
+    [gameState, generatePattern, playSound, createParticles, showPatternSequence, gridSize]
   )
 
   const resetGame = useCallback(() => {
@@ -470,21 +488,90 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
         <div className="flex items-center justify-between mb-6 relative z-10">
           <div>
             <h2 className="text-2xl font-bold text-text mb-1">Memory Challenge</h2>
+            <div className="text-xs text-muted">Best: {gameState.highScore.toLocaleString()}</div>
           </div>
-          <button
-            onClick={onClose}
-            className="w-10 h-10 rounded-xl bg-surface-hover hover:bg-red-500/10 border border-border hover:border-red-500/30 flex items-center justify-center text-muted hover:text-red-400 transition-all transform hover:scale-110"
-            aria-label="Close game"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                setSoundOn(s => {
+                  const next = !s
+                  localStorage.setItem('memory_challenge_sound', next ? '1' : '0')
+                  return next
+                })
+              }}
+              className="w-10 h-10 rounded-xl bg-surface-hover hover:bg-surface-hover/80 border border-border flex items-center justify-center text-muted hover:text-text transition-all"
+              aria-pressed={soundOn}
+              aria-label={soundOn ? 'Mute sound' : 'Unmute sound'}
+              title={soundOn ? 'Mute sound' : 'Unmute sound'}
+            >
+              {soundOn ? (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5l-4 4H4v6h3l4 4V5z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"
+                  />
+                </svg>
+              ) : (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M11 5l-4 4H4v6h3l4 4V5z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 9l6 6M21 9l-6 6"
+                  />
+                </svg>
+              )}
+            </button>
+            <label htmlFor="difficulty" className="sr-only">
+              Difficulty
+            </label>
+            <select
+              id="difficulty"
+              value={gridSize}
+              onChange={e => {
+                const next = parseInt(e.target.value)
+                setGridSize(next)
+                localStorage.setItem('memory_challenge_grid', String(next))
+                const best = parseInt(localStorage.getItem(`memory_challenge_best_${next}`) || '0')
+                setGameState(prev => ({ ...prev, highScore: best }))
+                clearInterval(timerRef.current)
+              }}
+              className="h-10 rounded-xl bg-surface-hover border border-border text-sm text-text px-3"
+              aria-label="Select difficulty"
+              title="Select difficulty"
+            >
+              <option value={3}>3×3 (Easy)</option>
+              <option value={4}>4×4 (Hard)</option>
+            </select>
+            <button
+              onClick={onClose}
+              className="w-10 h-10 rounded-xl bg-surface-hover hover:bg-red-500/10 border border-border hover:border-red-500/30 flex items-center justify-center text-muted hover:text-red-400 transition-all transform hover:scale-110"
+              aria-label="Close game"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Stats Dashboard */}
@@ -560,8 +647,11 @@ export default function MiniGame({ isOpen, onClose }: { isOpen: boolean; onClose
         </div>
 
         {/* Game Grid */}
-        <div className="grid-container grid grid-cols-3 gap-2 mb-6 justify-items-center relative z-10">
-          {Array.from({ length: GRID_SIZE * GRID_SIZE }, (_, index) => (
+        <div
+          className="grid-container grid gap-2 mb-6 justify-items-center relative z-10"
+          style={{ gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))` }}
+        >
+          {Array.from({ length: gridSize * gridSize }, (_, index) => (
             <button
               key={index}
               onClick={() => handleCellClick(index)}
