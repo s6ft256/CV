@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect } from 'react'
 import Navigation from './components/Navigation'
 import Hero from './components/Hero'
+import SnakeBackground from './components/SnakeBackground'
+import HackerPattern from './components/HackerPattern'
 import ErrorBoundary from './components/ErrorBoundary'
 import SectionErrorBoundary from './components/SectionErrorBoundary'
 import ScrollProgress from './components/ScrollProgress'
@@ -54,6 +56,8 @@ export default function App() {
         Skip to main content
       </a>
       <ScrollProgress />
+      <HackerPattern />
+      <SnakeBackground />
       <div className="app min-h-screen">
         <Navigation />
         <Hero />

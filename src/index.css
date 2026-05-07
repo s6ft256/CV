@@ -124,6 +124,12 @@ a:focus-visible {
   }
 }
 
+/* ---------- Hide mesh-bg when snake background is active ---------- */
+body:has(.fixed > svg) .mesh-bg,
+.mesh-bg {
+  display: none;
+}
+
 /* small helper for the live widget */
 .bg-white\/6 {
   background-color: rgba(255, 255, 255, 0.06);
