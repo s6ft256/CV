@@ -117,29 +117,28 @@ export default function Experience() {
 
                   {/* Description */}
                   <ul className="space-y-2 md:space-y-3 mb-4 md:mb-6">
-                    {t(`experience.exp${index + 1}.description`, { returnObjects: true }).map(
-                      (desc, idx) => (
-                        <li
-                          key={idx}
-                          className="flex gap-2 md:gap-3 text-muted text-sm md:text-base"
-                        >
-                          <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
-                            <svg
-                              className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </span>
-                          <span className="leading-relaxed">{desc}</span>
-                        </li>
-                      )
-                    )}
+                    {(
+                      t(`experience.exp${index + 1}.description`, {
+                        returnObjects: true,
+                      }) as string[]
+                    ).map((desc: string, idx: number) => (
+                      <li key={idx} className="flex gap-2 md:gap-3 text-muted text-sm md:text-base">
+                        <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
+                          <svg
+                            className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </span>
+                        <span className="leading-relaxed">{desc}</span>
+                      </li>
+                    ))}
                   </ul>
 
                   {/* Technologies */}
