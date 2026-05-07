@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 import Card from './Card'
 import { skillCategories } from '../data/resume'
@@ -59,12 +60,9 @@ const getSkillColor = (proficiency: number) => {
 }
 
 export default function Skills() {
+  const { t } = useTranslation()
   return (
-    <Section
-      id="skills"
-      title="Skills & Expertise"
-      subtitle="Technologies and tools I work with daily"
-    >
+    <Section id="skills" title={t('skills.title')} subtitle={t('skills.subtitle')}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {skillCategories.map((category, catIndex) => (
           <Card

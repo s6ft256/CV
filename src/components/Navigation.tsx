@@ -1,5 +1,6 @@
 import { useState, useEffect, lazy, Suspense } from 'react'
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import ThemeToggle from './ThemeToggle'
 import LanguageSwitcher from './LanguageSwitcher'
 
@@ -17,7 +18,7 @@ type NavItem = {
 const navItems: NavItem[] = [
   {
     href: '#about',
-    label: 'About',
+    label: 'nav.about',
     description: 'Who I am',
     icon: (
       <svg
@@ -38,7 +39,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#experience',
-    label: 'Experience',
+    label: 'nav.experience',
     description: 'Work history',
     icon: (
       <svg
@@ -59,7 +60,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#skills',
-    label: 'Skills',
+    label: 'nav.skills',
     description: 'Tech stack',
     icon: (
       <svg
@@ -80,7 +81,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#projects',
-    label: 'Projects',
+    label: 'nav.projects',
     description: 'Selected work',
     icon: (
       <svg
@@ -101,7 +102,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#github-stats',
-    label: 'GitHub',
+    label: 'nav.github',
     description: 'Open-source activity',
     icon: (
       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -111,7 +112,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#education',
-    label: 'Education',
+    label: 'nav.education',
     description: 'Academic background',
     icon: (
       <svg
@@ -132,7 +133,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#certifications',
-    label: 'Certs',
+    label: 'nav.certifications',
     description: 'Credentials',
     icon: (
       <svg
@@ -153,7 +154,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#contact',
-    label: 'Contact',
+    label: 'nav.contact',
     description: 'Get in touch',
     icon: (
       <svg
@@ -174,7 +175,7 @@ const navItems: NavItem[] = [
   },
   {
     href: '#game',
-    label: 'Game',
+    label: 'nav.minigame',
     description: 'Memory challenge',
     isSpecial: true,
     icon: (
@@ -197,6 +198,7 @@ const navItems: NavItem[] = [
 ]
 
 export default function Navigation() {
+  const { t } = useTranslation()
   const [isScrolled, setIsScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -301,7 +303,7 @@ export default function Navigation() {
               <span aria-hidden="true" className="text-base leading-none">
                 {item.icon}
               </span>
-              {item.label}
+              {t(item.label)}
             </span>
           </a>
         ))}
@@ -443,7 +445,7 @@ export default function Navigation() {
                     </span>
                     <span className="flex-1 min-w-0">
                       <span className="block text-base font-semibold leading-tight">
-                        {item.label}
+                        {t(item.label)}
                       </span>
                       {item.description && (
                         <span className="block text-xs text-muted mt-0.5 truncate">

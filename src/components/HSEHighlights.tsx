@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 import Card from './Card'
 
@@ -26,6 +27,7 @@ function SmartImage({
 }
 
 export default function HSEHighlights() {
+  const { t } = useTranslation()
   return (
     <Section id="hse-highlights">
       <div className="space-y-6">
@@ -37,19 +39,17 @@ export default function HSEHighlights() {
               className="w-full max-w-xs md:max-w-sm rounded shadow-glow border border-border"
             />
             <div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2">Training at JBL5</h3>
-              <p className="text-muted mb-3">
-                Toolbox Talk (TBT) and practical training for flagmen/signalmen and riggers,
-                covering safe signalling protocols, lifting communications, standard hand signals,
-                rigging checks, load-path awareness, spotter responsibilities, and PPE requirements.
-              </p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2">
+                {t('hseHighlights.trainingTitle')}
+              </h3>
+              <p className="text-muted mb-3">{t('hseHighlights.trainingDescription')}</p>
               <ul className="list-disc pl-5 text-muted space-y-1">
-                <li>Safe signalling and lifting communications</li>
-                <li>Standard hand signals and spotter responsibilities</li>
-                <li>Rigging checks, load-path awareness, and PPE</li>
+                <li>{t('hseHighlights.trainingPoint1')}</li>
+                <li>{t('hseHighlights.trainingPoint2')}</li>
+                <li>{t('hseHighlights.trainingPoint3')}</li>
               </ul>
               <div className="mt-4 text-xs text-muted">
-                Image: Training/TBT with flagmen, signalmen, and riggers at JBL5
+                {t('hseHighlights.trainingImageCaption')}
               </div>
             </div>
           </div>
@@ -63,19 +63,17 @@ export default function HSEHighlights() {
               className="w-full max-w-xs md:max-w-sm rounded shadow-glow border border-border"
             />
             <div>
-              <h3 className="text-lg md:text-xl font-semibold mb-2">Inspections at JBL5</h3>
-              <p className="text-muted mb-3">
-                Field inspections for the JBL Etihad Rail road works, focusing on equipment
-                compliance, lifting and rigging setups, permits and documentation, and overall site
-                readiness.
-              </p>
+              <h3 className="text-lg md:text-xl font-semibold mb-2">
+                {t('hseHighlights.inspectionTitle')}
+              </h3>
+              <p className="text-muted mb-3">{t('hseHighlights.inspectionDescription')}</p>
               <ul className="list-disc pl-5 text-muted space-y-1">
-                <li>Equipment compliance and rigging setups</li>
-                <li>Work permits, traffic management, barricading and signage</li>
-                <li>Housekeeping standards and audit documentation readiness</li>
+                <li>{t('hseHighlights.inspectionPoint1')}</li>
+                <li>{t('hseHighlights.inspectionPoint2')}</li>
+                <li>{t('hseHighlights.inspectionPoint3')}</li>
               </ul>
               <div className="mt-4 text-xs text-muted">
-                Image: On-site inspection for JBL Etihad Rail road works
+                {t('hseHighlights.inspectionImageCaption')}
               </div>
             </div>
           </div>

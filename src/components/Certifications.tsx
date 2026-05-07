@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 import Card from './Card'
 import { certifications } from '../data/resume'
@@ -8,6 +9,13 @@ const categoryOrder = [
   'IT & Cybersecurity',
   'Business & Professional',
 ] as const
+
+const categoryMap: Record<string, string> = {
+  'HSE & Safety': 'certifications.categoryHSE',
+  'AI & Technology': 'certifications.categoryAI',
+  'IT & Cybersecurity': 'certifications.categoryIT',
+  'Business & Professional': 'certifications.categoryBusiness',
+}
 
 const categoryIcons: Record<string, JSX.Element> = {
   'HSE & Safety': (
@@ -60,7 +68,7 @@ const categoryColors: Record<string, string> = {
 }
 
 export default function Certifications() {
-  // Group certifications by category
+  const { t } = useTranslation()
   const grouped = categoryOrder.reduce(
     (acc, category) => {
       acc[category] = certifications.filter(c => c.category === category)
@@ -72,8 +80,8 @@ export default function Certifications() {
   return (
     <Section
       id="certifications"
-      title="Certifications"
-      subtitle="Professional certifications and credentials"
+      title={t('certifications.title')}
+      subtitle={t('certifications.subtitle')}
     >
       <div className="space-y-10">
         {categoryOrder.map(category => {
@@ -90,9 +98,12 @@ export default function Certifications() {
                   <span className="w-5 h-5">{categoryIcons[category]}</span>
                 </div>
                 <div className="flex items-baseline gap-2">
-                  <h3 className="text-base font-bold text-text">{category}</h3>
+                  <h3 className="text-base font-bold text-text">{t(categoryMap[category])}</h3>
                   <span className="text-xs text-muted">
-                    {certs.length} cert{certs.length > 1 ? 's' : ''}
+                    {certs.length}{' '}
+                    {certs.length > 1
+                      ? t('certifications.certCountPlural')
+                      : t('certifications.certCount')}
                   </span>
                 </div>
                 <div className="flex-1 h-px bg-border/40 ml-2" aria-hidden="true" />
@@ -111,9 +122,11 @@ export default function Certifications() {
 
                       {/* Date row */}
                       <p className="text-xs text-muted">
-                        Issued {cert.issueDate}
+                        {t('certifications.issued')} {cert.issueDate}
                         {cert.expiryDate && (
-                          <span className="ml-1 text-border/80">· Exp. {cert.expiryDate}</span>
+                          <span className="ml-1 text-border/80">
+                            · {t('certifications.expires')} {cert.expiryDate}
+                          </span>
                         )}
                       </p>
 
@@ -125,7 +138,7 @@ export default function Certifications() {
                           rel="noopener noreferrer"
                           className="mt-auto inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium transition-colors group"
                         >
-                          View credential
+                          {t('certifications.viewCredential')}
                           <svg
                             className="w-3 h-3 transition-transform group-hover:translate-x-0.5"
                             fill="none"

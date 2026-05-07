@@ -1,13 +1,15 @@
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 import Card from './Card'
 import { experiences } from '../data/resume'
 
 export default function Experience() {
+  const { t } = useTranslation()
   return (
     <Section
       id="experience"
-      title="Experience"
-      subtitle="My professional journey building software solutions"
+      title={t('experience.title')}
+      subtitle={t('experience.subtitle')}
       gradient
     >
       <div className="relative">
@@ -35,11 +37,13 @@ export default function Experience() {
                         {exp.current && (
                           <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
                             <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                            Current
+                            {t('experience.current')}
                           </span>
                         )}
                       </div>
-                      <h3 className="text-xl md:text-2xl font-bold text-text mb-2">{exp.title}</h3>
+                      <h3 className="text-xl md:text-2xl font-bold text-text mb-2">
+                        {t(`experience.exp${index + 1}.title`)}
+                      </h3>
                       <div className="flex items-center gap-2 text-primary font-medium text-sm md:text-base">
                         {exp.companyLogo ? (
                           <img
@@ -66,7 +70,9 @@ export default function Experience() {
                             />
                           </svg>
                         )}
-                        <span className="break-words">{exp.company}</span>
+                        <span className="break-words">
+                          {t(`experience.exp${index + 1}.company`)}
+                        </span>
                       </div>
                       <div className="flex items-center gap-2 text-muted text-xs md:text-sm mt-1">
                         <svg
@@ -88,7 +94,7 @@ export default function Experience() {
                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
                           />
                         </svg>
-                        {exp.location}
+                        {t(`experience.exp${index + 1}.location`)}
                       </div>
                     </div>
                     <div className="flex items-center gap-2 text-xs md:text-sm text-muted bg-surface-hover px-3 md:px-4 py-2 rounded-full w-fit">
@@ -105,30 +111,35 @@ export default function Experience() {
                           d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                         />
                       </svg>
-                      {exp.startDate} - {exp.current ? 'Present' : exp.endDate}
+                      {exp.startDate} - {exp.current ? t('experience.present') : exp.endDate}
                     </div>
                   </div>
 
                   {/* Description */}
                   <ul className="space-y-2 md:space-y-3 mb-4 md:mb-6">
-                    {exp.description.map((desc, idx) => (
-                      <li key={idx} className="flex gap-2 md:gap-3 text-muted text-sm md:text-base">
-                        <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
-                          <svg
-                            className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        </span>
-                        <span className="leading-relaxed">{desc}</span>
-                      </li>
-                    ))}
+                    {t(`experience.exp${index + 1}.description`, { returnObjects: true }).map(
+                      (desc, idx) => (
+                        <li
+                          key={idx}
+                          className="flex gap-2 md:gap-3 text-muted text-sm md:text-base"
+                        >
+                          <span className="flex-shrink-0 w-5 h-5 md:w-6 md:h-6 rounded-full bg-primary/10 flex items-center justify-center mt-0.5">
+                            <svg
+                              className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fillRule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clipRule="evenodd"
+                              />
+                            </svg>
+                          </span>
+                          <span className="leading-relaxed">{desc}</span>
+                        </li>
+                      )
+                    )}
                   </ul>
 
                   {/* Technologies */}

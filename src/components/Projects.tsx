@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 import Card from './Card'
 import { Project } from '../types'
@@ -131,6 +132,7 @@ interface ExtendedProject extends Project {
 }
 
 export default function Projects() {
+  const { t } = useTranslation()
   const [projects, setProjects] = useState<ExtendedProject[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -188,7 +190,7 @@ export default function Projects() {
         return {
           id: repo.id.toString(),
           name: enhancement?.displayName || formatProjectName(repo.name),
-          description: enhancement?.description || repo.description || 'No description available',
+          description: enhancement?.description || repo.description || t('projects.noDescription'),
           technologies: enhancement?.technologies || (repo.language ? [repo.language] : []),
           githubUrl: repo.html_url,
           liveUrl: enhancement?.liveUrl || repo.homepage || undefined,
@@ -245,14 +247,14 @@ export default function Projects() {
 
   if (loading) {
     return (
-      <Section id="projects" title="Projects" subtitle="Recent work and contributions">
-        <div className="text-center text-muted">Loading projects...</div>
+      <Section id="projects" title={t('projects.title')} subtitle={t('projects.subtitle')}>
+        <div className="text-center text-muted">{t('projects.loading')}</div>
       </Section>
     )
   }
 
   return (
-    <Section id="projects" title="Projects" subtitle="Featured work and open source contributions">
+    <Section id="projects" title={t('projects.title')} subtitle={t('projects.subtitle')}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map(project => (
           <Card key={project.id} hover>
@@ -302,7 +304,7 @@ export default function Projects() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    View Code
+                    {t('projects.viewCode')}
                   </a>
                 )}
                 {project.liveUrl && (
@@ -320,7 +322,7 @@ export default function Projects() {
                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                       />
                     </svg>
-                    Live Demo
+                    {t('projects.liveDemo')}
                   </a>
                 )}
               </div>
@@ -337,7 +339,7 @@ export default function Projects() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-primary hover:text-primary-dark font-medium transition-colors"
         >
-          View all repositories on GitHub
+          {t('projects.viewAllRepos')}
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"

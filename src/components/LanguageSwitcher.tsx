@@ -1,11 +1,19 @@
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation()
 
   const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === 'en' ? 'ar' : 'en')
+    const newLang = i18n.language === 'en' ? 'ar' : 'en'
+    i18n.changeLanguage(newLang)
   }
+
+  useEffect(() => {
+    // Set document direction based on language
+    document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr'
+    document.documentElement.lang = i18n.language
+  }, [i18n.language])
 
   return (
     <button

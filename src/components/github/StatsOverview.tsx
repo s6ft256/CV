@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Card from '../Card'
 
 interface StatsOverviewProps {
@@ -15,17 +16,18 @@ export default function StatsOverview({
   followers,
   totalContributions,
 }: StatsOverviewProps) {
+  const { t } = useTranslation()
   const stats = [
     {
       value: totalContributions,
-      label: 'Contributions',
+      label: t('github.contributions'),
       color: 'text-green-500',
-      hint: '(last 20 wks)',
+      hint: t('github.contributionsHint'),
     },
-    { value: publicRepos, label: 'Repositories', color: 'text-primary', hint: undefined },
-    { value: totalStars, label: 'Total Stars', color: 'text-yellow-500', hint: undefined },
-    { value: totalForks, label: 'Total Forks', color: 'text-blue-500', hint: undefined },
-    { value: followers, label: 'Followers', color: 'text-purple-500', hint: undefined },
+    { value: publicRepos, label: t('github.repositories'), color: 'text-primary', hint: undefined },
+    { value: totalStars, label: t('github.totalStars'), color: 'text-yellow-500', hint: undefined },
+    { value: totalForks, label: t('github.totalForks'), color: 'text-blue-500', hint: undefined },
+    { value: followers, label: t('github.followers'), color: 'text-purple-500', hint: undefined },
   ]
 
   return (

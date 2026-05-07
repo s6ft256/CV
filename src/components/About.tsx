@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 
 const pillars = [
@@ -17,8 +18,8 @@ const pillars = [
         />
       </svg>
     ),
-    title: 'Full-Stack Engineering',
-    body: 'React, TypeScript, Next.js on the frontend; Python, Django, FastAPI on the backend. End-to-end ownership from database schema to production deployment.',
+    title: 'about.pillar1.title',
+    body: 'about.pillar1.body',
     accent: 'var(--primary)',
   },
   {
@@ -37,8 +38,8 @@ const pillars = [
         />
       </svg>
     ),
-    title: 'HSE & Compliance Systems',
-    body: 'IOSH-certified professional who builds safety-critical tools — incident management, compliance reporting, risk assessment dashboards — that keep teams and regulators aligned.',
+    title: 'about.pillar2.title',
+    body: 'about.pillar2.body',
     accent: '#22c55e',
   },
   {
@@ -57,8 +58,8 @@ const pillars = [
         />
       </svg>
     ),
-    title: 'Data Automation & Analytics',
-    body: 'Automated reporting pipelines that cut manual effort by 80%+. Power BI dashboards, real-time KPI tracking, and workflow automation for enterprise and SME clients.',
+    title: 'about.pillar3.title',
+    body: 'about.pillar3.body',
     accent: 'var(--accent)',
   },
   {
@@ -77,13 +78,14 @@ const pillars = [
         />
       </svg>
     ),
-    title: 'DevOps & Cloud',
-    body: 'Docker, CI/CD pipelines, AWS infrastructure and GitHub Actions. Built to ship reliably — from commit to production with minimal friction.',
+    title: 'about.pillar4.title',
+    body: 'about.pillar4.body',
     accent: '#a78bfa',
   },
 ]
 
 export default function About() {
+  const { t } = useTranslation()
   return (
     <Section id="about">
       {/* Expertise pillars */}
@@ -108,10 +110,10 @@ export default function About() {
               className="text-base font-bold mb-2"
               style={{ color: 'var(--text)', fontFamily: 'inherit' }}
             >
-              {p.title}
+              {t(p.title)}
             </h3>
             <p className="text-sm leading-relaxed" style={{ color: 'var(--muted)' }}>
-              {p.body}
+              {t(p.body)}
             </p>
             {/* subtle left accent line on hover */}
             <span

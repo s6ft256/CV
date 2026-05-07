@@ -1,6 +1,8 @@
+import { useTranslation } from 'react-i18next'
 import { personalInfo } from '../data/resume'
 
 export default function Footer() {
+  const { t } = useTranslation()
   const currentYear = new Date().getFullYear()
 
   return (
@@ -15,20 +17,26 @@ export default function Footer() {
             <h3 className="text-xl md:text-2xl font-bold text-text mb-3">{personalInfo.name}</h3>
             <p className="text-muted mb-4">{personalInfo.title}</p>
             <p className="text-sm text-muted/80 leading-relaxed max-w-xs mx-auto sm:mx-0">
-              Building robust software solutions with a focus on quality and user experience.
+              {t('footer.description')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h4 className="text-sm font-semibold text-text uppercase tracking-wider mb-4">
-              Quick Links
+              {t('footer.quickLinks')}
             </h4>
             <nav className="space-y-2">
-              {['Experience', 'Skills', 'Projects', 'Education', 'Contact'].map(link => (
+              {[
+                t('nav.experience'),
+                t('nav.skills'),
+                t('nav.projects'),
+                t('nav.education'),
+                t('nav.contact'),
+              ].map((link, index) => (
                 <a
                   key={link}
-                  href={`#${link.toLowerCase()}`}
+                  href={`#${['experience', 'skills', 'projects', 'education', 'contact'][index]}`}
                   className="block text-muted hover:text-primary transition-colors"
                 >
                   {link}
@@ -40,7 +48,7 @@ export default function Footer() {
           {/* Connect */}
           <div>
             <h4 className="text-sm font-semibold text-text uppercase tracking-wider mb-4">
-              Connect
+              {t('footer.connect')}
             </h4>
             <div className="flex gap-4 mb-6 justify-center sm:justify-start">
               <a
@@ -87,7 +95,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="pt-8 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-sm text-muted">
-            &copy; {currentYear} {personalInfo.name}. All rights reserved.
+            &copy; {currentYear} {personalInfo.name}. {t('footer.allRightsReserved')}
           </p>
         </div>
       </div>

@@ -1,10 +1,12 @@
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 import Card from './Card'
 import { education } from '../data/resume'
 
 export default function Education() {
+  const { t } = useTranslation()
   return (
-    <Section id="education" title="Education" subtitle="Academic background and qualifications">
+    <Section id="education" title={t('education.title')} subtitle={t('education.subtitle')}>
       <div className="max-w-4xl mx-auto space-y-8">
         {education.map(edu => (
           <Card key={edu.id} hover glow="blue">

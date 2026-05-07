@@ -1,10 +1,12 @@
 import { useState, FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import Section from './Section'
 import Card from './Card'
 import Button from './Button'
 import { personalInfo } from '../data/resume'
 
 export default function Contact() {
+  const { t } = useTranslation()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -88,21 +90,13 @@ export default function Contact() {
   ]
 
   return (
-    <Section
-      id="contact"
-      title="Get In Touch"
-      subtitle="Let's discuss your next project or opportunity"
-      gradient
-    >
+    <Section id="contact" title={t('contact.title')} subtitle={t('contact.subtitle')} gradient>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
         {/* Contact Info */}
         <div className="space-y-8">
           <div>
-            <h3 className="text-2xl font-bold text-text mb-4">Let&apos;s work together</h3>
-            <p className="text-muted leading-relaxed">
-              I&apos;m always interested in hearing about new projects and opportunities. Whether
-              you have a question or just want to say hi, feel free to reach out!
-            </p>
+            <h3 className="text-2xl font-bold text-text mb-4">{t('contact.letsWorkTogether')}</h3>
+            <p className="text-muted leading-relaxed">{t('contact.description')}</p>
           </div>
 
           {/* Contact Methods */}
@@ -132,7 +126,7 @@ export default function Contact() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-text mb-2">
-                Name
+                {t('contact.nameLabel')}
               </label>
               <input
                 type="text"
@@ -141,13 +135,13 @@ export default function Contact() {
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-4 py-3 bg-bg/50 border border-border/50 rounded-xl text-text placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                placeholder="Your name"
+                placeholder={t('contact.namePlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-text mb-2">
-                Email
+                {t('contact.email')}
               </label>
               <input
                 type="email"
@@ -156,13 +150,13 @@ export default function Contact() {
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-3 bg-bg/50 border border-border/50 rounded-xl text-text placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
-                placeholder="your.email@example.com"
+                placeholder={t('contact.emailPlaceholder')}
               />
             </div>
 
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-text mb-2">
-                Message
+                {t('contact.messageLabel')}
               </label>
               <textarea
                 id="message"
@@ -171,7 +165,7 @@ export default function Contact() {
                 value={formData.message}
                 onChange={e => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-4 py-3 bg-bg/50 border border-border/50 rounded-xl text-text placeholder:text-muted/50 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none transition-all"
-                placeholder="Tell me about your project..."
+                placeholder={t('contact.messagePlaceholder')}
               />
             </div>
 
