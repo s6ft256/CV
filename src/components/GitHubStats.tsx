@@ -230,7 +230,10 @@ export default function GitHubStats() {
         }
       }
 
-      if (!usedGraphQL && !prebuiltContrib) generateContributionMatrix(events, repos)
+      let fallbackContributions: ContributionDay[] = []
+      if (!usedGraphQL && !prebuiltContrib) {
+        fallbackContributions = generateContributionMatrix(events, repos)
+      }
 
       if (!prebuiltStats)
         setStats({
@@ -238,7 +241,10 @@ export default function GitHubStats() {
           followers: user.followers,
           totalStars,
           totalForks,
-          totalContributions,
+          totalContributions:
+            usedGraphQL || prebuiltContrib
+              ? totalContributions
+              : fallbackContributions.reduce((sum, day) => sum + day.count, 0),
           topLanguages,
         })
 
@@ -271,7 +277,7 @@ export default function GitHubStats() {
   const generateContributionMatrix = (
     events: GitHubEventResponse[],
     repos: GitHubRepoResponse[]
-  ) => {
+  ): ContributionDay[] => {
     const today = new Date()
     const weeks = 20
     const days: ContributionDay[] = []
@@ -307,6 +313,7 @@ export default function GitHubStats() {
     }
 
     setContributions(days)
+    return days
   }
 
   if (loading) {

@@ -19,6 +19,43 @@ const LANGUAGE_COLORS = {
   Shell: '#89e051',
 }
 
+function buildContributionMatrix(events, repos, weeks = 20) {
+  const today = new Date()
+  const activityMap = {}
+
+  events.forEach(event => {
+    const date = event.created_at.split('T')[0]
+    activityMap[date] = (activityMap[date] || 0) + 1
+  })
+
+  repos.forEach(repo => {
+    const pushDate = repo.pushed_at?.split('T')[0]
+    if (pushDate) {
+      activityMap[pushDate] = (activityMap[pushDate] || 0) + 1
+    }
+  })
+
+  const days = []
+  for (let w = weeks - 1; w >= 0; w--) {
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(today)
+      date.setDate(date.getDate() - (w * 7 + (6 - d)))
+      const dateStr = date.toISOString().split('T')[0]
+      const count = activityMap[dateStr] || 0
+
+      let level = 0
+      if (count > 0) level = 1
+      if (count >= 3) level = 2
+      if (count >= 6) level = 3
+      if (count >= 10) level = 4
+
+      days.push({ date: dateStr, count, level })
+    }
+  }
+
+  return days
+}
+
 function parseEnv(text) {
   const out = {}
   text
@@ -87,6 +124,23 @@ async function main() {
     if (batch.length < perPage) break
   }
 
+  // Recent public events for fallback contributions
+  const events = []
+  for (let page = 1; page <= 3; page++) {
+    try {
+      const res = await fetch(
+        `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
+        reqInit
+      )
+      if (!res.ok) break
+      const batch = await res.json()
+      events.push(...batch)
+      if (batch.length < 100) break
+    } catch (err) {
+      break
+    }
+  }
+
   // Totals
   const totalStars = repos.reduce((sum, r) => sum + (r.stargazers_count || 0), 0)
   const totalForks = repos.reduce((sum, r) => sum + (r.forks_count || 0), 0)
@@ -153,6 +207,11 @@ async function main() {
         contributionDays = days
       }
     }
+  }
+
+  if (!contributionDays.length) {
+    contributionDays = buildContributionMatrix(events, repos)
+    totalContributions = contributionDays.reduce((sum, day) => sum + day.count, 0)
   }
 
   const out = {
