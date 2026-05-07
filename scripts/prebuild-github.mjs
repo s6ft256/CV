@@ -67,7 +67,10 @@ function parseEnv(text) {
       if (idx === -1) return
       const key = line.slice(0, idx).trim()
       let val = line.slice(idx + 1).trim()
-      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      if (
+        (val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))
+      ) {
         val = val.slice(1, -1)
       }
       out[key] = val
@@ -94,7 +97,9 @@ async function main() {
   const username = process.env.GITHUB_USERNAME || process.env.VITE_GITHUB_USERNAME || 's6ft256'
   const token = await getToken()
   if (!token) {
-    console.warn('[prebuild-github] No token found; generating with unauthenticated API may hit rate limits or skip GraphQL contributions.')
+    console.warn(
+      '[prebuild-github] No token found; generating with unauthenticated API may hit rate limits or skip GraphQL contributions.'
+    )
   }
 
   const headers = {
@@ -105,40 +110,45 @@ async function main() {
 
   const reqInit = { headers }
 
-  // User
-  const userRes = await fetch(`https://api.github.com/users/${username}`, reqInit)
-  if (!userRes.ok) throw new Error(`Failed to fetch user: ${userRes.status}`)
-  const user = await userRes.json()
+  async function fetchJson(url, description, init = reqInit) {
+    try {
+      const res = await fetch(url, init)
+      if (!res.ok) {
+        console.warn(`[prebuild-github] Warning: Failed ${description}: ${res.status}`)
+        return null
+      }
+      return await res.json()
+    } catch (err) {
+      console.warn(`[prebuild-github] Warning: Failed ${description}: ${err?.message || err}`)
+      return null
+    }
+  }
 
-  // Repos (paginate)
-  const perPage = 100
+  const user = (await fetchJson(`https://api.github.com/users/${username}`, 'fetch user')) || {
+    public_repos: 0,
+    followers: 0,
+  }
   const repos = []
+  const perPage = 100
   for (let page = 1; page <= 10; page++) {
-    const res = await fetch(
+    const batch = await fetchJson(
       `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`,
-      reqInit
+      `fetch repos page ${page}`
     )
-    if (!res.ok) throw new Error(`Failed to fetch repos page ${page}: ${res.status}`)
-    const batch = await res.json()
+    if (!batch) break
     repos.push(...batch)
     if (batch.length < perPage) break
   }
 
-  // Recent public events for fallback contributions
   const events = []
   for (let page = 1; page <= 3; page++) {
-    try {
-      const res = await fetch(
-        `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
-        reqInit
-      )
-      if (!res.ok) break
-      const batch = await res.json()
-      events.push(...batch)
-      if (batch.length < 100) break
-    } catch (err) {
-      break
-    }
+    const batch = await fetchJson(
+      `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
+      `fetch public events page ${page}`
+    )
+    if (!batch) break
+    events.push(...batch)
+    if (batch.length < 100) break
   }
 
   // Totals
@@ -160,7 +170,12 @@ async function main() {
     .filter(r => !r.fork)
     .sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
     .slice(0, 6)
-    .map(r => ({ name: r.name, stars: r.stargazers_count || 0, forks: r.forks_count || 0, url: r.html_url }))
+    .map(r => ({
+      name: r.name,
+      stars: r.stargazers_count || 0,
+      forks: r.forks_count || 0,
+      url: r.html_url,
+    }))
 
   // Contributions via GraphQL (exact calendar) when token is present
   let totalContributions = 0
@@ -169,7 +184,7 @@ async function main() {
     const now = new Date()
     const from = new Date(now)
     from.setDate(from.getDate() - 20 * 7)
-    const gqlRes = await fetch('https://api.github.com/graphql', {
+    const gql = await fetchJson('https://api.github.com/graphql', 'fetch GraphQL contributions', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -178,34 +193,31 @@ async function main() {
       },
       body: JSON.stringify({
         query: `query($login:String!,$from:DateTime!,$to:DateTime!){
-          user(login:$login){
-            contributionsCollection(from:$from,to:$to){
-              contributionCalendar{ totalContributions weeks{ contributionDays{ date contributionCount } } }
+            user(login:$login){
+              contributionsCollection(from:$from,to:$to){
+                contributionCalendar{ totalContributions weeks{ contributionDays{ date contributionCount } } }
+              }
             }
-          }
-        }`,
+          }`,
         variables: { login: username, from: from.toISOString(), to: now.toISOString() },
       }),
     })
-    if (gqlRes.ok) {
-      const gql = await gqlRes.json()
-      const cal = gql?.data?.user?.contributionsCollection?.contributionCalendar
-      if (cal) {
-        totalContributions = cal.totalContributions || 0
-        const days = []
-        for (const w of cal.weeks || []) {
-          for (const d of w.contributionDays || []) {
-            const c = d.contributionCount || 0
-            let level = 0
-            if (c >= 1) level = 1
-            if (c >= 3) level = 2
-            if (c >= 6) level = 3
-            if (c >= 10) level = 4
-            days.push({ date: d.date, count: c, level })
-          }
+    const cal = gql?.data?.user?.contributionsCollection?.contributionCalendar
+    if (cal) {
+      totalContributions = cal.totalContributions || 0
+      const days = []
+      for (const w of cal.weeks || []) {
+        for (const d of w.contributionDays || []) {
+          const c = d.contributionCount || 0
+          let level = 0
+          if (c >= 1) level = 1
+          if (c >= 3) level = 2
+          if (c >= 6) level = 3
+          if (c >= 10) level = 4
+          days.push({ date: d.date, count: c, level })
         }
-        contributionDays = days
       }
+      contributionDays = days
     }
   }
 

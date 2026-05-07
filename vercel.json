@@ -6,11 +6,5 @@
       "use": "@vercel/static-build"
     }
   ],
-  "outputDirectory": ".",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ]
+  "outputDirectory": "dist"
 }
