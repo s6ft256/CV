@@ -210,3 +210,203 @@ body:has(.fixed > svg) .mesh-bg,
 .matrix-grid-cell:hover::before {
   opacity: 1;
 }
+
+/* ---------- Print styles for resume ---------- */
+@media print {
+  /* CRITICAL: Force reveal animations to show content */
+  .reveal,
+  .reveal[data-revealed='false'],
+  .reveal:not([data-revealed]) {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Hide only truly non-essential elements */
+  nav,
+  .hero__scroll-indicator,
+  .hero__cta,
+  .hero__social,
+  button:not([onclick*='generateResumePDF']):not([onclick*='handlePrintResume']),
+  a[href^='#'],
+  .mini-game,
+  footer {
+    display: none !important;
+  }
+
+  /* Keep the resume/print button visible */
+  button[onclick*='generateResumePDF'],
+  button[onclick*='handlePrintResume'] {
+    display: inline-block !important;
+  }
+
+  /* Optimize layout for print - minimize gaps */
+  @page {
+    margin: 0.5cm;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Ensure text is readable */
+  * {
+    color: black !important;
+  }
+
+  /* Remove backgrounds and shadows for cleaner print */
+  .card,
+  [class*='Card'] {
+    box-shadow: none !important;
+    background: white !important;
+    border: 1px solid #e5e7eb !important;
+    margin-bottom: 0.5rem !important;
+    padding: 0.75rem !important;
+  }
+
+  /* Ensure links are readable */
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  /* Optimize hero section for print - minimize space */
+  .hero {
+    min-height: auto !important;
+    padding: 1rem 0 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .hero__image-wrapper {
+    display: none;
+  }
+
+  .hero__content {
+    width: 100% !important;
+  }
+
+  .hero__title {
+    font-size: 1.5rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .hero__subtitle {
+    font-size: 1rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .hero__summary {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Optimize quick stats for print */
+  .hero__stats {
+    gap: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .hero__stat {
+    padding: 0.25rem 0.5rem !important;
+  }
+
+  .hero__stat-value {
+    font-size: 0.875rem !important;
+  }
+
+  .hero__stat-label {
+    font-size: 0.75rem !important;
+  }
+
+  /* Ensure sections have proper spacing - minimize gaps */
+  section {
+    page-break-inside: avoid;
+    margin-bottom: 0.75rem !important;
+    padding-top: 0.5rem !important;
+  }
+
+  /* Optimize section headers */
+  section h2,
+  section [class*='title'] {
+    font-size: 1.25rem !important;
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  section h3,
+  section [class*='subtitle'] {
+    font-size: 0.875rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  /* Optimize grid layouts for print - convert to block but keep compact */
+  .grid,
+  [class*='grid'] {
+    display: block !important;
+    gap: 0.25rem !important;
+  }
+
+  .grid > *,
+  [class*='grid'] > * {
+    margin-bottom: 0.5rem !important;
+  }
+
+  /* Ensure images are properly sized */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 2in !important;
+  }
+
+  /* Remove animations */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Ensure all cards and content within sections are visible */
+  section > *,
+  section [class*='Card'],
+  section [class*='card'],
+  section .card,
+  .github-stats > *,
+  .github-stats [class*='Card'],
+  .github-stats [class*='card'],
+  .github-stats .card {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  /* Optimize text sizes for print */
+  p,
+  li,
+  span,
+  div {
+    font-size: 0.875rem !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Optimize lists */
+  ul,
+  ol {
+    margin: 0.25rem 0 !important;
+    padding-left: 1.25rem !important;
+  }
+
+  li {
+    margin-bottom: 0.125rem !important;
+  }
+
+  /* Optimize badges/tags */
+  [class*='badge'],
+  [class*='tag'],
+  span[class*='px'] {
+    padding: 0.125rem 0.375rem !important;
+    font-size: 0.75rem !important;
+    margin: 0.125rem !important;
+  }
+}
