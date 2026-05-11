@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { personalInfo } from '../data/resume'
 import Button from './Button'
-import { generateResumePDF, downloadResume } from '../utils/pdfExport'
+import { generateResumePDF } from '../utils/pdfExport'
 
 export default function Hero() {
   const { t } = useTranslation()
@@ -11,13 +11,6 @@ export default function Hero() {
 
   const handleHover = () => {
     setCurrentImage(prev => (prev % 3) + 1)
-  }
-
-  const handleDownloadResume = () => {
-    setIsDownloading(true)
-    downloadResume()
-    // Reset loading state after a short delay
-    setTimeout(() => setIsDownloading(false), 2000)
   }
 
   const handlePrintResume = () => {

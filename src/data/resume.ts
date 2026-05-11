@@ -109,7 +109,7 @@ export const certifications: Certification[] = [
     issuer: 'Institution of Occupational Safety and Health',
     issueDate: '2024',
     credentialId: 'IOSH-MS',
-    credentialUrl: '/iosh.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}iosh.pdf`,
     category: 'HSE & Safety',
   },
   {
@@ -117,9 +117,9 @@ export const certifications: Certification[] = [
     name: 'GitHub Certification',
     issuer: 'GitHub',
     issueDate: '2024',
-    credentialUrl: '/gh.jpg',
+    credentialUrl: `${import.meta.env.BASE_URL}gh.jpg`,
     category: 'IT & Cybersecurity',
-    imageUrl: '/gh.jpg',
+    imageUrl: `${import.meta.env.BASE_URL}gh.jpg`,
   },
   // AI & Technology
   {
@@ -127,7 +127,7 @@ export const certifications: Certification[] = [
     name: 'AI for Beginners',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/AI%20for%20Beginners.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}AI%20for%20Beginners.pdf`,
     category: 'AI & Technology',
   },
   {
@@ -135,7 +135,7 @@ export const certifications: Certification[] = [
     name: 'AI for Business Professionals',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/AI%20for%20Business%20Professionals.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}AI%20for%20Business%20Professionals.pdf`,
     category: 'AI & Technology',
   },
   // IT & Cybersecurity
@@ -144,7 +144,7 @@ export const certifications: Certification[] = [
     name: 'Introduction to Cybersecurity Awareness',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/Introduction%20to%20Cybersecurity%20Awareness.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}Introduction%20to%20Cybersecurity%20Awareness.pdf`,
     category: 'IT & Cybersecurity',
   },
   {
@@ -152,7 +152,7 @@ export const certifications: Certification[] = [
     name: 'IT for Business Success',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/IT%20for%20Business%20Success.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}IT%20for%20Business%20Success.pdf`,
     category: 'IT & Cybersecurity',
   },
   // Business & Professional
@@ -161,7 +161,7 @@ export const certifications: Certification[] = [
     name: 'Business Email',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/Business%20Email.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}Business%20Email.pdf`,
     category: 'Business & Professional',
   },
   {
@@ -169,7 +169,7 @@ export const certifications: Certification[] = [
     name: 'Customer Experience (CX) for Business Success',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/Customer%20Experience%20(CX)%20for%20Business%20Success.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}Customer%20Experience%20%28CX%29%20for%20Business%20Success.pdf`,
     category: 'Business & Professional',
   },
   {
@@ -177,7 +177,7 @@ export const certifications: Certification[] = [
     name: 'Inventory Management',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/Inventory%20Management.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}Inventory%20Management.pdf`,
     category: 'Business & Professional',
   },
   {
@@ -185,7 +185,7 @@ export const certifications: Certification[] = [
     name: 'Presenting Data',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/Presenting%20Data.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}Presenting%20Data.pdf`,
     category: 'Business & Professional',
   },
   {
@@ -193,7 +193,7 @@ export const certifications: Certification[] = [
     name: 'Professional Networking for Career Growth',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: '/Professional%20Networking%20for%20Career%20Growth.pdf',
+    credentialUrl: `${import.meta.env.BASE_URL}Professional%20Networking%20for%20Career%20Growth.pdf`,
     category: 'Business & Professional',
   },
 ]
