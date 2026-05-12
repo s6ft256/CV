@@ -134,8 +134,6 @@ export default function Certifications() {
                       {cert.credentialUrl && (
                         <a
                           href={cert.credentialUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
                           className="mt-auto inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium transition-colors group"
                         >
                           {t('certifications.viewCredential')}
