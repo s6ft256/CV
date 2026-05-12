@@ -1,11 +1,22 @@
-import {
+import type {
   PersonalInfo,
   Experience,
   Education,
   Certification,
-  SkillCategory,
   Project,
+  SkillCategory,
 } from '../types'
+
+const assetUrl = (path: string) => {
+  const base =
+    typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')
+      ? '/CV/'
+      : import.meta.env.BASE_URL === './'
+        ? '/'
+        : import.meta.env.BASE_URL.replace(/\/?$/, '/')
+
+  return `${base}${path}`
+}
 
 export const projects: Project[] = [
   {
@@ -109,7 +120,7 @@ export const certifications: Certification[] = [
     issuer: 'Institution of Occupational Safety and Health',
     issueDate: '2024',
     credentialId: 'IOSH-MS',
-    credentialUrl: `${import.meta.env.BASE_URL}iosh.pdf`,
+    credentialUrl: assetUrl('iosh.pdf'),
     category: 'HSE & Safety',
   },
   {
@@ -117,9 +128,9 @@ export const certifications: Certification[] = [
     name: 'GitHub Certification',
     issuer: 'GitHub',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}gh.jpg`,
+    credentialUrl: assetUrl('gh.jpg'),
     category: 'IT & Cybersecurity',
-    imageUrl: `${import.meta.env.BASE_URL}gh.jpg`,
+    imageUrl: assetUrl('gh.jpg'),
   },
   // AI & Technology
   {
@@ -127,7 +138,7 @@ export const certifications: Certification[] = [
     name: 'AI for Beginners',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}AI%20for%20Beginners.pdf`,
+    credentialUrl: assetUrl('AI%20for%20Beginners.pdf'),
     category: 'AI & Technology',
   },
   {
@@ -135,7 +146,7 @@ export const certifications: Certification[] = [
     name: 'AI for Business Professionals',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}AI%20for%20Business%20Professionals.pdf`,
+    credentialUrl: assetUrl('AI%20for%20Business%20Professionals.pdf'),
     category: 'AI & Technology',
   },
   // IT & Cybersecurity
@@ -144,7 +155,7 @@ export const certifications: Certification[] = [
     name: 'Introduction to Cybersecurity Awareness',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}Introduction%20to%20Cybersecurity%20Awareness.pdf`,
+    credentialUrl: assetUrl('Introduction%20to%20Cybersecurity%20Awareness.pdf'),
     category: 'IT & Cybersecurity',
   },
   {
@@ -152,7 +163,7 @@ export const certifications: Certification[] = [
     name: 'IT for Business Success',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}IT%20for%20Business%20Success.pdf`,
+    credentialUrl: assetUrl('IT%20for%20Business%20Success.pdf'),
     category: 'IT & Cybersecurity',
   },
   // Business & Professional
@@ -161,7 +172,7 @@ export const certifications: Certification[] = [
     name: 'Business Email',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}Business%20Email.pdf`,
+    credentialUrl: assetUrl('Business%20Email.pdf'),
     category: 'Business & Professional',
   },
   {
@@ -169,7 +180,7 @@ export const certifications: Certification[] = [
     name: 'Customer Experience (CX) for Business Success',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}Customer%20Experience%20%28CX%29%20for%20Business%20Success.pdf`,
+    credentialUrl: assetUrl('Customer%20Experience%20%28CX%29%20for%20Business%20Success.pdf'),
     category: 'Business & Professional',
   },
   {
@@ -177,7 +188,7 @@ export const certifications: Certification[] = [
     name: 'Inventory Management',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}Inventory%20Management.pdf`,
+    credentialUrl: assetUrl('Inventory%20Management.pdf'),
     category: 'Business & Professional',
   },
   {
@@ -185,7 +196,7 @@ export const certifications: Certification[] = [
     name: 'Presenting Data',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}Presenting%20Data.pdf`,
+    credentialUrl: assetUrl('Presenting%20Data.pdf'),
     category: 'Business & Professional',
   },
   {
@@ -193,7 +204,7 @@ export const certifications: Certification[] = [
     name: 'Professional Networking for Career Growth',
     issuer: 'Professional Development Institute',
     issueDate: '2024',
-    credentialUrl: `${import.meta.env.BASE_URL}Professional%20Networking%20for%20Career%20Growth.pdf`,
+    credentialUrl: assetUrl('Professional%20Networking%20for%20Career%20Growth.pdf'),
     category: 'Business & Professional',
   },
 ]
