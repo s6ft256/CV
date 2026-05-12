@@ -139,12 +139,10 @@ export default function Projects() {
   const fetchGitHubProjects = useCallback(async () => {
     try {
       const username = import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'
-      const token = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
       const headers: HeadersInit = {
         Accept: 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
       }
-      if (token) headers['Authorization'] = `Bearer ${token}`
 
       type Repo = {
         id: number

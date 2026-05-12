@@ -55,20 +55,6 @@ type GitHubEventResponse = {
   payload?: { commits?: { message?: string }[] }
 }
 
-type GQLContribDay = { date: string; contributionCount: number }
-type GQLContribResponse = {
-  data?: {
-    user?: {
-      contributionsCollection?: {
-        contributionCalendar?: {
-          totalContributions: number
-          weeks: { contributionDays: GQLContribDay[] }[]
-        }
-      }
-    }
-  }
-}
-
 export default function GitHubStats() {
   const [stats, setStats] = useState<GitHubStats | null>(null)
   const [contributions, setContributions] = useState<ContributionDay[]>([])
@@ -82,30 +68,11 @@ export default function GitHubStats() {
 
   const fetchGitHubData = useCallback(async () => {
     try {
-      const token = import.meta.env.VITE_GITHUB_TOKEN as string | undefined
       const headers: HeadersInit = {
         Accept: 'application/vnd.github+json',
         'X-GitHub-Api-Version': '2022-11-28',
       }
-      if (token) headers['Authorization'] = `Bearer ${token}`
       const reqInit: RequestInit = { headers }
-
-      const userRes = await fetch(`https://api.github.com/users/${username}`, reqInit)
-      if (!userRes.ok) throw new Error('Failed to fetch GitHub data')
-      const user: GitHubUserResponse = await userRes.json()
-
-      // GitHub REST API allows up to 3 pages × 100 = 300 public events (the API hard limit)
-      const events: GitHubEventResponse[] = []
-      for (let page = 1; page <= 3; page++) {
-        const res = await fetch(
-          `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
-          reqInit
-        )
-        if (!res.ok) break
-        const batch: GitHubEventResponse[] = await res.json()
-        events.push(...batch)
-        if (batch.length < 100) break
-      }
 
       // Try to load prebuilt data if available (for production/static)
       let prebuiltStats = false
@@ -130,6 +97,27 @@ export default function GitHubStats() {
         }
       } catch {
         // ignore if not present (local dev)
+      }
+
+      if (prebuiltStats && prebuiltContrib && prebuiltTopRepos) {
+        return
+      }
+
+      const userRes = await fetch(`https://api.github.com/users/${username}`, reqInit)
+      if (!userRes.ok) throw new Error('Failed to fetch GitHub data')
+      const user: GitHubUserResponse = await userRes.json()
+
+      // GitHub REST API allows up to 3 pages × 100 = 300 public events (the API hard limit)
+      const events: GitHubEventResponse[] = []
+      for (let page = 1; page <= 3; page++) {
+        const res = await fetch(
+          `https://api.github.com/users/${username}/events/public?per_page=100&page=${page}`,
+          reqInit
+        )
+        if (!res.ok) break
+        const batch: GitHubEventResponse[] = await res.json()
+        events.push(...batch)
+        if (batch.length < 100) break
       }
 
       // Fetch all repository pages to ensure totals are accurate (runtime fallback)
@@ -172,63 +160,8 @@ export default function GitHubStats() {
         }))
 
       // --- GraphQL contribution calendar (exact match to GitHub profile) ---
-      let totalContributions = 0
-      let usedGraphQL = false
-
-      if (token) {
-        try {
-          const now = new Date()
-          const from = new Date(now)
-          from.setDate(from.getDate() - 20 * 7) // 20-week window
-          const gqlRes = await fetch('https://api.github.com/graphql', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-              'X-GitHub-Api-Version': '2022-11-28',
-            },
-            body: JSON.stringify({
-              query: `query($login:String!,$from:DateTime!,$to:DateTime!){
-                user(login:$login){
-                  contributionsCollection(from:$from,to:$to){
-                    contributionCalendar{
-                      totalContributions
-                      weeks{ contributionDays{ date contributionCount } }
-                    }
-                  }
-                }
-              }`,
-              variables: {
-                login: username,
-                from: from.toISOString(),
-                to: now.toISOString(),
-              },
-            }),
-          })
-          if (gqlRes.ok) {
-            const gql: GQLContribResponse = await gqlRes.json()
-            const calendar = gql.data?.user?.contributionsCollection?.contributionCalendar
-            if (calendar) {
-              totalContributions = calendar.totalContributions
-              const days: ContributionDay[] = calendar.weeks.flatMap(w =>
-                w.contributionDays.map(d => {
-                  const c = d.contributionCount
-                  let level: 0 | 1 | 2 | 3 | 4 = 0
-                  if (c >= 1) level = 1
-                  if (c >= 3) level = 2
-                  if (c >= 6) level = 3
-                  if (c >= 10) level = 4
-                  return { date: d.date, count: c, level }
-                })
-              )
-              setContributions(days)
-              usedGraphQL = true
-            }
-          }
-        } catch {
-          // fall through to event-based fallback
-        }
-      }
+      const totalContributions = 0
+      const usedGraphQL = false
 
       let fallbackContributions: ContributionDay[] = []
       if (!usedGraphQL && !prebuiltContrib) {
