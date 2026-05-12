@@ -248,6 +248,7 @@ export default function Navigation() {
     isSpecial?: boolean
   ) => {
     e.preventDefault()
+    e.currentTarget.blur()
 
     if (isSpecial && href === '#game') {
       setIsGameOpen(true)
@@ -370,7 +371,6 @@ export default function Navigation() {
           role="dialog"
           aria-modal="true"
           aria-label="Site navigation"
-          aria-hidden={!isMobileMenuOpen}
           className={`
             fixed inset-0 z-40
             transition-opacity duration-300
@@ -416,6 +416,7 @@ export default function Navigation() {
                     href={item.href}
                     onClick={e => handleNavClick(e, item.href, item.isSpecial)}
                     aria-current={isActive ? 'page' : undefined}
+                    tabIndex={isMobileMenuOpen ? 0 : -1}
                     className={`
                       flex items-center gap-4 px-4 py-3 rounded-xl
                       transition-all duration-200
