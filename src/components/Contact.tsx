@@ -123,7 +123,7 @@ export default function Contact() {
 
         {/* Contact Form */}
         <Card glow="accent">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" autoComplete="on">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-text mb-2">
                 {t('contact.nameLabel')}
@@ -131,6 +131,8 @@ export default function Contact() {
               <input
                 type="text"
                 id="name"
+                name="name"
+                autoComplete="name"
                 required
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
@@ -146,6 +148,8 @@ export default function Contact() {
               <input
                 type="email"
                 id="email"
+                name="email"
+                autoComplete="email"
                 required
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
