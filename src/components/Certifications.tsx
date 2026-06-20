@@ -72,15 +72,26 @@ export default function Certifications() {
   const { t } = useTranslation()
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [previewType, setPreviewType] = useState<'pdf' | 'image' | 'other'>('pdf')
+  const [previewError, setPreviewError] = useState(false)
 
   useEffect(() => {
     if (!previewUrl) return
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setPreviewUrl(null)
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
     return () => {
       document.body.style.overflow = prev
+      document.removeEventListener('keydown', handleKeyDown)
     }
   }, [previewUrl])
+
   const grouped = categoryOrder.reduce(
     (acc, category) => {
       acc[category] = certifications.filter(c => c.category === category)
@@ -153,6 +164,7 @@ export default function Certifications() {
                               const clean = url.split('#')[0].split('?')[0].toLowerCase()
                               const isPdf = clean.endsWith('.pdf')
                               const isImg = /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(clean)
+                              setPreviewError(false)
                               setPreviewType(isPdf ? 'pdf' : isImg ? 'image' : 'other')
                               setPreviewUrl(url)
                             }}
@@ -192,9 +204,9 @@ export default function Certifications() {
         >
           <button
             type="button"
-            aria-label="Close preview"
+            aria-label={t('certifications.closePreview') ?? 'Close preview'}
             onClick={() => setPreviewUrl(null)}
-            className="absolute inset-0 w-full h-full bg-bg/80 backdrop-blur-sm cursor-default"
+            className="absolute inset-0 w-full h-full bg-bg/80 backdrop-blur-sm cursor-pointer"
           />
           <div className="relative bg-card-bg rounded-xl shadow-2xl border border-border w-[95vw] max-w-5xl h-[85vh] flex flex-col">
             <div className="flex items-center justify-between px-4 py-2 border-b border-border">
@@ -225,22 +237,47 @@ export default function Certifications() {
               </div>
             </div>
             <div className="flex-1 min-h-0">
-              {previewType === 'pdf' && (
-                <iframe title="certificate-preview" src={previewUrl} className="w-full h-full" />
-              )}
-              {previewType === 'image' && (
+              {previewError ? (
+                <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-6 text-sm text-muted">
+                  <p>Unable to preview this certificate. You can open or download it directly.</p>
+                  <div className="flex flex-col sm:flex-row items-center gap-3">
+                    <a
+                      href={previewUrl ?? undefined}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-3 py-2 rounded-md text-xs bg-primary text-[var(--button-text)] hover:opacity-90"
+                    >
+                      {t('common.openInNewTab') ?? 'Open in new tab'}
+                    </a>
+                    <a
+                      href={previewUrl ?? undefined}
+                      download
+                      className="px-3 py-2 rounded-md text-xs border border-border hover:bg-surface-hover"
+                    >
+                      {t('common.download') ?? 'Download'}
+                    </a>
+                  </div>
+                </div>
+              ) : previewType === 'pdf' ? (
+                <iframe
+                  title="certificate-preview"
+                  src={previewUrl ?? undefined}
+                  className="w-full h-full"
+                  onError={() => setPreviewError(true)}
+                />
+              ) : previewType === 'image' ? (
                 <div className="w-full h-full flex items-center justify-center p-4">
                   <img
-                    src={previewUrl}
+                    src={previewUrl ?? undefined}
                     alt="certificate"
+                    onError={() => setPreviewError(true)}
                     className="max-w-full max-h-full rounded"
                   />
                 </div>
-              )}
-              {previewType === 'other' && (
+              ) : (
                 <div className="w-full h-full flex items-center justify-center p-6 text-sm text-muted">
                   <a
-                    href={previewUrl}
+                    href={previewUrl ?? undefined}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary underline"

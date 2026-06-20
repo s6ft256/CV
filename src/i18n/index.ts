@@ -118,6 +118,7 @@ const resources = {
         issued: 'Issued',
         expires: 'Exp.',
         viewCredential: 'View credential',
+        closePreview: 'Close preview',
       },
       education: {
         title: 'Education',
