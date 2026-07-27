@@ -219,7 +219,7 @@ export const certifications: Certification[] = [
   {
     id: '13',
     name: 'BIM Fundamentals and Best Practices',
-    issuer: 'Course Certificate',
+    issuer: 'BIM Training Provider',
     issueDate: '27 July 2026',
     credentialUrl: assetUrl('Elius_Niwamanya_course_certificate_BIM.pdf'),
     category: 'Business & Professional',
