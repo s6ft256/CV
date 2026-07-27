@@ -15,7 +15,12 @@ const assetUrl = (path: string) => {
         ? '/'
         : import.meta.env.BASE_URL.replace(/\/?$/, '/')
 
-  return `${base}${path}`
+  const encodedPath = path
+    .split('/')
+    .map(segment => encodeURIComponent(decodeURIComponent(segment)))
+    .join('/')
+
+  return `${base}${encodedPath}`
 }
 
 export const projects: Project[] = [
