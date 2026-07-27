@@ -8,6 +8,7 @@ export interface PersonalInfo {
   github: string
   linkedin: string
   tiktok?: string
+  googleDeveloper?: string
   location?: string
 }
 

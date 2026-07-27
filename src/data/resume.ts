@@ -58,6 +58,7 @@ export const personalInfo: PersonalInfo = {
   github: `https://github.com/${import.meta.env.VITE_GITHUB_USERNAME || 's6ft256'}`,
   linkedin: import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com/in/elius-niwamanya',
   tiktok: 'https://www.tiktok.com/@one.s6ft',
+  googleDeveloper: 'https://me.developers.google.com/u/117280477181670886386',
   location: 'UAE',
 }
 
@@ -213,6 +214,14 @@ export const certifications: Certification[] = [
     issuer: 'HP LIFE',
     issueDate: '4 November 2025',
     credentialUrl: assetUrl('Professional%20Networking%20for%20Career%20Growth.pdf'),
+    category: 'Business & Professional',
+  },
+  {
+    id: '13',
+    name: 'BIM Fundamentals and Best Practices',
+    issuer: 'Course Certificate',
+    issueDate: '27 July 2026',
+    credentialUrl: assetUrl('Elius_Niwamanya_course_certificate_BIM.pdf'),
     category: 'Business & Professional',
   },
 ]
