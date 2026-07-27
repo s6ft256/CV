@@ -224,7 +224,7 @@ export const certifications: Certification[] = [
   {
     id: '13',
     name: 'BIM Fundamentals and Best Practices',
-    issuer: 'BIM Training Provider',
+    issuer: 'Trojan Construction Holding',
     issueDate: '27 July 2026',
     credentialUrl: assetUrl('Elius_Niwamanya_course_certificate_BIM.pdf'),
     category: 'Business & Professional',
