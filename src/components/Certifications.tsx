@@ -217,7 +217,7 @@ export default function Certifications() {
                   download
                   className="px-3 py-1.5 rounded-md text-xs bg-primary text-[var(--button-text)] hover:opacity-90"
                 >
-                  {t('common.download') ?? 'Download'}
+                  Download
                 </a>
                 <a
                   href={previewUrl}
@@ -225,14 +225,14 @@ export default function Certifications() {
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 rounded-md text-xs border border-border hover:bg-surface-hover"
                 >
-                  {t('common.openInNewTab') ?? 'Open in new tab'}
+                  Open in new tab
                 </a>
                 <button
                   type="button"
                   onClick={() => setPreviewUrl(null)}
                   className="px-3 py-1.5 rounded-md text-xs border border-border hover:bg-surface-hover"
                 >
-                  {t('common.close') ?? 'Close'}
+                  Close
                 </button>
               </div>
             </div>
@@ -247,14 +247,14 @@ export default function Certifications() {
                       rel="noopener noreferrer"
                       className="px-3 py-2 rounded-md text-xs bg-primary text-[var(--button-text)] hover:opacity-90"
                     >
-                      {t('common.openInNewTab') ?? 'Open in new tab'}
+                      Open in new tab
                     </a>
                     <a
                       href={previewUrl ?? undefined}
                       download
                       className="px-3 py-2 rounded-md text-xs border border-border hover:bg-surface-hover"
                     >
-                      {t('common.download') ?? 'Download'}
+                      Download
                     </a>
                   </div>
                 </div>
@@ -282,7 +282,7 @@ export default function Certifications() {
                     rel="noopener noreferrer"
                     className="text-primary underline"
                   >
-                    {t('common.openInNewTab') ?? 'Open in new tab'}
+                    Open in new tab
                   </a>
                 </div>
               )}

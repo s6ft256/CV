@@ -6,22 +6,9 @@ import type {
   Project,
   SkillCategory,
 } from '../types'
+import { resolveAssetUrl } from '../utils/assetUrl'
 
-const assetUrl = (path: string) => {
-  const base =
-    typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')
-      ? '/CV/'
-      : import.meta.env.BASE_URL === './'
-        ? '/'
-        : import.meta.env.BASE_URL.replace(/\/?$/, '/')
-
-  const encodedPath = path
-    .split('/')
-    .map(segment => encodeURIComponent(decodeURIComponent(segment)))
-    .join('/')
-
-  return `${base}${encodedPath}`
-}
+const assetUrl = (path: string) => resolveAssetUrl(path)
 
 export const projects: Project[] = [
   {
