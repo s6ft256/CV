@@ -160,13 +160,16 @@ export default function Certifications() {
                             href={cert.credentialUrl}
                             onClick={e => {
                               e.preventDefault()
-                              const url = cert.credentialUrl!
-                              const clean = url.split('#')[0].split('?')[0].toLowerCase()
-                              const isPdf = clean.endsWith('.pdf')
+                              const rawUrl = cert.credentialUrl!
+                              const clean = rawUrl.split('#')[0].split('?')[0]
+                              const normalizedUrl = /^https?:\/\//i.test(clean)
+                                ? clean
+                                : new URL(clean, window.location.href).toString()
+                              const isPdf = clean.toLowerCase().endsWith('.pdf')
                               const isImg = /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(clean)
                               setPreviewError(false)
                               setPreviewType(isPdf ? 'pdf' : isImg ? 'image' : 'other')
-                              setPreviewUrl(url)
+                              setPreviewUrl(normalizedUrl)
                             }}
                             className="mt-auto inline-flex items-center gap-1 text-sm sm:text-xs text-primary hover:underline font-medium transition-colors group min-h-10 sm:min-h-0 px-1 py-2 sm:px-0 sm:py-0 rounded-md"
                           >
@@ -259,12 +262,16 @@ export default function Certifications() {
                   </div>
                 </div>
               ) : previewType === 'pdf' ? (
-                <iframe
-                  title="certificate-preview"
-                  src={previewUrl ?? undefined}
+                <object
+                  data={previewUrl ?? undefined}
+                  type="application/pdf"
                   className="w-full h-full"
                   onError={() => setPreviewError(true)}
-                />
+                >
+                  <div className="w-full h-full flex items-center justify-center p-6 text-sm text-muted">
+                    <p>Unable to preview this certificate in the browser.</p>
+                  </div>
+                </object>
               ) : previewType === 'image' ? (
                 <div className="w-full h-full flex items-center justify-center p-4">
                   <img
