@@ -134,18 +134,18 @@ export default function Certifications() {
                 </div>
 
                 {/* Certifications Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {certs.map(cert => (
                     <Card key={cert.id} hover>
-                      <div className="flex flex-col h-full gap-2">
+                      <div className="flex flex-col h-full gap-3 p-1 sm:p-0">
                         {/* Name + Issuer */}
                         <div>
                           <h4 className="text-sm font-bold text-text leading-snug">{cert.name}</h4>
-                          <p className="text-xs text-primary font-medium mt-0.5">{cert.issuer}</p>
+                          <p className="text-xs text-primary font-medium mt-1">{cert.issuer}</p>
                         </div>
 
                         {/* Date row */}
-                        <p className="text-xs text-muted">
+                        <p className="text-xs text-muted leading-5">
                           {t('certifications.issued')} {cert.issueDate}
                           {cert.expiryDate && (
                             <span className="ml-1 text-border/80">
@@ -160,15 +160,18 @@ export default function Certifications() {
                             href={cert.credentialUrl}
                             onClick={e => {
                               e.preventDefault()
-                              const url = cert.credentialUrl!
-                              const clean = url.split('#')[0].split('?')[0].toLowerCase()
-                              const isPdf = clean.endsWith('.pdf')
+                              const rawUrl = cert.credentialUrl!
+                              const clean = rawUrl.split('#')[0].split('?')[0]
+                              const normalizedUrl = /^https?:\/\//i.test(clean)
+                                ? clean
+                                : new URL(clean, window.location.href).toString()
+                              const isPdf = clean.toLowerCase().endsWith('.pdf')
                               const isImg = /\.(png|jpe?g|gif|webp|bmp|svg)$/i.test(clean)
                               setPreviewError(false)
                               setPreviewType(isPdf ? 'pdf' : isImg ? 'image' : 'other')
-                              setPreviewUrl(url)
+                              setPreviewUrl(normalizedUrl)
                             }}
-                            className="mt-auto inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium transition-colors group"
+                            className="mt-auto inline-flex items-center gap-1 text-sm sm:text-xs text-primary hover:underline font-medium transition-colors group min-h-10 sm:min-h-0 px-1 py-2 sm:px-0 sm:py-0 rounded-md"
                           >
                             {t('certifications.viewCredential')}
                             <svg
@@ -200,7 +203,7 @@ export default function Certifications() {
           role="dialog"
           aria-modal="true"
           aria-label={t('certifications.viewCredential')}
-          className="fixed inset-0 z-50 flex items-center justify-center"
+          className="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4"
         >
           <button
             type="button"
@@ -208,16 +211,16 @@ export default function Certifications() {
             onClick={() => setPreviewUrl(null)}
             className="absolute inset-0 w-full h-full bg-bg/80 backdrop-blur-sm cursor-pointer"
           />
-          <div className="relative bg-card-bg rounded-xl shadow-2xl border border-border w-[95vw] max-w-5xl h-[85vh] flex flex-col">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-border">
+          <div className="relative bg-card-bg shadow-2xl border-0 sm:border sm:rounded-xl border-border w-full h-[100dvh] max-h-[100dvh] sm:w-[95vw] sm:max-w-5xl sm:h-[85vh] sm:max-h-[85vh] flex flex-col overflow-hidden">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-3 py-3 sm:px-4 sm:py-2 border-b border-border">
               <div className="text-sm font-semibold">{t('certifications.viewCredential')}</div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <a
                   href={previewUrl}
                   download
                   className="px-3 py-1.5 rounded-md text-xs bg-primary text-[var(--button-text)] hover:opacity-90"
                 >
-                  {t('common.download') ?? 'Download'}
+                  Download
                 </a>
                 <a
                   href={previewUrl}
@@ -225,18 +228,18 @@ export default function Certifications() {
                   rel="noopener noreferrer"
                   className="px-3 py-1.5 rounded-md text-xs border border-border hover:bg-surface-hover"
                 >
-                  {t('common.openInNewTab') ?? 'Open in new tab'}
+                  Open in new tab
                 </a>
                 <button
                   type="button"
                   onClick={() => setPreviewUrl(null)}
                   className="px-3 py-1.5 rounded-md text-xs border border-border hover:bg-surface-hover"
                 >
-                  {t('common.close') ?? 'Close'}
+                  Close
                 </button>
               </div>
             </div>
-            <div className="flex-1 min-h-0">
+            <div className="flex-1 min-h-0 overflow-hidden">
               {previewError ? (
                 <div className="w-full h-full flex flex-col items-center justify-center gap-4 p-6 text-sm text-muted">
                   <p>Unable to preview this certificate. You can open or download it directly.</p>
@@ -247,24 +250,28 @@ export default function Certifications() {
                       rel="noopener noreferrer"
                       className="px-3 py-2 rounded-md text-xs bg-primary text-[var(--button-text)] hover:opacity-90"
                     >
-                      {t('common.openInNewTab') ?? 'Open in new tab'}
+                      Open in new tab
                     </a>
                     <a
                       href={previewUrl ?? undefined}
                       download
                       className="px-3 py-2 rounded-md text-xs border border-border hover:bg-surface-hover"
                     >
-                      {t('common.download') ?? 'Download'}
+                      Download
                     </a>
                   </div>
                 </div>
               ) : previewType === 'pdf' ? (
-                <iframe
-                  title="certificate-preview"
-                  src={previewUrl ?? undefined}
+                <object
+                  data={previewUrl ?? undefined}
+                  type="application/pdf"
                   className="w-full h-full"
                   onError={() => setPreviewError(true)}
-                />
+                >
+                  <div className="w-full h-full flex items-center justify-center p-6 text-sm text-muted">
+                    <p>Unable to preview this certificate in the browser.</p>
+                  </div>
+                </object>
               ) : previewType === 'image' ? (
                 <div className="w-full h-full flex items-center justify-center p-4">
                   <img
@@ -282,7 +289,7 @@ export default function Certifications() {
                     rel="noopener noreferrer"
                     className="text-primary underline"
                   >
-                    {t('common.openInNewTab') ?? 'Open in new tab'}
+                    Open in new tab
                   </a>
                 </div>
               )}

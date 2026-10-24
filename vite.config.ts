@@ -11,7 +11,7 @@ const here = fileURLToPath(new URL('.', import.meta.url))
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  base: './',
+  base: '/',
   resolve: {
     alias: {
       '@': resolve(here, 'src'),
